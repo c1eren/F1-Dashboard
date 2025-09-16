@@ -3,16 +3,16 @@ import './css/index.css'
 import { DriverStandingsComponent } from './assets/components/standingsPerYear/driverStandings';
 
 function App() {
-  console.log(import.meta.env.VITE_BACKEND_URL);
+  
   return (
     <div>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
         
         {/* Header */}
         <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100 text-center">
           F1 Standings
         </h1>
-      <div className='flex gap-6'>
+      <div className='flex gap-6 justify-start'>
         <div><DriverStandingsComponent /></div>
       </div>
       

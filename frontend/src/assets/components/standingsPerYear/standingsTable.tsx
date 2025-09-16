@@ -89,7 +89,7 @@ function StandingsTable() { // Year gotta be a number
               </Card>
             </div>
 
-            <div>
+            <div className={`transition-opacity duration-300 ${selectedDriver ? 'opacity-100' : 'opacity-0'}`}>
               <DriverStatsBox driver={selectedDriver} />
             </div>
           </div>
