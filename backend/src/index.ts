@@ -3,15 +3,21 @@ import cors from "cors";
 import { standingsRouter } from "./routes/standings";
 import { driverRouter } from "./routes/driver";
 
-const app    = express();
+import dotenv from "dotenv";
+dotenv.config({ path: "./backend/.env" });
+console.log("Backend PORT:", process.env.EXPRESS_BACKEND_PORT);
+const PORT = process.env.EXPRESS_BACKEND_PORT || 3001;
+
+const app = express();
 // Enable CORS for dev
-app.use(cors()); // app.use(cors({ origin: "https://my-frontend.com" })); for prod
+app.use(cors({
+    origin: `http://localhost:5173`
+})); // app.use(cors({ origin: "https://my-frontend.com" })); for prod
 // Parse JSON
 app.use(express.json());
 // Mount routes
 app.use(standingsRouter);
 app.use(driverRouter);
 
-const PORT = 3000;
-app.get("/", (req, res) => res.send("Hello F1 Website!"));
+app.get("/", (req, res) => res.send("GET SUCCESS"));
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));

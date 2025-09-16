@@ -3,8 +3,9 @@ import react from '@vitejs/plugin-react'
 //import tsconfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-    //, tsconfigPaths()],
+  server: {
+    port: Number(process.env.VITE_FRONTEND_PORT) || 5173
+  },
 })

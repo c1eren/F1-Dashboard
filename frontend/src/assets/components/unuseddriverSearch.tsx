@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 interface Driver {
   id: number;
@@ -20,7 +21,7 @@ export function DriverSearch({ onSelectDriver }: DriverSearchProps) {
   useEffect(() => {
     const fetchDrivers = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/drivers"); // Endpoint
+        const res = await fetch(`${backendUrl}/api/drivers`); // Endpoint
         const data: Driver[] = await res.json();
         setDrivers(data);
       } catch (err) {

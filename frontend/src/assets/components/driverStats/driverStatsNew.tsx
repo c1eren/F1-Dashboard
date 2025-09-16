@@ -12,7 +12,7 @@ interface DriverStatBoxProps {
 
 export function DriverStatsBox({ driver }: DriverStatBoxProps) {
   return (
-    <Card className="w-[500px] h-[500px] overflow-y-auto">
+    <Card className="w-auto h-[500px] overflow-y-auto">
       <CardBody className="scrollbar-thin">
         {driver ? (<DriverLast5Races driverId={driver.id} driverName={driver.name} />) // Conditional
         : (<p>Select a driver to see stats</p>)}

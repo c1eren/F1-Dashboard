@@ -3,6 +3,7 @@ import './css/index.css'
 import { DriverStandingsComponent } from './assets/components/standingsPerYear/driverStandings';
 
 function App() {
+  console.log(import.meta.env.VITE_BACKEND_URL);
   return (
     <div>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center p-6">
