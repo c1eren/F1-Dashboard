@@ -46,7 +46,7 @@ driverRouter.get("/api/driver", async (req, res) => {
         }
 
         // Formatting 
-        const response = lastFive.map((r) => ({
+        const response = lastFive.map((r: typeof lastFive[number]) => ({
             raceName: r.race?.name ?? "Unknown",
             circuit: r.race?.circuitId ?? null,
             date: r.race?.date ?? null,

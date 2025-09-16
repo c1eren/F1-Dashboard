@@ -40,7 +40,7 @@ standingsRouter.get('/api/currentDriverStandings', async (req, res)=> {
         return res.json({
             season: season.year,
             race:   latestRace.name,
-            standings: driverStandings.map(ds => ({
+            standings: driverStandings.map((ds: typeof driverStandings[number]) => ({
                 position: ds.position,
                 points:   ds.points,
                 wins:     ds.wins,
