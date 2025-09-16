@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@heroui/table";
 
 interface Race {
   raceName: string;
@@ -12,9 +13,10 @@ interface Race {
 
 interface DriverLast5RacesProps {
   driverId: number | null;
+  driverName: string | null;
 }
 
-export function DriverLast5Races({ driverId }: DriverLast5RacesProps) {
+export function DriverLast5Races({ driverId, driverName }: DriverLast5RacesProps) {
   const [lastRaces, setLastRaces] = useState<Race[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -44,37 +46,30 @@ export function DriverLast5Races({ driverId }: DriverLast5RacesProps) {
   if (lastRaces.length === 0) return <p>No race data found for this driver.</p>;
 
   return (
-    <table style={{ marginTop: "1rem", borderCollapse: "collapse", width: "100%" }}>
-      <thead>
-        <tr>
-          <th style={{ border: "1px solid black", padding: "0.5rem" }}>Race</th>
-          <th style={{ border: "1px solid black", padding: "0.5rem" }}>Date</th>
-          <th style={{ border: "1px solid black", padding: "0.5rem" }}>Constructor</th>
-          <th style={{ border: "1px solid black", padding: "0.5rem" }}>Position</th>
-          <th style={{ border: "1px solid black", padding: "0.5rem" }}>Points</th>
-          <th style={{ border: "1px solid black", padding: "0.5rem" }}>Fastest Lap</th>
-        </tr>
-      </thead>
-      <tbody>
-        {lastRaces.map((race, idx) => (
-          <tr key={idx}>
-            <td style={{ border: "1px solid black", padding: "0.5rem" }}>{race.raceName}</td>
-            <td style={{ border: "1px solid black", padding: "0.5rem" }}>
-              {race.date ? new Date(race.date).toLocaleDateString() : "N/A"}
-            </td>
-            <td style={{ border: "1px solid black", padding: "0.5rem" }}>
-              {race.constructor?.name ?? "N/A"}
-            </td>
-            <td style={{ border: "1px solid black", padding: "0.5rem" }}>
-              {race.position ?? "N/A"}
-            </td>
-            <td style={{ border: "1px solid black", padding: "0.5rem" }}>{race.points}</td>
-            <td style={{ border: "1px solid black", padding: "0.5rem" }}>
-              {race.fastestLap ? "Yes" : "No"}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div>
+      {driverName && <h2 className="text-xl font-bold mb-4">{driverName} - Last 5 Races</h2>}
+      <Table aria-label="Last Five Races for Driver">
+        <TableHeader>
+            <TableColumn>Race</TableColumn>
+            <TableColumn>Date</TableColumn>
+            <TableColumn>Constructor</TableColumn>
+            <TableColumn>Position</TableColumn>
+            <TableColumn>Points</TableColumn>
+            <TableColumn>Fastest Lap</TableColumn>
+        </TableHeader>
+        <TableBody>
+          {lastRaces.map((race, idx) => (
+            <TableRow key={idx}>
+              <TableCell>{race.raceName}</TableCell>
+              <TableCell>{race.date ? new Date(race.date).toLocaleDateString() : "N/A"}</TableCell>
+              <TableCell>{race.constructor?.name ?? "N/A"}</TableCell>
+              <TableCell>{race.position ?? "N/A"}</TableCell>
+              <TableCell>{race.points}</TableCell>
+              <TableCell>{race.fastestLap ? "Yes" : "No"}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

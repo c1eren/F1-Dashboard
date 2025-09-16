@@ -1,13 +1,21 @@
-import './App.css'
-import './index.css'
+import './css/App.css'
+import './css/index.css'
 import { DriverStandingsComponent } from './assets/components/standingsPerYear/driverStandings';
 
 function App() {
   return (
     <div>
-
-    <div><DriverStandingsComponent /></div>
-    
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center p-6">
+        
+        {/* Header */}
+        <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100 text-center">
+          F1 Standings
+        </h1>
+      <div className='flex gap-6'>
+        <div><DriverStandingsComponent /></div>
+      </div>
+      
+      </div>
     </div>
   );
 }
