@@ -3,10 +3,19 @@ FROM node:20 AS build
 
 WORKDIR /app
 
+# Copy package files first
 COPY package*.json ./
-RUN npm install
 
+# Clean reproducible install
+RUN npm install --legacy-peer-deps
+
+# Explicitly install rollup wasm build (portable)
+RUN npm install @rollup/wasm-node --save-dev
+
+# Copy everything else
 COPY . .
+
+# Build frontend
 RUN npm run build
 
 # Use nginx to serve built frontend
