@@ -1,0 +1,247 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// CORE MODELS //
+
+model Season {
+  year    Int   @id
+  url     String
+
+  races   Race[]
+}
+
+model Driver {
+  id              Int             @id
+  driverRef       String
+  number          Int?
+  code            String?
+  forename        String
+  surname         String
+  dob             DateTime?
+  nationality     String
+  url             String
+
+  qualifyings     Qualifying[]
+  results         Result[]
+  driverStandings DriverStanding[]
+  sprintResults   SprintResult[]
+  lapTimes        LapTime[]
+  pitStops        PitStop[]
+}
+
+model Constructor {
+  id                    Int                   @id
+  constructorRef        String
+  name                  String
+  nationality           String
+  url                   String
+
+  qualifyings           Qualifying[]
+  results               Result[]
+  constructorResults    ConstructorResult[]
+  constructorStandings  ConstructorStanding[]
+  sprintResults         SprintResult[]
+
+}
+
+model Circuit {
+  id          Int     @id
+  circuitRef  String
+  name        String
+  location    String
+  country     String
+  lat         Float
+  lng         Float
+  alt         Int
+  url         String
+
+  races       Race[]
+}
+
+model Race {
+  id                    Int                   @id
+  year                  Int
+  round                 Int
+  circuitId             Int
+  name                  String
+  date                  DateTime?
+  time                  String?
+  url                   String
+
+  fp1_date              DateTime?
+  fp1_time              String?
+  fp2_date              DateTime?
+  fp2_time              String?
+  fp3_date              DateTime?
+  fp3_time              String?
+  quali_date            DateTime?
+  quali_time            String?
+  sprint_date           DateTime?
+  sprint_time           String?
+
+  circuit               Circuit               @relation(fields: [circuitId], references: [id])
+  season                Season                @relation(fields: [year], references: [year])
+
+  qualifyings           Qualifying[]
+  results               Result[]
+  constructorResult     ConstructorResult[]
+  constructorStandings  ConstructorStanding[]
+  driverStandings       DriverStanding[]
+  sprintResults         SprintResult[]
+  lapTimes              LapTime[]
+  pitStops              PitStop[]
+}
+
+model Qualifying {
+  id            Int           @id
+  raceId        Int
+  driverId      Int
+  constructorId Int
+  number        Int
+  position      Int
+  q1            String?
+  q2            String?
+  q3            String?
+
+  race          Race          @relation(fields: [raceId], references: [id])
+  driver        Driver        @relation(fields: [driverId], references: [id])
+  constructor   Constructor   @relation(fields: [constructorId], references: [id])
+}
+
+model Status {
+  id            Int             @id
+  status        String
+
+  results       Result[]
+  sprintResults SprintResult[]
+}
+
+model Result {
+  id              Int           @id
+  raceId          Int
+  driverId        Int
+  constructorId   Int
+  number          Int?
+  grid            Int
+  position        Int?
+  positionText    String
+  positionOrder   Int
+  points          Float
+  laps            Int
+  time            String?
+  milliseconds    Int?
+  fastestLap      Int?
+  rank            Int?
+  fastestLapTime  String?
+  fastestLapSpeed String?
+  statusId        Int
+
+  race            Race          @relation(fields: [raceId], references: [id])
+  driver          Driver        @relation(fields: [driverId], references: [id])
+  constructor     Constructor   @relation(fields: [constructorId], references: [id])
+  status          Status        @relation(fields: [statusId], references: [id])
+}
+
+model ConstructorResult {
+  id            Int         @id
+  raceId        Int
+  constructorId Int
+  points        Float
+  status        String?
+
+  race          Race        @relation(fields: [raceId], references: [id])
+  constructor   Constructor @relation(fields: [constructorId], references: [id])
+}
+
+model ConstructorStanding {
+  id            Int           @id
+  raceId        Int
+  constructorId Int
+  points        Float
+  position      Int
+  positionText  String
+  wins          Int
+
+  race          Race          @relation(fields: [raceId], references: [id])
+  constructor   Constructor   @relation(fields: [constructorId], references: [id])
+}
+
+model DriverStanding {
+  id            Int     @id
+  raceId        Int
+  driverId      Int
+  points        Float
+  position      Int
+  positionText  String
+  wins          Int
+
+  race          Race    @relation(fields: [raceId], references: [id])
+  driver        Driver  @relation(fields: [driverId],references: [id])
+}
+
+model SprintResult {
+  id              Int     @id
+  raceId          Int
+  driverId        Int
+  constructorId   Int
+  number          Int
+  grid            Int
+  position        Int?
+  positionText    String
+  positionOrder   Int
+  points          Float
+  laps            Int
+  time            String?
+  milliseconds    Int?
+  fastestLap      Int?
+  fastestLapTime  String?
+  statusId        Int
+
+  race            Race          @relation(fields: [raceId], references: [id])
+  driver          Driver        @relation(fields: [driverId], references: [id])
+  constructor     Constructor   @relation(fields: [constructorId], references: [id])
+  status          Status        @relation(fields: [statusId], references: [id])
+}
+
+model LapTime {
+  raceId        Int
+  driverId      Int
+  lap           Int
+  position      Int
+  time          String
+  milliseconds  Int
+
+  race          Race    @relation(fields: [raceId], references: [id])
+  driver        Driver  @relation(fields: [driverId], references: [id])
+
+  @@id([raceId, driverId, lap]) // Composite PK
+}
+
+model PitStop {
+  raceId        Int
+  driverId      Int
+  stop          Int
+  lap           Int
+  time          String
+  duration      String
+  milliseconds  Int
+
+  race      Race        @relation(fields: [raceId], references: [id])
+  driver    Driver      @relation(fields: [driverId], references: [id])
+  
+  @@id([raceId, driverId, stop]) // Another composite PK
+}
+
+

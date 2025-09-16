@@ -1,0 +1,14 @@
+### Get the next race 
+GET http://localhost:3000/api/races/next
+
+### Get all the drivers
+GET http://localhost:3000/api/driver
+
+### Get current standings
+GET http://localhost:3000/api/currentStandings
+
+### test drivers standings 
+Get http://localhost:3000/api/currentStandingsTest
+
+### test
+GET http://localhost:3000/people.json
