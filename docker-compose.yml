@@ -20,8 +20,8 @@ services:
       EXPRESS_BACKEND_PORT: 3001
     depends_on: 
       - db
-    volumes:
-      - ./backend:/app     # for hot-reload in dev
+    #volumes:
+     # - ./backend:/app     # for hot-reload in dev
 
   frontend:
     build:
@@ -35,8 +35,8 @@ services:
 
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/app  # optional for dev hot reload
+   # volumes:
+    #  - ./frontend:/app  # optional for dev hot reload
 
 volumes:
   db-data:
