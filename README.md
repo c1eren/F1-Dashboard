@@ -1,4 +1,4 @@
-# F1 Standings Web App
+# F1 Dashboard Web App
 
 A modern web application to display **Formula 1 driver standings** and **driver race stats**. Built with a full-stack JavaScript/TypeScript setup.
 
@@ -33,7 +33,6 @@ A modern web application to display **Formula 1 driver standings** and **driver 
 ## Installation
 
 1. **Clone the repository**
-
-```bash
-git clone https://github.com/c1eren/F1-Dashboard.git
-cd F1-Dashboard
+cd F1Web
+git checkout docker-config
+docker compose up --build
