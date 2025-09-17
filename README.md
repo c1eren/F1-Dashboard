@@ -33,6 +33,6 @@ A modern web application to display **Formula 1 driver standings** and **driver 
 ## Installation
 
 1. **Clone the repository**<br>
-2. cd **F1Web**<br>
-3. git checkout **docker-config**<br>
+2. cd **F1-Dashboard**<br>
+3. git checkout **docker-setup**<br>
 4. docker compose up --build
