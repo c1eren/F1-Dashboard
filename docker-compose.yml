@@ -10,6 +10,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./backend/db/f1_dump.utf8.sql:/docker-entrypoint-initdb.d/f1_dump.sql
+      - ./backend/db/f1_dump.utf8.sql:/docker-entrypoint-initdb.d/f1_dump.sql
 
   backend:
     build: ./backend
@@ -22,8 +23,14 @@ services:
       - db
     volumes:
       - ./backend:/app     # for hot-reload in dev
+    volumes:
+      - ./backend:/app     # for hot-reload in dev
 
   frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_BACKEND_URL: http://localhost:3001
     build:
       context: ./frontend
       args:
@@ -37,8 +44,18 @@ services:
     #   #VITE_BACKEND_URL: http://localhost:3001
     #   VITE_BACKEND_URL: http://backend:3001
 
+      - "5173:80"  # Host access for browser
+#      - "5173:5173"
+    # environment:
+    #   # Inside Docker network, backend is reachable at 'http://backend:3001'
+    #   #VITE_BACKEND_URL: http://localhost:5173/api
+    #   #VITE_BACKEND_URL: http://localhost:3001
+    #   VITE_BACKEND_URL: http://backend:3001
+
     depends_on:
       - backend
+    volumes:
+      - ./frontend:/app  # optional for dev hot reload
     volumes:
       - ./frontend:/app  # optional for dev hot reload
 
