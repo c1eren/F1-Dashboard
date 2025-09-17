@@ -32,7 +32,7 @@ A modern web application to display **Formula 1 driver standings** and **driver 
 
 ## Installation
 
-1. **Clone the repository**
-cd F1Web
-git checkout docker-config
-docker compose up --build
+1. **Clone the repository**<br>
+2. cd **F1Web**<br>
+3. git checkout **docker-config**<br>
+4. docker compose up --build
