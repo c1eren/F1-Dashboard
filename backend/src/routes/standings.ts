@@ -17,7 +17,7 @@ standingsRouter.get('/api/currentDriverStandings', async (req, res)=> {
         const season = yearQuery
         ? await prisma.season.findUnique({where: {year: yearQuery}})
         : await prisma.season.findFirst({orderBy: {year: 'desc'}});
-
+        
         if (!season) {
             return res.status(404).json({error: 'No seasons found'});
         }

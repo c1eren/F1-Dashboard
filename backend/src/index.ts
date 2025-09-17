@@ -10,9 +10,8 @@ const PORT = process.env.EXPRESS_BACKEND_PORT || 3001;
 
 const app = express();
 // Enable CORS for dev
-app.use(cors({
-    origin: `http://localhost:5173`
-})); // app.use(cors({ origin: "https://my-frontend.com" })); for prod
+app.use(cors({ origin: '*' }));
+
 // Parse JSON
 app.use(express.json());
 // Mount routes
@@ -21,3 +20,9 @@ app.use(driverRouter);
 
 app.get("/", (req, res) => res.send("GET SUCCESS"));
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+
+/*#########################################*/
+// app.use(cors({
+//     origin: ['http://localhost:5173', 'http://frontend:80']
+// })); 
+// app.use(cors({ origin: "https://my-frontend.com" })); for prod

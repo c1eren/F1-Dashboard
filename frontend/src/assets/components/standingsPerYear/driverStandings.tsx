@@ -10,4 +10,4 @@ function DriverStandingsComponent() {
 
 export {DriverStandingsComponent};
 
-
+// Unnecessary misdirection file
