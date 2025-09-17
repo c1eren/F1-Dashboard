@@ -16,7 +16,8 @@ function MyDatePicker({ onYearChange }: MyDatePickerProps) { // Pull onYearChang
     };
 
     const minYear     = 1950; // Earliest f1 year
-    const currentYear = new Date().getFullYear();
+    //const currentYear = new Date().getFullYear(); //TODO: Needs to query jolpin/ergast api for current stats to get 2025
+    const currentYear = 2024;
 
     // Render with config
     return (

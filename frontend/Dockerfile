@@ -1,4 +1,4 @@
-# Use Node for building
+# Build stage
 FROM node:20 AS build
 
 WORKDIR /app
@@ -6,22 +6,25 @@ WORKDIR /app
 # Copy package files first
 COPY package*.json ./
 
-# Clean reproducible install
-RUN npm install --legacy-peer-deps
+# Install dependencies
+RUN npm ci --legacy-peer-deps
 
-# Explicitly install rollup wasm build (portable)
-RUN npm install @rollup/wasm-node --save-dev
-
-# Copy everything else
+# Copy all source files
 COPY . .
 
-# Build frontend
+# Build frontend, using the VITE_BACKEND_URL ARG
+ARG VITE_BACKEND_URL
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
 RUN npm run build
 
-# Use nginx to serve built frontend
+# Production stage
 FROM nginx:alpine
 
+# Copy build output to nginx html directory
 COPY --from=build /app/dist /usr/share/nginx/html
 
+# Expose port 80
 EXPOSE 80
+
+# Start nginx
 CMD ["nginx", "-g", "daemon off;"]

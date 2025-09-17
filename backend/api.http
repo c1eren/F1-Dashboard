@@ -9,6 +9,3 @@ GET http://localhost:3001/api/currentStandings
 
 ### test drivers standings 
 Get http://localhost:3001/api/currentStandingsTest
-
-### test
-GET http://localhost:3001/people.json

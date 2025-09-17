@@ -29,10 +29,11 @@ function StandingsTable() { // Year gotta be a number
   const [standings, setStandings] = useState<Standing[]>([]);
   const [raceName, setRaceName]   = useState<string>("");
   const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null); // Track selected driver
-  const [year, setYear] = useState<number>(2021); // Default -> one of the best years in f1 history
+  const [year, setYear] = useState<number>(2021); // Default -> one of the BEST years in f1 history
   
   useEffect(() => {
     fetch(`${backendUrl}/api/currentDriverStandings?year=${year}`)
+    //fetch(`http://localhost:3001/api/currentDriverStandings?year=${year}`)
       .then(res => res.json())
       .then((data: StandingsResponse) => {
         setStandings(data.standings)
