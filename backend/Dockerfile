@@ -2,6 +2,8 @@ FROM node:20
 
 WORKDIR /app
 
+ENV NODE_ENV=development
+
 # Copy package files first
 COPY package*.json ./
 
