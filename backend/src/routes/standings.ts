@@ -1,8 +1,7 @@
 import { Router } from "express";
-import { PrismaClient } from "@prisma/client";
+import prisma from '../prisma';
 
 const standingsRouter = Router();
-const prisma = new PrismaClient();
 
 standingsRouter.get('/api/currentDriverStandings', async (req, res)=> {
     try {

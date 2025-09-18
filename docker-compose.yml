@@ -21,7 +21,7 @@ services:
     depends_on: 
       - db
     #volumes:
-     # - ./backend:/app     # for hot-reload in dev
+     # - ./backend:/app     # for hot-reload in dev HOURS OF MY LIFE
 
   frontend:
     build:

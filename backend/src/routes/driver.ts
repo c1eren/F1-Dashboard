@@ -1,8 +1,7 @@
 import { Router } from "express";
-import { PrismaClient } from "@prisma/client";
+import prisma from '../prisma';
 
 const driverRouter = Router();
-const prisma = new PrismaClient();
 
 // Lets get a driver and return their stats
 driverRouter.get("/api/driver", async (req, res) => {

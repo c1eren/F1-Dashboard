@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint .", 
     "preview": "vite preview",
-    "start": "vite",
-    "postinstall": "npm rebuild rollup -f || true"
+    "postinstall": "npm rebuild rollup -f || true",
+    "format": "prettier --write .", 
+    "check": "tsc --noEmit && eslint ."
   },
   "dependencies": {
     "@heroui/react": "^2.8.4",
@@ -17,6 +18,7 @@
     "@heroui/table": "^2.2.26",
     "@heroui/theme": "^2.4.22",
     "@tailwindcss/vite": "^4.1.13",
+    "axios": "^1.12.1",
     "framer-motion": "^12.23.12",
     "react": "^19.1.1",
     "react-datepicker": "^8.7.0",
@@ -42,8 +44,6 @@
     "rollup": "4.24.0",
     "@rollup/wasm-node": "^4.24.0"
   },
-  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "main": "eslint.config.js",
   "keywords": [],
   "author": "",
   "license": "ISC"
