@@ -34,5 +34,5 @@ A modern web application to display **Formula 1 driver standings** and **driver 
 
 1. **Clone the repository**: https://github.com/c1eren/F1-Dashboard.git<br>
 2. cd **F1-Dashboard**<br>
-3. git checkout **docker-setup**<br>
+3. git checkout **docker-branch**<br>
 4. docker compose up --build
