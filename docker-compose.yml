@@ -28,11 +28,11 @@ services:
       context: ./frontend
       args:
         VITE_BACKEND_URL: http://localhost:3001
-
+        #VITE_BACKEND_URL: http://backend:3001
     ports:
-      - "5173:80"  # Host access for browser
-      #- "5173:5173"
-
+    - "5173:5173"
+      #- "3000:3000"
+      #- "5173:80"  # Host access for browser
     depends_on:
       - backend
    # volumes:
