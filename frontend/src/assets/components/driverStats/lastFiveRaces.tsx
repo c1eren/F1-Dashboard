@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@heroui/table";
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+import BACKEND_URL from "../../../backend_url"; 
 
 interface Race {
   raceName: string;
@@ -27,7 +27,7 @@ export function DriverLast5Races({ driverId, driverName }: DriverLast5RacesProps
     const fetchLastRaces = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${backendUrl}/api/driver?id=${driverId}`);
+        const res = await fetch(`${BACKEND_URL}/api/driver?id=${driverId}`);
        //const res = await fetch(`http://localhost:3001/api/driver?id=${driverId}`);
         const data: Race[] = await res.json();
         setLastRaces(data);

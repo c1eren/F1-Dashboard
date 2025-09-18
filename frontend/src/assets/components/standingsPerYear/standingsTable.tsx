@@ -3,7 +3,7 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@
 import { DriverStatsBox } from '../driverStats/driverStatsNew'; 
 import { MyDatePicker } from './datePicker';
 import { Card, CardBody } from "@heroui/react";
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+import BACKEND_URL from "../../../backend_url"; 
 
 interface Driver {
   id: number
@@ -32,7 +32,7 @@ function StandingsTable() { // Year gotta be a number
   const [year, setYear] = useState<number>(2021); // Default -> one of the BEST years in f1 history
   
   useEffect(() => {
-    fetch(`${backendUrl}/api/currentDriverStandings?year=${year}`)
+    fetch(`${BACKEND_URL}/api/currentDriverStandings?year=${year}`)
     //fetch(`http://localhost:3001/api/currentDriverStandings?year=${year}`)
       .then(res => res.json())
       .then((data: StandingsResponse) => {
