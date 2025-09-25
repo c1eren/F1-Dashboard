@@ -1,11 +1,33 @@
 ### Get the next race 
 GET http://localhost:3001/api/races/next
 
-### Get all the drivers
-GET http://localhost:3001/api/driver
-
 ### Get current standings
 GET http://localhost:3001/api/currentStandings
 
 ### test drivers standings 
 Get http://localhost:3001/api/currentStandingsTest
+
+
+//################### CORE ################################//
+
+### driver
+GET http://localhost:3001/api/driver?id=1
+
+### driver all
+GET http://localhost:3001/api/driver
+
+
+### constructor
+GET http://localhost:3001/api/constructor?id=1
+
+### constructor all
+GET http://localhost:3001/api/constructor
+
+
+### circuit
+GET http://localhost:3001/api/circuit?id=1
+
+### circuit all
+GET http://localhost:3001/api/circuit
+
+//#########################################################//

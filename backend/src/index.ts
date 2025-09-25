@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors";
+
 import { standingsRouter } from "./routes/standings";
-import { driverRouter } from "./routes/driver";
+import { coreRouter } from "./routes/core/coreMaster";
+
 import {PORT} from "./dotenv";
 
 const app = express();
@@ -14,7 +16,7 @@ app.use(express.json());
 
 // Mount routes
 app.use(standingsRouter);
-app.use(driverRouter);
+app.use(coreRouter);
 
 app.get("/", (req, res) => res.send("GET SUCCESS"));
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
