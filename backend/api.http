@@ -1,11 +1,14 @@
 ### Get the next race 
 GET http://localhost:3001/api/races/next
 
-### Get current standings
-GET http://localhost:3001/api/currentStandings
+### Get specific driverstandings per year
+GET http://localhost:3001/api/driverstandings?year=2024
 
 ### test drivers standings 
 Get http://localhost:3001/api/currentStandingsTest
+
+### See what result for last race in a season per year returns
+Get http://localhost:3001/api/driverStandings?year=2021
 
 
 //################### CORE ################################//

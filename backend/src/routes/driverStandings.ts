@@ -1,9 +1,9 @@
 import { Router } from "express";
 import prisma from '../prisma';
 
-const standingsRouter = Router();
+const driverStandingsRouter = Router();
 
-standingsRouter.get('/api/standings', async (req, res)=> {
+driverStandingsRouter.get('/api/driverStandings', async (req, res)=> {
     try {
         const yearQ = req.query.year;
         const yearQuery = yearQ ? Number(yearQ) : null;
@@ -26,25 +26,33 @@ standingsRouter.get('/api/standings', async (req, res)=> {
             return res.status(404).json({error: 'No races found'});
         }
 
-        const driverStandings = await prisma.driverStanding.findMany({
-            where: {raceId: latestRace.id},
-            include: {driver: true}, // Include the driver details
-            orderBy: {position: 'asc'}
-        });
-
+const driverStandings = await prisma.driverStanding.findMany({
+    where: { raceId: latestRace.id },
+    include: {
+        driver: {
+            include: {
+                results: {
+                    where: { raceId: latestRace.id },
+                    take: 1,
+                    // @ts-expect-error
+                    select: { constructor: { select: { name: true } } }
+                }
+            }
+        }
+    },
+    orderBy: { position: 'asc' }
+});
+    
         return res.json({
             season: season.year,
-            race:   latestRace.name,
+            lastRaceThisSeason: latestRace.name,
             standings: driverStandings.map((ds: typeof driverStandings[number]) => ({
-                position: ds.position,
-                points:   ds.points,
-                wins:     ds.wins,
-                driver: {
-                    id:          ds.driver.id,
-                    name:     `${ds.driver.forename} ${ds.driver.surname}`,
-                    code:        ds.driver.code,
-                    nationality: ds.driver.nationality
-                },
+                raceId:      ds.raceId,
+                position:    ds.position,
+                points:      ds.points,
+                wins:        ds.wins,
+                // @ts-expect-error    
+                driver:      ds.driver,
             })),
         });
     } catch (err) {
@@ -53,9 +61,4 @@ standingsRouter.get('/api/standings', async (req, res)=> {
     }
 });
 
-export { standingsRouter };
-
-
-// Get season at year, 
-// sort race by desc and take first in list,
-//   
+export { driverStandingsRouter };

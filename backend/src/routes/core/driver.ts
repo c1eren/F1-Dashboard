@@ -15,18 +15,17 @@ driverRouter.get("/api/driver", async (req, res) => {
 
         // Ask prisma (politely) to go get my data
         if (driverId !== null && !isNaN(driverId)) {
-            driverInfo = await prisma.driver.findMany({
+            driverInfo = await prisma.driver.findUnique({
                 where: {id: driverId}
                 });
+                if (!driverInfo) {
+                    return res.status(404).json({error: `No driver found for driver id: ${driverId} `});
+                }
             } else {
                 driverInfo = await prisma.driver.findMany({}); // maybe take:50 or something to limit payload
             }
-
-        if (driverInfo.length === 0) {
-            return res.status(400).json({error: `No results found for driver id: ${driverId} `});
-        }
-
-        res.json(driverInfo);
+            
+            res.json(driverInfo);
 
     } catch (err) {
         console.error(err);
