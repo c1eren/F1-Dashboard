@@ -7,6 +7,9 @@ function App() {
     <>
 
     <DriverInfo />
+    <br></br>
+    <hr></hr>
+    <br></br>
     <DriverStandings />
 
     </>

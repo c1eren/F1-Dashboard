@@ -4,19 +4,20 @@ services:
     environment:
       POSTGRES_USER: devuser
       POSTGRES_PASSWORD: devpword
-      POSTGRES_DB: f1
+      POSTGRES_DB: f1db
     ports:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./backend/db/f1_dump.utf8.sql:/docker-entrypoint-initdb.d/f1_dump.sql
+      - ./backend/db/f1db.dump:/docker-entrypoint-initdb.d/f1db.dump
+      # - ./backend/db/f1db.sql:/docker-entrypoint-initdb.d/f1db.sql
 
   backend:
     build: ./backend
     ports:
       - "3001:3001"
     environment:
-      DATABASE_URL: "postgresql://devuser:devpword@db:5432/f1?schema=public"
+      DATABASE_URL: "postgresql://devuser:devpword@db:5432/f1db?schema=public"
       EXPRESS_BACKEND_PORT: 3001
     depends_on: 
       - db

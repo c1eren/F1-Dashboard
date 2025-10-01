@@ -8,6 +8,11 @@ import {PORT} from "./dotenv";
 
 const app = express();
 
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  next();
+});
+
 // Enable CORS for dev
 app.use(cors({ origin: '*' }));
 

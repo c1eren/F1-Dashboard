@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+#tableDiv {
+    padding: 1em;
+}
+
+td, th{
+    padding: 1em;
+    padding-left: 0;
+    text-align: left;
+}

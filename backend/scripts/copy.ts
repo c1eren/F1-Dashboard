@@ -13,3 +13,24 @@
   // \copy "SprintResult"(id,"raceId","driverId","constructorId",number,grid,position,"positionText","positionOrder", points, laps, time, milliseconds, "fastestLap", "fastestLapTime", "statusId") FROM 'C:\programming\FullStack\F1Web\res\archive\sprint_results-utf8.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
   // \copy "LapTime"("raceId","driverId",lap,position,time,milliseconds) FROM 'C:\programming\FullStack\F1Web\res\archive\lap_times-utf8.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
   // \copy "PitStop"("raceId","driverId",stop,lap,time, duration, milliseconds) FROM 'C:\programming\FullStack\F1Web\res\archive\pit_stops-utf8.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+
+
+  /*
+
+ From the newDB created to fix the encoding issues
+/*
+\copy "Season"(year, url) FROM 'C:\programming\FullStack\F1Web\res\archive\seasons.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "Driver"(id,"driverRef",number,code,forename,surname,dob,nationality,url) FROM 'C:\programming\FullStack\F1Web\res\archive\drivers.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "Constructor"(id,"constructorRef",name,nationality,url) FROM 'C:\programming\FullStack\F1Web\res\archive\constructors.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "Circuit"(id,"circuitRef",name,location,country,lat,lng,alt,url) FROM 'C:\programming\FullStack\F1Web\res\archive\circuits.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "Race"(id,year,round,"circuitId",name,date,time,url, "fp1_date", "fp1_time", "fp2_date", "fp2_time", "fp3_date", "fp3_time", "quali_date", "quali_time", "sprint_date", "sprint_time") FROM 'C:\programming\FullStack\F1Web\res\archive\races.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "Qualifying"(id,"raceId","driverId","constructorId",number,position,q1,q2,q3) FROM 'C:\programming\FullStack\F1Web\res\archive\qualifying.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "Status"(id,status) FROM 'C:\programming\FullStack\F1Web\res\archive\status.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "Result"(id,"raceId","driverId","constructorId",number,grid,position,"positionText","positionOrder", points, laps, time, milliseconds, "fastestLap", rank, "fastestLapTime", "fastestLapSpeed", "statusId") FROM 'C:\programming\FullStack\F1Web\res\archive\results.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "ConstructorResult"(id,"raceId","constructorId",points,status) FROM 'C:\programming\FullStack\F1Web\res\archive\constructor_results.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "ConstructorStanding"(id,"raceId","constructorId",points,position,"positionText",wins) FROM 'C:\programming\FullStack\F1Web\res\archive\constructor_standings.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "DriverStanding"(id,"raceId","driverId",points,position,"positionText",wins) FROM 'C:\programming\FullStack\F1Web\res\archive\driver_standings.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "SprintResult"(id,"raceId","driverId","constructorId",number,grid,position,"positionText","positionOrder", points, laps, time, milliseconds, "fastestLap", "fastestLapTime", "statusId") FROM 'C:\programming\FullStack\F1Web\res\archive\sprint_results.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "LapTime"("raceId","driverId",lap,position,time,milliseconds) FROM 'C:\programming\FullStack\F1Web\res\archive\lap_times.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+\copy "PitStop"("raceId","driverId",stop,lap,time, duration, milliseconds) FROM 'C:\programming\FullStack\F1Web\res\archive\pit_stops.csv' DELIMITER ',' CSV HEADER NULL '\N' ENCODING 'UTF8';
+*/

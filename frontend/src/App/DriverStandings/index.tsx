@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import BACKEND_URL from '../../backend_url'; 
 import './index.css'
 
+interface Constructor {
+    name: string
+}
+
 interface Driver {
     id:          number
     driverRef:   string | null
@@ -15,12 +19,12 @@ interface Driver {
 }
 
 interface DriverStanding {
-    driver:       Driver
     raceId:       number
     position:     number | null
     points:       number | null
     wins:         number | null
     constructor:  string | null
+    driver:       Driver
 } 
 
 interface Standings {
@@ -32,7 +36,7 @@ interface Standings {
 
 async function fetchStandings(season: number | null): Promise<Standings | null> {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/driverStandings?id=${Number(season)}`);
+        const res = await fetch(`${BACKEND_URL}/api/driverStandings?year=${Number(season)}`);
         //const res = await fetch(`http://localhost:3001/api/driver?id=${id}`);
         if (!res.ok) throw new Error("Failed to fetch driver");
 
@@ -47,30 +51,71 @@ async function fetchStandings(season: number | null): Promise<Standings | null> 
 }
 
 export function DriverStandings(){
-    const [season, setSeason] = useState<Standings| null>(null);
-    const [year, _setYear] = useState<number | null>(2022); // Default is 2022 season
+    const [standings, setStandings] = useState<Standings| null>(null);
+    const [year, _setYear] = useState<number | null>(2024); // Default is 2022 season
 
     useEffect(() => {
         const loadStandings = async () => {
             if (year === null) {
-                setSeason(null);
+                setStandings(null);
                 return;
             }
             const fetchedStandings = await fetchStandings(year);
-            setSeason(fetchedStandings);
+            setStandings(fetchedStandings);
         };
         loadStandings();
 
     }, [year]);
-
+    
     return (
-        <div>
-            { season ?
-            season.standings[0]?.driver.forename ?? "No standings found"
-        : "Loading..."}
+        <>
+        <div id='tableDiv'>
+            <h1>{standings?.season} Driver Standings (after <span className='italic'>{standings?.lastRace})</span></h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>POS.       </th>
+                        <th>DRIVER     </th>
+                        <th>NO.        </th>
+                        <th>NATIONALITY</th>
+                        <th>TEAM       </th>
+                        <th>WINS       </th>
+                        <th>PTS.       </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {standings?.standings.map((s) => (
+                        <tr key={s.driver.id}>
+                            <td>{s.position}</td>
+                            <td>{s.driver.forename + " " + s.driver.surname}</td>
+                            <td><span className='font-semibold'>{s.driver.number}</span></td>
+                            <td>{s.driver.nationality}</td>
+                            <td>{s.constructor}</td>
+                            <td>{s.wins}</td>
+                            <td>{s.points}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
+        </>
     );
 }
+
+/*
+const mappedData = {
+            season: data.season,
+            lastRace: data.lastRace,
+            standings: data.standings.map((s: DriverStanding) => ({
+                driver:   s.driver,
+                raceId:   s.raceId,
+                position: s.position,
+                points:   s.points,
+                wins:     s.wins,
+                constructor: s.constructor
+            }))
+        };
+*/
 
 /* 
     Return:
