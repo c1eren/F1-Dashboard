@@ -2,10 +2,6 @@ import { useState, useEffect } from 'react';
 import BACKEND_URL from '../../backend_url'; 
 import './index.css'
 
-interface Constructor {
-    name: string
-}
-
 interface Driver {
     id:          number
     driverRef:   string | null
@@ -33,6 +29,13 @@ interface Standings {
     standings: DriverStanding[]
 }
 
+interface Props {
+    onDriverClick: (driverId: number | null) => void; // Declare that parent passes a function that takes driverId, a number
+    //This means: “Parent must give me a function that accepts a number and returns nothing (void).”
+
+    //TODO send in datePicker year to use for standingsTable
+}
+
 
 async function fetchStandings(season: number | null): Promise<Standings | null> {
     try {
@@ -50,10 +53,10 @@ async function fetchStandings(season: number | null): Promise<Standings | null> 
     }
 }
 
-export function DriverStandings(){
+export function DriverStandings({ onDriverClick }: Props){
     const [standings, setStandings] = useState<Standings| null>(null);
     const [year, _setYear] = useState<number | null>(2024); // Default is 2022 season
-
+    
     useEffect(() => {
         const loadStandings = async () => {
             if (year === null) {
@@ -66,13 +69,14 @@ export function DriverStandings(){
         loadStandings();
 
     }, [year]);
-    
+    console.log("onDriverClick prop:", onDriverClick);
+
     return (
         <>
-        <div id='tableDiv'>
+        <div id='tableDiv' className='border'>
             <h1>{standings?.season} Driver Standings (after <span className='italic'>{standings?.lastRace})</span></h1>
             <table>
-                <thead>
+                <thead className='border-b'>
                     <tr>
                         <th>POS.       </th>
                         <th>DRIVER     </th>
@@ -87,7 +91,7 @@ export function DriverStandings(){
                     {standings?.standings.map((s) => (
                         <tr key={s.driver.id}>
                             <td>{s.position}</td>
-                            <td>{s.driver.forename + " " + s.driver.surname}</td>
+                            <td className='cursor-pointer' onClick={() => onDriverClick(s.driver.id)}>{s.driver.forename + " " + s.driver.surname}</td>
                             <td><span className='font-semibold'>{s.driver.number}</span></td>
                             <td>{s.driver.nationality}</td>
                             <td>{s.constructor}</td>

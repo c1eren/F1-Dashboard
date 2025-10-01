@@ -14,6 +14,10 @@ interface Driver {
     url:         string | undefined
 }
 
+interface Props {
+    selectedDriver: number | null
+}
+
 async function fetchDriver(id: number | null): Promise<Driver | null> {
     try {
         const res = await fetch(`${BACKEND_URL}/api/driver?id=${Number(id)}`);
@@ -30,48 +34,53 @@ async function fetchDriver(id: number | null): Promise<Driver | null> {
     }
 }
 
-export function DriverInfo(){
+export function DriverInfo({selectedDriver}: Props){
     const [driver, setDriver] = useState<Driver | null>(null);
-    const [driverId, _setDriverId] = useState<number | null>(1); // Default, lewis hamilton
 
     useEffect(() => {
         const loadDriver = async () => {
-            if (driverId === null) {
+            if (selectedDriver === null) {
                 setDriver(null);
                 return;
             }
-            const fetchedDriver = await fetchDriver(driverId);
+            const fetchedDriver = await fetchDriver(selectedDriver);
             setDriver(fetchedDriver);
         };
         loadDriver();
 
-    }, [driverId]);
+    }, [selectedDriver]);
 
-    if (driverId === null) return <p>Select a driver</p>;
+    if (selectedDriver === null) return <p>Select a driver</p>;
     if (!driver) return <p>Loading...</p>;
 
     const driverData = [
         {header: "Number", value: driver.number},
         {header: "Code", value: driver.code},
-        {header: "Name", value: driver.forename + ' ' + driver.surname},
-        {header: "DOB", value: driver.dob},
+        {header: "DOB", value: driver.dob ? new Date(driver.dob).toLocaleDateString("en-GB", {day: "2-digit", month: "short", year: "numeric"}) : null},
         {header: "Nationality", value: driver.nationality},
     ]
 
     return (
-        <div className="max-w-md grid grid-cols-2">
-            {driverData.map((item) => (
-                    <div className="cell" key={item.header}>
-                        <div><strong>{item.header}</strong></div>
-                        <div>{item.value}</div>
-                    </div>
-            ))}
-            {driver.url && (
-                <div className=''>
-                    <div><strong>Wiki</strong></div>
-                    <div><a href={driver.url} target='_blank'>{driver.url}</a></div>
+        <div className='overflow-x-auto'>
+            <div className='border flex flex-col gap-4 p-4'>
+            <h1 className="text-2xl font-bold border-b min-w-0 truncate">
+                {driver.forename} {driver.surname}
+            </h1>
+                <div className="w-full max-w-full grid grid-cols-2 gap-4 ">
+                    {driverData.map((item) => (
+                            <div className="cell" key={item.header}>
+                                <div className='min-w-0 truncate'><strong>{item.header}</strong></div>
+                                <div className='truncate'>{item.value}</div>
+                            </div>
+                        ))}
                 </div>
-            )}
+                    {driver.url && (
+                        <div className=''>
+                            <div><strong>Wiki</strong></div>
+                            <div className='truncate'><a href={driver.url} target='_blank'>{driver.url}</a></div>
+                        </div>
+                    )}
+            </div>
         </div>
     );
 }
