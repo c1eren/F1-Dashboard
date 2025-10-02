@@ -3,6 +3,7 @@
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\""
   },
   "dependencies": {
+    "react-datepicker": "^8.7.0"
   },
   "devDependencies": {
     "@types/node": "^24.5.0",

@@ -30,16 +30,16 @@ interface Standings {
 }
 
 interface Props {
-    onDriverClick: (driverId: number | null) => void; // Declare that parent passes a function that takes driverId, a number
     //This means: “Parent must give me a function that accepts a number and returns nothing (void).”
-
-    //TODO send in datePicker year to use for standingsTable
+    onDriverClick: (driverId: number | null) => void;
+    
+    selectedYear: Date | null;
 }
 
 
-async function fetchStandings(season: number | null): Promise<Standings | null> {
+async function fetchStandings(season: number): Promise<Standings | null> {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/driverStandings?year=${Number(season)}`);
+        const res = await fetch(`${BACKEND_URL}/api/driverStandings?year=${season}`);
         //const res = await fetch(`http://localhost:3001/api/driver?id=${id}`);
         if (!res.ok) throw new Error("Failed to fetch driver");
 
@@ -53,9 +53,9 @@ async function fetchStandings(season: number | null): Promise<Standings | null> 
     }
 }
 
-export function DriverStandings({ onDriverClick }: Props){
+export function DriverStandings(props: Props){
     const [standings, setStandings] = useState<Standings| null>(null);
-    const [year, _setYear] = useState<number | null>(2024); // Default is 2022 season
+    const year = Number(props.selectedYear?.getFullYear());
     
     useEffect(() => {
         const loadStandings = async () => {
@@ -69,12 +69,11 @@ export function DriverStandings({ onDriverClick }: Props){
         loadStandings();
 
     }, [year]);
-    console.log("onDriverClick prop:", onDriverClick);
 
     return (
         <>
         <div id='tableDiv' className='border'>
-            <h1>{standings?.season} Driver Standings (after <span className='italic'>{standings?.lastRace})</span></h1>
+            <h1>{standings?.season} Driver Standings ( after <span className='italic'>{standings?.lastRace}</span> )</h1>
             <table>
                 <thead className='border-b'>
                     <tr>
@@ -91,7 +90,7 @@ export function DriverStandings({ onDriverClick }: Props){
                     {standings?.standings.map((s) => (
                         <tr key={s.driver.id}>
                             <td>{s.position}</td>
-                            <td className='cursor-pointer' onClick={() => onDriverClick(s.driver.id)}>{s.driver.forename + " " + s.driver.surname}</td>
+                            <td className='cursor-pointer' onClick={() => props.onDriverClick(s.driver.id)}>{s.driver.forename + " " + s.driver.surname}</td>
                             <td><span className='font-semibold'>{s.driver.number}</span></td>
                             <td>{s.driver.nationality}</td>
                             <td>{s.constructor}</td>
