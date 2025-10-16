@@ -33,4 +33,13 @@ GET http://localhost:3001/api/circuit?id=1
 ### circuit all
 GET http://localhost:3001/api/circuit
 
+### race
+GET http://localhost:3001/api/race?year=1999&name=australia
+
+### race all
+GET http://localhost:3001/api/race?year=2001
+
+### all race with name
+GET http://localhost:3001/api/race?name=australia
+
 //#########################################################//

@@ -74,12 +74,15 @@ export function DriverInfo({selectedDriver}: Props){
                             </div>
                         ))}
                 </div>
-                    {driver.url && (
+                    { driver.url && (
                         <div className=''>
                             <div><strong>Wiki</strong></div>
                             <div className='truncate'><a href={driver.url} target='_blank'>{driver.url}</a></div>
                         </div>
                     )}
+                {/* <div className='cursor-pointer' onClick={() => props.onDriverClick(s.driver.id)}>
+                    more
+                </div> */}
             </div>
         </div>
     );
