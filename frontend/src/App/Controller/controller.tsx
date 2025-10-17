@@ -14,9 +14,14 @@ export function TableDriverInfoController() {
     return (
         <>
         <div>
-            <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
             <div className='flex'>
-                <DriverStandings onDriverClick={setSelectedDriver} selectedYear={selectedYear} />
+                <div className='border pt-4'>
+                    <h1 className='flex pl-4'><DatePicker onDateChange={setSelectedYear} startDate={startDate} />
+                        Driver Standings
+                    </h1>
+
+                    <DriverStandings onDriverClick={setSelectedDriver} selectedYear={selectedYear} />
+                </div>
                 {selectedDriver !== null && <DriverInfo selectedDriver={selectedDriver} />}
             </div>
         </div>

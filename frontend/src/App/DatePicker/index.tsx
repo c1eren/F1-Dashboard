@@ -18,7 +18,6 @@ export function DatePicker(props: Props) {
     return (
         <div>
             <DatePickerImport
-            className="border"
             showIcon 
             toggleCalendarOnIconClick
             selected={selectedDate} 
