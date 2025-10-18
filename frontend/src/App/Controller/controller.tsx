@@ -14,8 +14,9 @@ export function TableDriverInfoController() {
     return (
         <>
         <div>
-            <div className='flex'>
+            <div className='flex gap-1'>
                 <div className='border pt-4'>
+
                     <div className='flex flex-row pl-4'>
                         <div className='text-2xl font-bold'>Driver Standings</div>        
                         <DatePicker onDateChange={setSelectedYear} startDate={startDate} />

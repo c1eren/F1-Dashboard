@@ -5,8 +5,10 @@ import { NextSession } from './NextSession';
 function App() {
   return (
     <>
-      <NextSession/>
-      <TableDriverInfoController/>
+      <div className='flex flex-col gap-1'>
+        <NextSession/>
+        <TableDriverInfoController/>
+      </div>
     </>
   );
 }

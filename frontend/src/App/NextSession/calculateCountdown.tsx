@@ -72,7 +72,8 @@ function calculateOtherCountdowns(eventSessions: CountdownSession['eventSessions
                 const sessionDate = new Date(sessionDateStr).getTime();
                 const diff = sessionDate - currentTime;
 
-                if (diff >= 0) {
+                // if (diff >= 0) {
+                if (diff) {
                 const diffSeconds = Math.trunc((diff / 1000) % 60);
                 const diffMinutes = Math.trunc((diff / 1000 / 60) % 60);
                 const diffHours   = Math.trunc((diff / 1000 / 60 / 60) % 24);
@@ -82,13 +83,16 @@ function calculateOtherCountdowns(eventSessions: CountdownSession['eventSessions
                 if (!document.getElementById(event)) {
                     const cContainer = document.createElement('div');
                     cContainer.id = event;
-                    cContainer.className = '';
+
+                        const sessionTitle = document.createElement('div');
+                        sessionTitle.className = '';
+                        sessionTitle.textContent = event;
 
                         const timerContainer = document.createElement('div');
-                        timerContainer.className = 'justify-start gap-4 p-4 flex flex-row font-bold truncate';
+                        timerContainer.className = 'justify-start gap-4 flex flex-row truncate';
 
                             const daysContainer    = document.createElement('div');
-                            daysContainer.className = 'flex flex-col justify-center';
+                            daysContainer.className = 'pl-6 flex flex-col justify-center';
 
                             const hoursContainer   = document.createElement('div');
                             hoursContainer.className = 'flex flex-col justify-center';  
@@ -131,7 +135,7 @@ function calculateOtherCountdowns(eventSessions: CountdownSession['eventSessions
                     // Append in order
 
                     timerContainer.append(daysContainer, hoursContainer, minutesContainer, secondsContainer);
-                    cContainer.appendChild(timerContainer);
+                    cContainer.append(sessionTitle, timerContainer);
                     
                     if (cContainer) {
                         otherCounts?.appendChild(cContainer);
@@ -140,7 +144,7 @@ function calculateOtherCountdowns(eventSessions: CountdownSession['eventSessions
                 else {
                     const container = document.getElementById(event);
                     if (container) {
-                        const timerContainer = container.firstChild;
+                        const timerContainer = container.childNodes[1];
                         if (timerContainer) {
                             const [daysContainer, hoursContainer, minutesContainer, secondsContainer] = Array.from(timerContainer.childNodes) as HTMLElement[];
                             (daysContainer.children[1] as HTMLElement).textContent    = diffDays.toString();
