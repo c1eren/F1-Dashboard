@@ -1,55 +1,68 @@
 import { useEffect, useState } from "react";
 import { sessions } from "./sessionList";
+import { calculateCountdown } from "./calculateCountdown";
 
-export function NextSession() {
-  const [timeTill, setTimeTill] = useState<{ label: string; value: number }[] | null>(null);
-
-  useEffect(() => {
-    const findNextSession = () => {
-      const currentTime = Date.now(); // recalc every tick
+function findNextSession() {
+      const currentTime = Date.now();
       for (const event of Object.values(sessions)) {
-        for (const sessionDateStr of Object.values(event.sessions)) {
-          const sessionDate = new Date(sessionDateStr).getTime();
+        for (const sessionName in event.sessions) {
+            const sessionDateStr = event.sessions[sessionName as keyof typeof event.sessions];
+            const sessionDate = new Date(sessionDateStr).getTime();
+            
           if (sessionDate >= currentTime) {
-            const diff = sessionDate - currentTime;
-            const diffSeconds = Math.trunc((diff / 1000) % 60);
-            const diffMinutes = Math.trunc((diff / 1000 / 60) % 60);
-            const diffHours = Math.trunc((diff / 1000 / 60 / 60) % 24);
-            const diffDays = Math.trunc(diff / 1000 / 60 / 60 / 24);
-
-            return [
-              { label: "Days", value: diffDays },
-              { label: "Hours", value: diffHours },
-              { label: "Minutes", value: diffMinutes },
-              { label: "Seconds", value: diffSeconds },
-            ];
+            
+            return ({eventSessions: event.sessions, eventName: event.eventName, sessionName: sessionName, time: sessionDate});
           }
         }
-      }
-      return null; // No upcoming session
-    };
+    }
+}
 
-    // Initial calculation
-    setTimeTill(findNextSession());
+export function NextSession() {
+    const [currentSession, setCurrentSession] = useState(findNextSession());
 
-    // Update every second
-    const interval = setInterval(() => {
-      setTimeTill(findNextSession());
-    }, 1000);
+        useEffect(() => {
+            if (currentSession) {
+                const eventName   = document.getElementById("eventName");
+                const sessionName = document.getElementById("sessionName");
+                if (eventName)   { eventName.textContent   = currentSession.eventName + ":"; }
+                if (sessionName) { sessionName.textContent = currentSession.sessionName; }
+                calculateCountdown(currentSession);
+            }
+        }, [currentSession]);
 
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, []);
-
-  if (!timeTill) return <div>No upcoming sessions</div>;
-
-  return (
-    <div className="border justify-center gap-4 p-4 flex flex-row text-2xl font-bold ">
-      {timeTill.map((timeUnit) => (
-        <div className="truncate" key={timeUnit.label}>
-          <div className="truncate">{timeUnit.label}</div>
-          <div className="truncate">{timeUnit.value}</div>
-        </div>
-      ))}
-    </div>
-  );
+    return (
+        <>
+            <div id="countdownBannerContainer" className="border flex flex-row">
+                <div id="eventAndSessionCTA" className="p-4 flex flex-col justify-center">
+                    <div className="">Up next</div>
+                    <div id="eventAndSession" className="flex gap-2">
+                        <div id="eventName" className="text-2xl"></div>
+                        <div id="sessionName" className="text-2xl font-bold"></div>
+                    </div>
+                    <div id="otherCountdowns" className="border">
+                        
+                    </div>
+                </div>
+                
+                <div id="countdownContainer" className="border justify-center gap-4 p-4 flex flex-row text-2xl font-bold truncate">
+                    <div className="flex flex-col justify-center">
+                        <div>Days</div>
+                        <div id="days" className="truncate font-normal">00</div>
+                    </div>
+                    <div className="flex flex-col justify-center">
+                        <div>Hours</div>
+                        <div id="hours" className="truncate font-normal">00</div>
+                    </div>
+                    <div className="flex flex-col justify-center">
+                        <div>Minutes</div>
+                        <div id="minutes" className="truncate font-normal">00</div>
+                    </div>
+                    <div className="flex flex-col justify-center">
+                        <div>Seconds</div>
+                        <div id="seconds" className="truncate font-normal">00</div>
+                    </div>  
+                </div>
+            </div>
+        </>
+    );
 }

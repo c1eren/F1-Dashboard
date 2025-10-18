@@ -13,7 +13,7 @@ export function DatePicker(props: Props) {
     const minimumDate = new Date("1950");
 
     const [selectedDate, setSelectedDate] = useState<Date | null>(props.startDate);
-    console.log("selectedDate:" + selectedDate);
+    // console.log("selectedDate:" + selectedDate);
 
     return (
         <div>

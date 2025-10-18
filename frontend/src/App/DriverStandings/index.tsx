@@ -83,7 +83,7 @@ export function DriverStandings(props: Props){
                         <th>NO.        </th>
                         <th>NATIONALITY</th>
                         <th>TEAM       </th>
-                        <th>WINS       </th>
+                        <th className='-translate-x-2'>WINS       </th>
                         <th>PTS.       </th>
                     </tr>
                 </thead>
