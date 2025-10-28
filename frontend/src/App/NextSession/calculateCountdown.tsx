@@ -67,98 +67,96 @@ export function calculateCountdown(sessions: CountdownSession) {
 }
 
 function calculateOtherCountdowns(eventSessions: CountdownSession['eventSessions'], currentTime: number) {
-          for (const event in eventSessions) {
-                const sessionDateStr = eventSessions[event as keyof typeof eventSessions];
-                const sessionDate = new Date(sessionDateStr).getTime();
-                const diff = sessionDate - currentTime;
+    
+    let skipCurrent: boolean = true;
+    const currentSubTime = Date.now();
+    // const backupDate = new Date("2025-10-28");
 
-                // if (diff >= 0) {
-                if (diff) {
-                const diffSeconds = Math.trunc((diff / 1000) % 60);
-                const diffMinutes = Math.trunc((diff / 1000 / 60) % 60);
-                const diffHours   = Math.trunc((diff / 1000 / 60 / 60) % 24);
-                const diffDays    = Math.trunc(diff / 1000 / 60 / 60 / 24);
+    for (const event in eventSessions) {
+            const sessionDateStr = eventSessions[event as keyof typeof eventSessions];
+            const sessionDate = new Date(sessionDateStr).getTime();
+            const diff = sessionDate - currentTime;
+            
+        if (diff >= 0) {
+             if (skipCurrent) { skipCurrent = false; continue}
+            const diffSeconds = Math.trunc((diff / 1000) % 60);
+            const diffMinutes = Math.trunc((diff / 1000 / 60) % 60);
+            const diffHours   = Math.trunc((diff / 1000 / 60 / 60) % 24);
+            const diffDays    = Math.trunc(diff / 1000 / 60 / 60 / 24);
+            const otherCounts = document.getElementById('otherCountdowns');
 
-                const otherCounts = document.getElementById('otherCountdowns');
-                if (!document.getElementById(event)) {
-                    const cContainer = document.createElement('div');
-                    cContainer.id = event;
+            if (!document.getElementById(event)) {
+                const cContainer = document.createElement('div');
+                cContainer.id = event;
+                cContainer.className = "pl-4";
 
-                        const sessionTitle = document.createElement('div');
-                        sessionTitle.className = '';
-                        sessionTitle.textContent = event;
+                    const sessionTitle = document.createElement('div');
+                    sessionTitle.className = 'font-bold';
+                    sessionTitle.textContent = event;
 
-                        const timerContainer = document.createElement('div');
-                        timerContainer.className = 'justify-start gap-4 flex flex-row truncate';
+                    const timerContainer = document.createElement('div');
+                    timerContainer.className = 'justify-start gap-4 flex flex-row truncate';
 
-                            const daysContainer    = document.createElement('div');
-                            daysContainer.className = 'pl-6 flex flex-col justify-center';
+                        const daysContainer    = document.createElement('div');
+                        daysContainer.className = 'flex flex-col justify-center';
+                        const hoursContainer   = document.createElement('div');
+                        hoursContainer.className = 'flex flex-col justify-center';  
+                        const minutesContainer = document.createElement('div');
+                        minutesContainer.className = 'flex flex-col justify-center';
+                        const secondsContainer = document.createElement('div');
+                        secondsContainer.className = 'flex flex-col justify-center';
 
-                            const hoursContainer   = document.createElement('div');
-                            hoursContainer.className = 'flex flex-col justify-center';  
+                            const daysText = document.createElement('div');
+                            daysText.textContent = "Days";
+                            const hoursText = document.createElement('div');
+                            hoursText.textContent = "Hours";
+                            const minutesText = document.createElement('div');
+                            minutesText.textContent = "Minutes";
+                            const secondsText = document.createElement('div');
+                            secondsText.textContent = "Seconds";
 
-                            const minutesContainer = document.createElement('div');
-                            minutesContainer.className = 'flex flex-col justify-center';
-                            
-                            const secondsContainer = document.createElement('div');
-                            secondsContainer.className = 'flex flex-col justify-center';
+                            const days    = document.createElement('div');
+                            days.className = 'truncate font-normal';
+                            const hours   = document.createElement('div');
+                            hours.className = 'truncate font-normal';                  
+                            const minutes = document.createElement('div');
+                            minutes.className = 'truncate font-normal';
+                            const seconds = document.createElement('div');
+                            seconds.className = 'truncate font-normal';
 
-                                const daysText = document.createElement('div');
-                                daysText.textContent = "Days";
-                                const hoursText = document.createElement('div');
-                                hoursText.textContent = "Hours";
-                                const minutesText = document.createElement('div');
-                                minutesText.textContent = "Minutes";
-                                const secondsText = document.createElement('div');
-                                secondsText.textContent = "Seconds";
-                    
-                                const days    = document.createElement('div');
-                                days.className = 'truncate font-normal'
-                                const hours   = document.createElement('div');
-                                hours.className = 'truncate font-normal'                    
-                                const minutes = document.createElement('div');
-                                minutes.className = 'truncate font-normal'
-                                const seconds = document.createElement('div');
-                                seconds.className = 'truncate font-normal'
+                            if(days)    {days.textContent    = diffDays.toString();   }
+                            if(hours)   {hours.textContent   = diffHours.toString();  }
+                            if(minutes) {minutes.textContent = diffMinutes.toString();}
+                            if(seconds) {seconds.textContent = diffSeconds.toString();}
 
-                                if(days)    {days.textContent    = diffDays.toString();   }
-                                if(hours)   {hours.textContent   = diffHours.toString();  }
-                                if(minutes) {minutes.textContent = diffMinutes.toString();}
-                                if(seconds) {seconds.textContent = diffSeconds.toString();}
-                            
-                            daysContainer.append(daysText, days);
-                            hoursContainer.append(hoursText, hours);
-                            minutesContainer.append(minutesText, minutes);
-                            secondsContainer.append(secondsText, seconds);
+                        daysContainer.append(daysText, days);
+                        hoursContainer.append(hoursText, hours);
+                        minutesContainer.append(minutesText, minutes);
+                        secondsContainer.append(secondsText, seconds);
 
+                 // Append in order
+                timerContainer.append(daysContainer, hoursContainer, minutesContainer, secondsContainer);
+                cContainer.append(sessionTitle, timerContainer);
 
-                    // Append in order
-
-                    timerContainer.append(daysContainer, hoursContainer, minutesContainer, secondsContainer);
-                    cContainer.append(sessionTitle, timerContainer);
-                    
-                    if (cContainer) {
-                        otherCounts?.appendChild(cContainer);
+                if (cContainer) { otherCounts?.appendChild(cContainer); }
+            }
+            else {
+                const container = document.getElementById(event);
+                if (container) {
+                    const timerContainer = container.childNodes[1];
+                    if (timerContainer) {
+                        const [daysContainer, hoursContainer, minutesContainer, secondsContainer] = Array.from(timerContainer.childNodes) as HTMLElement[];
+                        (daysContainer.children[1] as HTMLElement).textContent    = diffDays.toString();
+                        (hoursContainer.children[1] as HTMLElement).textContent   = diffHours.toString();
+                        (minutesContainer.children[1] as HTMLElement).textContent = diffMinutes.toString();
+                        (secondsContainer.children[1] as HTMLElement).textContent = diffSeconds.toString();
                     }
-                }
-                else {
-                    const container = document.getElementById(event);
-                    if (container) {
-                        const timerContainer = container.childNodes[1];
-                        if (timerContainer) {
-                            const [daysContainer, hoursContainer, minutesContainer, secondsContainer] = Array.from(timerContainer.childNodes) as HTMLElement[];
-                            (daysContainer.children[1] as HTMLElement).textContent    = diffDays.toString();
-                            (hoursContainer.children[1] as HTMLElement).textContent   = diffHours.toString();
-                            (minutesContainer.children[1] as HTMLElement).textContent = diffMinutes.toString();
-                            (secondsContainer.children[1] as HTMLElement).textContent = diffSeconds.toString();
-                        }
-                    }
-
                 }
             }
         }
-        
-        // Clear existing timeout by ID and set a new one
-        clearTimeout(subCountdownTimeout);
-        subCountdownTimeout = setTimeout(() => calculateOtherCountdowns(eventSessions, currentTime), 1000);
     }
+
+    // Clear existing timeout by ID and set a new one
+    clearTimeout(subCountdownTimeout);
+    subCountdownTimeout = setTimeout(() => calculateOtherCountdowns(eventSessions, currentSubTime), 1000);
+}

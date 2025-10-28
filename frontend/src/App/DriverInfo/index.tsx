@@ -66,7 +66,7 @@ export function DriverInfo({selectedDriver}: Props){
             <h1 className="text-2xl font-bold border-b min-w-0 truncate">
                 {driver.forename} {driver.surname}
             </h1>
-                <div className="w-full max-w-full grid grid-cols-2 gap-4 ">
+                <div className="grid grid-cols-2 gap-4 ">
                     {driverData.map((item) => (
                             <div className="cell" key={item.header}>
                                 <div className='min-w-0 truncate'><strong>{item.header}</strong></div>

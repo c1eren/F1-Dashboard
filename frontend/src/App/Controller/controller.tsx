@@ -14,17 +14,20 @@ export function TableDriverInfoController() {
     return (
         <>
         <div>
-            <div className='flex gap-1'>
-                <div className='border pt-4'>
+            <div className='flex items-start gap-1'>
 
-                    <div className='flex flex-row pl-4'>
+                <div className='windowAble border pt-4'>
+                    <div className='flex items-start flex-row pl-4'>
                         <div className='text-2xl font-bold'>Driver Standings</div>        
                         <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
                     </div>
 
                     <DriverStandings onDriverClick={setSelectedDriver} selectedYear={selectedYear} />
                 </div>
-                {selectedDriver !== null && <DriverInfo selectedDriver={selectedDriver} />}
+
+                <div className='windowAble'>
+                    {selectedDriver !== null && <DriverInfo selectedDriver={selectedDriver} />}
+                </div>
             </div>
         </div>
         </>
