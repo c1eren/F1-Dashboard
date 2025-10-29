@@ -1,4 +1,4 @@
-import './index.css'
+import './grid.css'
 import { useEffect } from 'react';
 import { TableDriverInfoController } from './Controller/controller';
 import { NextSession } from './NextSession';
@@ -8,18 +8,20 @@ function App() {
 
   useEffect(() => {
     //@ts-expect-error Ihateyoutypescript
-    import('./window.js');
+    import('./grid.js');
   }, []);
 
   return (
     <>
-      <div className='bentoContainer items-start justify-start flex flex-col gap-1'>
+      <div className='gridContainer'>
 
-        <div className="windowAble">
+        <div className="gridChild">
           <NextSession/>
         </div>
         
         <TableDriverInfoController/>
+
+        {/* <div className='gridChild bg-amber-500 h-10 w-10'></div> */}
       </div>
     </>
   );

@@ -41,10 +41,10 @@ export function NextSession() {
 
     return (
         <>
-            <div className="windowAble">
-                <div id="countdownBannerContainer" className="border flex flex-col gap-0  overflow-hidden">
+            <div className="w-full h-full">
+                <div id="countdownBannerContainer" className="border w-full h-full flex flex-col gap-0  overflow-hidden">
 
-                    <div id="eventAndSessionCTA" className="pl-4 pr-4 pt-4 flex flex-col justify-center">
+                    <div id="eventAndSessionCTA" className=" pl-4 pr-4 pt-4 flex flex-col justify-center">
 
                         <div>Up next</div>
                         <div id="eventAndSession" className="pl-4 pr-4 pt-4 pb-2 flex gap-2">
@@ -53,7 +53,7 @@ export function NextSession() {
                         </div>
                     </div>
 
-                    <div id="timingContainers" className="pl-4 pr-4 pb-4 pt-2 flex flex-col">
+                    <div id="timingContainers" className="w-full h-full pl-4 pr-4 pb-4 pt-2 flex flex-col">
                         
                         <div id="countdownAndLocal" className="border-b pb-4 flex justify-center">
                             <div id="countdownContainer" className="border-r pr-4 gap-4 flex flex-row text-2xl font-bold truncate flex-wrap">
@@ -83,7 +83,7 @@ export function NextSession() {
 
                         <div>
                             {/* <div>Coming up</div> */}
-                            <div id="otherCountdowns" className="flex-wrap pt-4 pb-4 overflow-x-auto flex gap-10 "></div>
+                            <div id="otherCountdowns" className="w-full h-full pt-4 pb-4 overflow-auto flex gap-10 "></div>
                         </div>
                         
                     </div>

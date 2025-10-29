@@ -61,11 +61,12 @@ export function DriverInfo({selectedDriver}: Props){
     ]
 
     return (
-        <div className='overflow-x-auto'>
-            <div className='border flex flex-col gap-4 p-4'>
-            <h1 className="text-2xl font-bold border-b min-w-0 truncate">
+        <div className='w-full h-full'>
+            <div className='border w-full h-full flex flex-col gap-4 p-4'>
+            <h1 className="min-h-12 text-2xl font-bold border-b truncate">
                 {driver.forename} {driver.surname}
             </h1>
+            <div className='overflow-x-auto w-full h-full'>
                 <div className="grid grid-cols-2 gap-4 ">
                     {driverData.map((item) => (
                             <div className="cell" key={item.header}>
@@ -80,6 +81,7 @@ export function DriverInfo({selectedDriver}: Props){
                             <div className='truncate'><a href={driver.url} target='_blank'>{driver.url}</a></div>
                         </div>
                     )}
+            </div>
                 {/* <div className='cursor-pointer' onClick={() => props.onDriverClick(s.driver.id)}>
                     more
                 </div> */}

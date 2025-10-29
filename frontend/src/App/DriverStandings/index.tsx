@@ -72,7 +72,7 @@ export function DriverStandings(props: Props){
 
     return (
         <>
-        <div id='tableDiv' className='pl-4 pr-4 pb-4'>
+        <div id='tableDiv' className='w-full h-full overflow-scroll'>
             {/* <div id='tableDiv' className='border'> */}
             {/* <h1>{standings?.season} Driver Standings ( after <span className='italic'>{standings?.lastRace}</span> )</h1> */}
             <table>

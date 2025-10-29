@@ -1,0 +1,102 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body.grabbing {
+    user-select: none;
+    cursor: grabbing;
+}
+
+body.resizing {
+    user-select: none;
+    cursor: se-resize;
+}
+
+.gridContainer {
+    padding: 10px;
+    display: grid;
+    position: relative;
+    grid-auto-flow: row dense;
+    grid-template-rows: repeat(10, 50px);
+     grid-template-columns: repeat(25, 50px);
+    /* grid-template-columns: repeat(auto-fill, 50px); */
+    grid-auto-rows: 50px;
+    align-items: start;
+    justify-items: start;
+    /* 12500px */
+}
+
+.gridContainer-grabbing {
+    position: relative;
+}
+
+.gridChild {
+    overflow: hidden;
+    position: relative;
+    background-color: navy;
+    min-width: 50px;   /* Set this to whatever the grid cell size ends up being */
+    min-height: 50px;
+
+}
+
+.gridChild-grabbed {
+    position: absolute;
+    transform-origin: top right;
+    transform: scale(0.4);
+}
+
+.grid-grabber {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+    background-color: pink;
+    height: 8px;
+    width: 8px;
+}
+
+.grid-grabber:hover {
+    cursor: grab;
+}
+.grid-grabber:active {
+    cursor: grabbing;
+}
+
+.grid-resizer {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    border-bottom: 3px red solid;
+    border-right: 3px red solid;
+
+    height: 8px;
+    width: 8px;
+}
+
+.grid-resizer:hover {
+    cursor: se-resize;
+}
+
+.shallowClone {
+    opacity: 0.5;
+}
+
+/* z-index' */
+.gridContainer {z-index: 0;}
+.gridChild { z-index: 1; }
+.gridChild-active { z-index: 2; }
+.shallowClone { z-index: 3; }
+.gridChild-grabbed { z-index: 4; }
+.gridChild-resizing { z-index: 4; }
+
+/* Animations */
+.gridChild {
+    transition: transform 0.2s ease-out;
+}
