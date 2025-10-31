@@ -61,31 +61,33 @@ export function DriverInfo({selectedDriver}: Props){
     ]
 
     return (
-        <div className='w-full h-full'>
-            <div className='border w-full h-full flex flex-col gap-4 p-4'>
-            <h1 className="min-h-12 text-2xl font-bold border-b truncate">
+        <>
+        <div className='gridChildContent overflow-y-auto overflow-x-hidden h-full'>
+            <div className='w-full h-full flex flex-col gap-4 p-4'>
+            <h1 className="min-h-12 text-2xl font-bold border-b ">
                 {driver.forename} {driver.surname}
             </h1>
-            <div className='overflow-x-auto w-full h-full'>
+            <div className=' w-full h-full'>
                 <div className="grid grid-cols-2 gap-4 ">
                     {driverData.map((item) => (
                             <div className="cell" key={item.header}>
-                                <div className='min-w-0 truncate'><strong>{item.header}</strong></div>
-                                <div className='truncate'>{item.value}</div>
+                                <div className='min-w-0 '><strong>{item.header}</strong></div>
+                                <div className=''>{item.value}</div>
                             </div>
                         ))}
                 </div>
                     { driver.url && (
                         <div className=''>
                             <div><strong>Wiki</strong></div>
-                            <div className='truncate'><a href={driver.url} target='_blank'>{driver.url}</a></div>
+                            <div className=''><a href={driver.url} target='_blank'>{driver.url}</a></div>
                         </div>
                     )}
             </div>
                 {/* <div className='cursor-pointer' onClick={() => props.onDriverClick(s.driver.id)}>
-                    more
+                    more TODO
                 </div> */}
             </div>
         </div>
+        </>
     );
 }

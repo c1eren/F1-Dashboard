@@ -260,6 +260,17 @@ function genNewGridPos() {
     currentWin.style.gridRow    = `${currentWinRow} / span ${rowSpan}`;            
 }
 
+// function genNewGridPosLoop() {
+//     gridWindows.forEach((win) => {
+//         const colSpan = Math.round(Math.max(win.offsetWidth, cellWidth) / cellwidth) || 1; // I see the redundancy here lol
+//         const rowSpan = Math.round(Math.max(win.offsetHeight, cellHeight) / cellHeight) || 1;
+
+//     win.style.gridColumn = `${currentWinCol} / span ${colSpan}`;
+//     win.style.gridRow    = `${currentWinRow} / span ${rowSpan}`;
+
+//     });            
+// }
+
 function initGridContainer() {
     gridContainer = document.querySelector('.gridContainer');
     const computedStyle = window.getComputedStyle(gridContainer);

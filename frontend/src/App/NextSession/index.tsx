@@ -41,8 +41,8 @@ export function NextSession() {
 
     return (
         <>
-            <div className="w-full h-full">
-                <div id="countdownBannerContainer" className="border w-full h-full flex flex-col gap-0  overflow-hidden">
+            <div className="gridChildContent h-full overflow-hidden">
+                <div id="countdownBannerContainer" className="w-full h-full flex flex-col gap-0">
 
                     <div id="eventAndSessionCTA" className=" pl-4 pr-4 pt-4 flex flex-col justify-center">
 

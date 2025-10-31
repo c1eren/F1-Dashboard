@@ -38,12 +38,21 @@ body.resizing {
 }
 
 .gridChild {
-    overflow: hidden;
     position: relative;
     background-color: navy;
+    /* #BE2727 Just like this color */
     min-width: 50px;   /* Set this to whatever the grid cell size ends up being */
     min-height: 50px;
 
+    border: solid 4px rgb(0, 0, 0);
+    /* font-weight: bolder; */
+    box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.gridChildContent {
+    padding: 10px;
+    height: 100%;
+    background-color: inherit;
 }
 
 .gridChild-grabbed {
@@ -56,15 +65,23 @@ body.resizing {
     position: absolute;
     top: 0px;
     right: 0px;
+    opacity: 0%;
+    background-color: white;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 
-    background-color: pink;
-    height: 8px;
-    width: 8px;
+    height: 1rem;
+    width: 100%;
+
+    transition: opacity 0.2s ease-out;
+
 }
 
 .grid-grabber:hover {
     cursor: grab;
+    opacity: 25%;
 }
+
 .grid-grabber:active {
     cursor: grabbing;
 }

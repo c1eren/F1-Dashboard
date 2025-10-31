@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
+import { DatePicker } from '../DatePicker';
+
 import BACKEND_URL from '../../backend_url'; 
 import './index.css'
+
+const startDate = new Date("2024"); // Until we get current standings
 
 interface Driver {
     id:          number
@@ -32,8 +36,6 @@ interface Standings {
 interface Props {
     //This means: “Parent must give me a function that accepts a number and returns nothing (void).”
     onDriverClick: (driverId: number | null) => void;
-    
-    selectedYear: Date | null;
 }
 
 
@@ -55,52 +57,57 @@ async function fetchStandings(season: number): Promise<Standings | null> {
 
 export function DriverStandings(props: Props){
     const [standings, setStandings] = useState<Standings| null>(null);
-    const year = Number(props.selectedYear?.getFullYear());
+    const [selectedYear, setSelectedYear] = useState<Date | null>(startDate);
     
     useEffect(() => {
         const loadStandings = async () => {
-            if (year === null) {
+            if (selectedYear === null) {
                 setStandings(null);
                 return;
             }
-            const fetchedStandings = await fetchStandings(year);
+            const fetchedStandings = await fetchStandings(Number(selectedYear?.getFullYear()));
             setStandings(fetchedStandings);
         };
         loadStandings();
 
-    }, [year]);
+    }, [selectedYear]);
 
     return (
         <>
-        <div id='tableDiv' className='w-full h-full overflow-scroll'>
-            {/* <div id='tableDiv' className='border'> */}
-            {/* <h1>{standings?.season} Driver Standings ( after <span className='italic'>{standings?.lastRace}</span> )</h1> */}
-            <table>
-                <thead className='border-b'>
-                    <tr>
-                        <th>POS.       </th>
-                        <th>DRIVER     </th>
-                        <th>NO.        </th>
-                        <th>NATIONALITY</th>
-                        <th>TEAM       </th>
-                        <th className='-translate-x-2'>WINS       </th>
-                        <th>PTS.       </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {standings?.standings.map((s) => (
-                        <tr key={s.driver.id}>
-                            <td>{s.position}</td>
-                            <td className='cursor-pointer' onClick={() => props.onDriverClick(s.driver.id)}>{s.driver.forename + " " + s.driver.surname}</td>
-                            <td><span className='font-semibold'>{s.driver.number}</span></td>
-                            <td>{s.driver.nationality}</td>
-                            <td>{s.constructor}</td>
-                            <td>{s.wins}</td>
-                            <td>{s.points}</td>
+        <div className="gridChildContent flex flex-col">
+            <div className="flex items-start flex-row pl-4">
+              <div className="text-2xl font-bold">Driver Standings</div>
+              <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
+            </div>
+
+            <div id="tableDiv" className="bg-inherit flex-1 overflow-y-auto overflow-x-hidden w-full">
+              <table className="bg-inherit w-full border-collapse">
+                    <thead className='bg-inherit sticky top-0 border-b'>
+                        <tr>
+                            <th>POS.       </th>
+                            <th>DRIVER     </th>
+                            <th>NO.        </th>
+                            <th>NATIONALITY</th>
+                            <th>TEAM       </th>
+                            <th className='-translate-x-2'>WINS       </th>
+                            <th>PTS.       </th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {standings?.standings.map((s) => (
+                            <tr key={s.driver.id}>
+                                <td>{s.position}</td>
+                                <td className='cursor-pointer' onClick={() => props.onDriverClick(s.driver.id)}>{s.driver.forename + " " + s.driver.surname}</td>
+                                <td><span className='font-semibold'>{s.driver.number}</span></td>
+                                <td>{s.driver.nationality}</td>
+                                <td>{s.constructor}</td>
+                                <td>{s.wins}</td>
+                                <td>{s.points}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
         </>
     );
