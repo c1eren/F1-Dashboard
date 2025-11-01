@@ -40,57 +40,57 @@ export function NextSession() {
         }, [currentSession]);
 
     return (
-        <>
-            <div className="gridChildContent h-full overflow-hidden">
-                <div id="countdownBannerContainer" className="w-full h-full flex flex-col gap-0">
+    <div className="gridChildContent h-full w-full overflow-hidden">
+        <div id="countdownBannerContainer" className="w-full h-full flex flex-col">
 
-                    <div id="eventAndSessionCTA" className=" pl-4 pr-4 pt-4 flex flex-col justify-center">
+            <div id="eventAndSessionCTA" className="flex flex-col justify-center">
 
-                        <div>Up next</div>
-                        <div id="eventAndSession" className="pl-4 pr-4 pt-4 pb-2 flex gap-2">
-                            <div id="eventName" className="text-2xl"></div>
-                            <div id="sessionName" className="text-2xl font-bold"></div>
-                        </div>
-                    </div>
-
-                    <div id="timingContainers" className="w-full h-full pl-4 pr-4 pb-4 pt-2 flex flex-col">
-                        
-                        <div id="countdownAndLocal" className="border-b pb-4 flex justify-center">
-                            <div id="countdownContainer" className="border-r pr-4 gap-4 flex flex-row text-2xl font-bold truncate flex-wrap">
-                                <div className="flex flex-col justify-center">
-                                    <div>Days</div>
-                                    <div id="days" className="truncate font-normal">00</div>
-                                </div>
-                                <div className="flex flex-col justify-center">
-                                    <div>Hours</div>
-                                    <div id="hours" className="truncate font-normal">00</div>
-                                </div>
-                                <div className="flex flex-col justify-center">
-                                    <div>Minutes</div>
-                                    <div id="minutes" className="truncate font-normal">00</div>
-                                </div>
-                                <div className="flex flex-col justify-center">
-                                    <div>Seconds</div>
-                                    <div id="seconds" className="truncate font-normal">00</div>
-                                </div>  
-                            </div>
-
-                            <div id="localTimeContainer" className="pl-4 flex flex-col">
-                                <div>Local</div>
-                                <div id="localTimeNum" className="whitespace-pre-line"></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            {/* <div>Coming up</div> */}
-                            <div id="otherCountdowns" className="w-full h-full pt-4 pb-4 overflow-auto flex gap-10 "></div>
-                        </div>
-                        
-                    </div>
-                    
-                    
+                <div>Up next</div>
+                <div id="eventAndSession" className="flex flex-wrap gap-2">
+                    <div id="eventName" className="text-2xl text-nowrap"></div>
+                    <div id="sessionName" className="text-2xl font-bold text-nowrap"></div>
                 </div>
             </div>
-        </>
-    );
+
+            <div id="timingContainers" className="w-full h-full flex flex-col justify-evenly">
+
+                <div id="countdownAndLocal" className="flex flex-wrap gap-4 justify-center">
+                    <div id="countdownContainer" className="gap-4 flex flex-row flex-wrap text-2xl font-bold">
+                        <div className="flex flex-col justify-center">
+                            <div>Days</div>
+                            <div id="days" className="font-normal">00</div>
+                        </div>
+                        <div className="flex flex-col justify-center">
+                            <div>Hours</div>
+                            <div id="hours" className="font-normal">00</div>
+                        </div>
+                        <div className="flex flex-col justify-center">
+                            <div>Minutes</div>
+                            <div id="minutes" className="font-normal">00</div>
+                        </div>
+                        <div className="flex flex-col justify-center">
+                            <div>Seconds</div>
+                            <div id="seconds" className="font-normal">00</div>
+                        </div>  
+                    </div>
+
+
+                    <div id="localTimeContainer" className="flex flex-col">
+                        <div>Local</div>
+                        <div id="localTimeNum" className="whitespace-pre-line"></div>
+                    </div>
+                </div>
+
+                <div className="border"></div>
+
+                <div>
+                    <div id="otherCountdowns" className="flex-1 overflow-auto flex gap-10"></div>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+);
+
 }

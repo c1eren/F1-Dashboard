@@ -29,8 +29,21 @@ interface DriverStanding {
 
 interface Standings {
     season:    number
-    lastRace:  string
+    lasdivace:  string
     standings: DriverStanding[]
+}
+
+interface StandingsFormatted {
+    //Cols
+    "POS.":        (number | string | null)[];       
+    "DRIVER":      (string | string | null)[];
+    "NO.":         (number | string | null)[];
+    "NATIONALITY": (string | string | null)[];
+    "TEAM":        (string | string | null)[];
+    "WINS":        (number | string | null)[];
+    "PTS.":        (number | string | null)[];
+
+    [key: string]: (number | string | null)[]; // Index signature
 }
 
 interface Props {
@@ -69,61 +82,111 @@ export function DriverStandings(props: Props){
             setStandings(fetchedStandings);
         };
         loadStandings();
-
     }, [selectedYear]);
+
+
+
+    const standingsFormatted: StandingsFormatted = {
+        // Convert to cols
+        "POS.":        standings?.standings.map(item => item.position ?? '--') ?? [],
+        "DRIVER":      standings?.standings.map(item => `${item.driver.forename ?? '--'} ${item.driver.surname ?? '--'}`) ?? [],
+        "NO.":         standings?.standings.map(item => item.driver.number ?? '--') ?? [],
+        "NATIONALITY": standings?.standings.map(item => item.driver.nationality ?? '--') ?? [],
+        "TEAM":        standings?.standings.map(item => item.constructor ?? '--') ?? [],
+        "WINS":        standings?.standings.map(item => item.wins ?? '--') ?? [],
+        "PTS.":        standings?.standings.map(item => item.points ?? '--') ?? [],
+    };
+
+    console.log("standingsFormatted: ",standingsFormatted);
 
     return (
         <>
-        <div className="gridChildContent flex flex-col">
-            <div className="flex items-start flex-row pl-4">
+        <div className="gridChildContent flex flex-col gap-4 overflow-hidden text-nowrap">
+            <div className="flex items-start flex-row">
               <div className="text-2xl font-bold">Driver Standings</div>
               <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
             </div>
-
-            <div id="tableDiv" className="bg-inherit flex-1 overflow-y-auto overflow-x-hidden w-full">
-              <table className="bg-inherit w-full border-collapse">
-                    <thead className='bg-inherit sticky top-0 border-b'>
-                        <tr>
-                            <th>POS.       </th>
-                            <th>DRIVER     </th>
-                            <th>NO.        </th>
-                            <th>NATIONALITY</th>
-                            <th>TEAM       </th>
-                            <th className='-translate-x-2'>WINS       </th>
-                            <th>PTS.       </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {standings?.standings.map((s) => (
-                            <tr key={s.driver.id}>
-                                <td>{s.position}</td>
-                                <td className='cursor-pointer' onClick={() => props.onDriverClick(s.driver.id)}>{s.driver.forename + " " + s.driver.surname}</td>
-                                <td><span className='font-semibold'>{s.driver.number}</span></td>
-                                <td>{s.driver.nationality}</td>
-                                <td>{s.constructor}</td>
-                                <td>{s.wins}</td>
-                                <td>{s.points}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            <div id='standingsTable' className='bg-inherit flex flex-col w-full h-full overflow-x-hidden gap-4 '>
+                {/* ["POS.", [1, 2, 3, ...]] */}
+                <div className='tableHead flex justify-start pb-2 border-b'>
+                    {
+                        Object.entries(standingsFormatted).map(([colName]) => {
+                            return (
+                                <div key={colName} className="bg-inherit border w-full p-1">
+                                    {}
+                                    {colName}
+                                </div>
+                            );
+                        })
+                    }
+                </div>
+                <div className='tableBody flex overflow-y-scroll'>
+                    {Object.entries(standingsFormatted).map(([colName, colValues]) => (
+                        <div className='w-full' key={colName}>
+                            {colValues.map((value, i) => {
+                                const driverId = standings?.standings[i]?.driver.id ?? null; // Get ID and fallback to null
+                                return (
+                                    <div 
+                                    className={`border p-1 ${colName === 'DRIVER' ? 'cursor-pointer' : ''}`} 
+                                    key={i} 
+                                    onClick={colName === 'DRIVER' ? () => {props.onDriverClick(driverId)} : undefined}> {/* Use undefinedfor props apparently */}
+                                        {value}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ))}
+                </div>
+            </div>    
         </div>
         </>
     );
 }
 
+/*<div id="tableDiv" className="bg-inherit flex-1 overflow-y-auto overflow-x-hidden w-full">
+              <div className="flex flex-col bg-inherit w-full border-collapse">
+                    <div className='flex flex-col bg-inherit sticky top-0'>
+                        <div className='flex gap-10 font-bold'>
+                            <div>POS.       </div>
+                            <div>DRIVER     </div>
+                            <div>NO.        </div>
+                            <div>NATIONALITY</div>
+                            <div>TEAM       </div>
+                            <div className='-divanslate-x-2'>WINS       </div>
+                            <div>PTS.       </div>
+                        </div>
+                        <div className='border w-full'></div>
+                    </div>
+
+                    <div>
+                        {standings?.standings.map((s) => (
+                            <div className='flex' key={s.driver.id}>
+                                <div>{s.position}</div>
+                                <div className='cursor-pointer' onClick={() => props.onDriverClick(s.driver.id)}>{s.driver.forename + " " + s.driver.surname}</div>
+                                <div><span className='font-semibold'>{s.driver.number}</span></div>
+                                <div>{s.driver.nationality}</div>
+                                <div>{s.constructor}</div>
+                                <div>{s.wins}</div>
+                                <div>{s.points}</div>
+                            </div>
+                        ))}
+                    </div>
+
+                </div>
+            </div>
+*/
+
 /*
 const mappedData = {
             season: data.season,
-            lastRace: data.lastRace,
+            lasdivace: data.lasdivace,
             standings: data.standings.map((s: DriverStanding) => ({
                 driver:   s.driver,
                 raceId:   s.raceId,
                 position: s.position,
                 points:   s.points,
                 wins:     s.wins,
-                constructor: s.constructor
+                consdivuctor: s.consdivuctor
             }))
         };
 */
@@ -136,7 +199,7 @@ const mappedData = {
         driver.number,
         driver.code,
         driver.forename+' '+driver.surname,
-        constructor.name,
+        consdivuctor.name,
 */
     
 
@@ -155,13 +218,13 @@ const mappedData = {
 //         <div className="max-w-md grid grid-cols-2">
 //             {driverData.map((item) => (
 //                     <div className="cell" key={item.header}>
-//                         <div><strong>{item.header}</strong></div>
+//                         <div><sdivong>{item.header}</sdivong></div>
 //                         <div>{item.value}</div>
 //                     </div>
 //             ))}
 //             {driver.url && (
 //                 <div className=''>
-//                     <div><strong>Wiki</strong></div>
+//                     <div><sdivong>Wiki</sdivong></div>
 //                     <div><a href={driver.url} target='_blank'>{driver.url}</a></div>
 //                 </div>
 //             )}

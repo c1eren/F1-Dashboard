@@ -1,0 +1,15 @@
+.fade-in-scale {
+    animation: fadeScaleIn 0.2s ease-out;
+    transform-origin: center;
+}
+
+@keyframes fadeScaleIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

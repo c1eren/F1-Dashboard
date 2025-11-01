@@ -15,7 +15,9 @@ function App() {
     <>
       <div className='gridContainer'>
 
-        <div className="gridChild">
+        {/* <div className={`gridChild ${'min-h-[300px] min-w-[400px]'}`}> */}
+        <div className="gridChild min-h-[300px] min-w-[400px] sm:min-h-[300px]">
+
           <NextSession/>
         </div>
         

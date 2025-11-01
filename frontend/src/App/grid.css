@@ -6,7 +6,7 @@
 
 * {
     margin: 0;
-    padding: 0;
+    /* padding: 0; */
 }
 
 body.grabbing {
@@ -39,10 +39,8 @@ body.resizing {
 
 .gridChild {
     position: relative;
-    background-color: navy;
+    background-color: #36454f;
     /* #BE2727 Just like this color */
-    min-width: 50px;   /* Set this to whatever the grid cell size ends up being */
-    min-height: 50px;
 
     border: solid 4px rgb(0, 0, 0);
     /* font-weight: bolder; */
@@ -50,7 +48,7 @@ body.resizing {
 }
 
 .gridChildContent {
-    padding: 10px;
+    padding: 0.5rem;
     height: 100%;
     background-color: inherit;
 }
