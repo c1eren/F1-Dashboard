@@ -71,6 +71,11 @@ async function fetchStandings(season: number): Promise<Standings | null> {
 export function DriverStandings(props: Props){
     const [standings, setStandings] = useState<Standings| null>(null);
     const [selectedYear, setSelectedYear] = useState<Date | null>(startDate);
+
+//     useEffect(() => {
+//   console.log("DriverStandings mounted");
+//   return () => console.log("DriverStandings unmounted");
+// }, []);
     
     useEffect(() => {
         const loadStandings = async () => {
@@ -97,7 +102,7 @@ export function DriverStandings(props: Props){
         "PTS.":        standings?.standings.map(item => item.points ?? '--') ?? [],
     };
 
-    console.log("standingsFormatted: ",standingsFormatted);
+    // console.log("standingsFormatted: ",standingsFormatted);
 
     return (
         <>

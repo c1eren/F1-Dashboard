@@ -10,9 +10,9 @@ let gridHeight;
 let cellWidth;
 let cellHeight;
 
+// Action based
 let action = null;
 let currentWin = null;
-let lastWin = null;
 let currentWinInitWidth = 0;
 let currentWinInitHeight = 0;
 let currentWinCol = 0;
@@ -20,6 +20,7 @@ let currentWinRow = 0;
 let currentWinColSpan = 0;
 let currentWinRowSpan = 0;
 
+// Position based
 // let currentGrabber = null;
 let grabOffsetX = 0;
 let grabOffsetY = 0;
@@ -28,7 +29,12 @@ let shadowGrabOffsetY = 0;
 let mouseInitX = 0;
 let mouseInitY = 0;
 
+// Shallow clone
 let shallowClone = null;
+
+// Z-index standards
+const zStackingArray = [];
+
 
 if (document.readyState === 'loading') {
     console.log('loading...');
@@ -38,7 +44,6 @@ if (document.readyState === 'loading') {
 }
 
 function init() {
-    console.log("HERE");
     initGridContainer();
     setDocumentListeners();
     designateWindows();
@@ -47,8 +52,37 @@ function init() {
     observer.observe(gridContainer, { childList: true });
 }
 
+function updateZStackingArray(win) {
+    const wIndex = zStackingArray.indexOf(win);
+
+    // Add new windows
+    if (wIndex === -1) {
+      zStackingArray.push(win);
+    } 
+    // If window's already up top, return early
+    else if (wIndex === zStackingArray.length - 1) {
+      return;
+    } 
+    // Otherwise, rip it from it's spot and chuck it on the end
+    else {
+      zStackingArray.splice(wIndex, 1);
+      zStackingArray.push(win);
+    }
+    // Iterate through and update the zIndex order
+    zStackingArray.forEach((winZ, index) => {
+      winZ.style.zIndex = index;
+    });
+
+    // console.log("zStackingArray:", zStackingArray);
+}
+
+
 function setDocumentListeners() {
     document.addEventListener('mousedown', (e) => {
+        
+        if (currentWin = e.target.closest('.gridChild')) {
+            updateZStackingArray(currentWin);
+        }
 
         // Grabbing
         if (e.target.classList.contains('grid-grabber')) {
@@ -56,15 +90,18 @@ function setDocumentListeners() {
 
             currentWin = e.target.closest('.gridChild');
             document.body.classList.add('grabbing');
-            document.body.append(currentWin);
-            currentWin.style.zIndex = 5;
-            gridContainer.append(currentWin);
+            // document.body.append(currentWin);
+            // updateZStackingArray(currentWin); keep around in case first updateZ starts breaking
+            // gridContainer.append(currentWin);
             // currentGrabber = e.target;
 
             getGridKidBounding(e);
             // Shallow clone
             shallowClone = currentWin.cloneNode(false);
             shallowClone.classList.add('shallowClone');
+            if (shallowClone) {
+                shallowClone.style.zIndex = zStackingArray.length - 2;
+            }
             gridContainer.append(shallowClone);
         }
 
@@ -73,6 +110,7 @@ function setDocumentListeners() {
             action = "resizing";
 
             currentWin = e.target.closest('.gridChild');
+            updateZStackingArray(currentWin);
             currentWinInitWidth  = currentWin.offsetWidth;
             currentWinInitHeight = currentWin.offsetHeight;
 
@@ -99,9 +137,6 @@ function setDocumentListeners() {
         // Give top z-index to last window used
         if (currentWin) {
 
-            currentWin.style.zIndex = 2;
-            lastWin = currentWin;
-
             if (action === "resizing") {
                 // Gotta fix the z-index on the resizing element
                 currentWin.classList.remove('gridChild-resizing');
@@ -127,7 +162,6 @@ function setDocumentListeners() {
 
                 shallowClone.remove();
                 shallowClone = null; 
-                console.log("removed");
             }
         }
 
@@ -150,7 +184,7 @@ function setDocumentListeners() {
 
 function handleDragging(e) {
     // Keep aligned with cursor pos
-    let gridRect  = gridContainer.getBoundingClientRect();
+    gridRect  = gridContainer.getBoundingClientRect();
     const newLeft = e.clientX - gridRect.left - grabOffsetX;
     const newTop  = e.clientY - gridRect.top  - grabOffsetY;
     const shadowLeft = e.clientX - gridRect.left - shadowGrabOffsetX;
@@ -163,7 +197,7 @@ function handleDragging(e) {
     
     const closestCells = getClosestGridCell(shadowLeft, shadowTop);
     shallowClone.style.position = '';
-    shallowClone.style.zIndex = 3;
+    // updateZStackingArray(shallowClone);
     shallowClone.style.gridColumnStart = closestCells.col;
     shallowClone.style.gridRowStart    = closestCells.row;
 }
@@ -279,8 +313,8 @@ function initGridContainer() {
     const templateRow   = computedStyle.getPropertyValue('grid-template-rows').split(' ');
     colCount            = templateCol.length;
     rowCount            = templateRow.length;
-    cellWidth           = templateCol[0].match(/\d+(\.\d+)?/g); // Matches integers and decimals
-    cellHeight          = templateRow[0].match(/\d+(\.\d+)?/g); // Matches integers and decimals
+    cellWidth           = parseFloat(templateCol[0].match(/\d+(\.\d+)?/g)); // Matches integers and decimals
+    cellHeight          = parseFloat(templateRow[0].match(/\d+(\.\d+)?/g)); // Matches integers and decimals
 
     gridRect      = gridContainer.getBoundingClientRect();
     gridWidth     = colCount * cellWidth;
@@ -289,6 +323,7 @@ function initGridContainer() {
 }
 
 function designateWindows() {
+    gridRect = gridContainer.getBoundingClientRect();
     const gridWindows = document.querySelectorAll('.gridChild');
     gridWindows.forEach((win) => {
 
@@ -297,16 +332,18 @@ function designateWindows() {
         // win.firstElementChild.style.width = '100%'; 
         // win.firstElementChild.style.height = '100%';
 
-        console.log("windows re-designated");
         if (!win.dataset.windowProcessed) {
             win.dataset.windowProcessed = 'true';
             // Init
             initGridCompanions(win);        
             initSizeGridKid(win);
+            updateZStackingArray(win);
+            console.log("windows re-designated");
         }
     });
 }
 
+// Unused function currently
 function resizeGridChildToContent(win) {
     let maxWidth = 0;
     let maxHeight = 0;

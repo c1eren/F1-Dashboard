@@ -13,6 +13,7 @@ function App() {
 
   return (
     <>
+    <div className='UI bg-amber-400 overflow-scroll'>
       <div className='gridContainer'>
 
         {/* <div className={`gridChild ${'min-h-[300px] min-w-[400px]'}`}> */}
@@ -25,6 +26,7 @@ function App() {
 
         {/* <div className='gridChild bg-amber-500 h-10 w-10'></div> */}
       </div>
+    </div>
     </>
   );
 }
