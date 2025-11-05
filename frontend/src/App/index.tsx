@@ -16,12 +16,12 @@ function App() {
     <div className='main flex max-w-screen max-h-screen overflow-hidden '>
       <div className='UIContainer'>
 
-        {/* <div className='UIBar col-span-2 h-20 bg-gradient-to-r from-green-300 to-emerald-500 flex 
+        {/* <div className='UIRow col-span-2 h-20 bg-gradient-to-r from-green-300 to-emerald-500 flex 
                         items-center justify-center text-5xl font-bold'>
           <span>F1 Dashboard</span>
         </div> */}
 
-        <div className='UICol h-screen w-20 bg-gradient-to-b from-green-300 to-emerald-500 flex 
+        <div className='UICol h-screen w-40 bg-gradient-to-b from-green-300 to-emerald-500 flex 
                         items-center justify-center text-5xl font-bold'>
         </div>
 

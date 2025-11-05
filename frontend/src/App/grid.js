@@ -4,13 +4,21 @@ const debug = false;
 // of grid dict per grid container if more than 1 exists
 let gridContainer;
 let gridRect;
+let gridContainerWidth;
+let gridContainerHeight; 
+
 let colCount;
 let rowCount;
 let gridSize;
 let gridWidth;
 let gridHeight;
+let cellSize = 50;
 let cellWidth;
 let cellHeight;
+
+// UI elements
+let UICol;
+let UIRow;
 
 // Action based
 let action = null;
@@ -173,11 +181,23 @@ function setDocumentListeners() {
         currentWinInitHeight = 0;
     });
 
+    window.addEventListener('resize', () => {
+        const oldColCount = colCount;
+        const oldRowCount = rowCount;
+        
+        setGridContainerSize();
+        
+        // colCount and rowCount will always change, but the check doesn't hurt performance
+        if (colCount !== oldColCount || rowCount !== oldRowCount) {
+            document.querySelectorAll('.gridChild').forEach(initSizeGridKid);
+        }
+    });
+
 }
 
 function handleDragging(e) {
     // Keep aligned with cursor pos
-    const winRect    = currentWin.getBoundingClientRect();
+    const winRect = currentWin.getBoundingClientRect();
 
         // Sets absolute to the body, fight me nerds
     currentWin.style.left  = (e.clientX - gridRect.left - grabOffsetX) + "px";
@@ -204,15 +224,15 @@ function handleResizing(e) {
     // Think about setting a Math.min() here too 
     // Okay so wid is the currentwidth + how far the mouse has moved from it's initial position, and won't go smaller than 1 cell width
     // So basically the width delta
-    const wid = Math.max(currentWinInitWidth + changeX, cellWidth);
-    const hei = Math.max(currentWinInitHeight + changeY, cellHeight);
+    const wid = Math.max(currentWinInitWidth + changeX,  cellSize);
+    const hei = Math.max(currentWinInitHeight + changeY, cellSize);
     // Then col is that change in width divided by the cell width and rounded to nearest integer
-    const col = Math.round(wid / cellWidth);
-    const row = Math.round(hei / cellHeight);
+    const col = Math.round(wid / cellSize);
+    const row = Math.round(hei / cellSize);
     
     // After that we set the new width to the rounded column spanning number * cell width 
-    const newWidth  = col * cellWidth;
-    const newHeight = row * cellHeight;
+    const newWidth  = col * cellSize;
+    const newHeight = row * cellSize;
 
     // currentWin.classList.add('gridChild-resizing'); // Currently redundant, could add effects later or something
 
@@ -225,24 +245,26 @@ function handleResizing(e) {
 }
 
 function initSizeGridKid(win) {
-    const winWidth  = Math.max(win.offsetWidth, cellWidth);
-    const winHeight = Math.max(win.offsetHeight, cellHeight);
+    const winWidth  = Math.max(win.offsetWidth,  cellSize);
+    const winHeight = Math.max(win.offsetHeight, cellSize);
 
-    win.style.width  = winWidth + "px";
+    win.style.width  = winWidth +  "px";
     win.style.height = winHeight + "px";
 
-    const rect = win.getBoundingClientRect();
     gridRect   = gridContainer.getBoundingClientRect();
+    const rect = win.getBoundingClientRect();
 
     const relativeLeft = rect.left - gridRect.left;
     const relativeTop  = rect.top  - gridRect.top;
+    // const relativeLeft = gridRect.left - rect.left;
+    // const relativeTop  = gridRect.top  - rect.top ;
 
-    const columns = Math.round(winWidth / cellWidth);
-    const rows    = Math.round(winHeight / cellHeight);
+    const columns = Math.round(winWidth  / cellSize);
+    const rows    = Math.round(winHeight / cellSize);
     
     // Set the spans
     win.dataset.columns = columns;
-    win.dataset.rows= rows;
+    win.dataset.rows    = rows;
 
     const closestCells = getClosestGridCell(relativeLeft, relativeTop);
     // console.log(win + "\nclosestCells: ", closestCells);
@@ -276,8 +298,10 @@ function getGridKidBounding(e) {
     grabOffsetY = e.clientY - gridRect.top;
 
     // Shadow clone offset (optional)
-    shadowGrabOffsetX = grabOffsetX - winRect.left;
-    shadowGrabOffsetY = grabOffsetY - winRect.top;
+    // shadowGrabOffsetX = grabOffsetX - winRect.left;
+    // shadowGrabOffsetY = grabOffsetY - winRect.top;
+    shadowGrabOffsetX = e.clientX - winRect.left;
+    shadowGrabOffsetY = e.clientY - winRect.top;
 }
 
 function getMouseInit(e) {
@@ -286,8 +310,8 @@ function getMouseInit(e) {
 }
 
 function getClosestGridCell(left, top) {
-    const fractionalCol = left / cellWidth;
-    const fractionalRow = top / cellHeight;
+    const fractionalCol = left / cellSize; // If deciding to have non square grid cells later
+    const fractionalRow = top  / cellSize; // can change these back to width & height
 
     const closestCol = Math.max(1, Math.round(fractionalCol) + 1); 
     const closestRow = Math.max(1, Math.round(fractionalRow) + 1);
@@ -346,33 +370,74 @@ function logData() {
 //     });            
 // }
 
+function setGridContainerSize() {
+    // Low overhead, should only run on init and viewport resize
+    const viewportWidth  = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    UICol = document.querySelector('.UICol');
+    UIRow = document.querySelector('.UIRow');
+    if (UICol) {
+        // console.log("UICol: ", UICol);
+        const UIColWidth = UICol.offsetWidth;
+        gridContainerWidth = viewportWidth - UIColWidth;
+    }
+    else {
+        gridContainerWidth = viewportWidth;
+    }
+
+    if (UIRow) {
+        // console.log("UIRow: ", UIRow);
+        const UIRowHeight = UIRow.offsetHeight;
+        gridContainerHeight = viewportHeight - UIRowHeight;
+    }
+    else {
+        gridContainerHeight = viewportHeight;
+    }
+
+    gridContainer.style.width  = gridContainerWidth   + "px";
+    gridContainer.style.height = gridContainerHeight  + "px"; 
+
+    colCount = Math.floor(gridContainerWidth  / cellSize);
+    rowCount = Math.floor(gridContainerHeight / cellSize); 
+
+    gridContainer.style.gridTemplateColumns = `repeat(${colCount}, ${cellSize}px)`;
+    gridContainer.style.gridTemplateRows    = `repeat(${rowCount}, ${cellSize}px)`;
+    
+    // Maybe, will see
+    gridContainer.style.gridAutoColumns = `${cellSize}px`;
+    gridContainer.style.gridAutoRows    = `${cellSize}px`;
+    
+}
+
 function initGridContainer() {
     gridContainer = document.querySelector('.gridContainer');
-    const computedStyle = window.getComputedStyle(gridContainer);
-
-    const templateCol   = computedStyle.getPropertyValue('grid-template-columns').split(' ');
-    const templateRow   = computedStyle.getPropertyValue('grid-template-rows').split(' ');
-    colCount            = templateCol.length;
-    rowCount            = templateRow.length;
-    cellWidth           = parseFloat(templateCol[0].match(/\d+(\.\d+)?/g)); // Matches integers and decimals
-    cellHeight          = parseFloat(templateRow[0].match(/\d+(\.\d+)?/g)); // Matches integers and decimals
-
+    setGridContainerSize();
     gridRect      = gridContainer.getBoundingClientRect();
-    gridWidth     = colCount * cellWidth;
-    gridHeight    = rowCount * cellHeight;
-    gridSize      = gridWidth * gridHeight;
+
+    // gridContainer.style.gridAutoFlow = "column dense";
+
+
+    
+    // gridWidth     = colCount * cellWidth;
+    // gridHeight    = rowCount * cellHeight;
+    // gridSize      = gridWidth * gridHeight;
+
+    // Dynamically building grid container from remaining viewport space now, keeping this just in case
+    
+    // const templateCol   = computedStyle.getPropertyValue('grid-template-columns').split(' ');
+    // const templateRow   = computedStyle.getPropertyValue('grid-template-rows').split(' ');
+    // colCount            = templateCol.length;
+    // rowCount            = templateRow.length;
+    // cellWidth           = parseFloat(templateCol[0].match(/\d+(\.\d+)?/g)); // Matches integers and decimals
+    // cellHeight          = parseFloat(templateRow[0].match(/\d+(\.\d+)?/g)); // Matches integers and decimals
+    
 }
 
 function designateWindows() {
     gridRect = gridContainer.getBoundingClientRect();
     const gridWindows = document.querySelectorAll('.gridChild');
     gridWindows.forEach((win) => {
-
-        // resizeGridChildToContent(win);
-        // 
-        // win.firstElementChild.style.width = '100%'; 
-        // win.firstElementChild.style.height = '100%';
-
         if (!win.dataset.windowProcessed) {
             win.dataset.windowProcessed = 'true';
             // Init

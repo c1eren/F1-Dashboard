@@ -33,19 +33,21 @@ body.resizing {
     display: grid;
     position: relative;
 
-    min-width: calc(var(--columns) * var(--cellSize));
+    /* min-width: calc(var(--columns) * var(--cellSize)); */
     min-height: calc(var(--rows) * var(--cellSize));
     /* Need to check, max-width might get reset somewhere in the js lmao */
     max-width: 100%;
     max-height: 100%;
+
+    align-items   : start;
+    justify-items : start;
     
-    grid-auto-flow: column dense;
-    grid-template-rows: repeat(--rows, --cellSize);
-    grid-template-columns: repeat(--columns, --cellSize);
-    grid-auto-rows:    var(--cellSize);
-    grid-auto-columns: var(--cellSize);
-    align-items: start;
-    justify-items: start;
+    /* grid-template-rows: repeat(--rows, --cellSize); */
+    /* grid-template-columns: repeat(--columns, --cellSize); */
+    /* grid-auto-rows:    var(--cellSize); */
+    /* grid-auto-columns: var(--cellSize); */
+    
+    
     /* 12500px */
 }
 
