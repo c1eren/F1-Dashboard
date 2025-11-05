@@ -1,4 +1,4 @@
-const debug = true;
+const debug = false;
 
 // These properties could be attached to some sort 
 // of grid dict per grid container if more than 1 exists

@@ -20,15 +20,30 @@ body.resizing {
 }
 
 .gridContainer {
+    /* Could look at grabbing user device width and calculating from that */
+    /* --cellSize: 25px; */
+    /* --columns:  45; */
+    /* --rows:     20; */
+
+    --cellSize: 50px;
+    --columns:  25;
+    --rows:     10;
+    
     padding: 10px;
     display: grid;
     position: relative;
-    grid-auto-flow: row dense;
-    grid-template-rows: repeat(10, 50px);
-     grid-template-columns: repeat(25, 50px);
-    /* grid-template-columns: repeat(auto-fill, 50px); */
-    grid-auto-rows: 50px;
-    grid-auto-columns: 50px;
+
+    min-width: calc(var(--columns) * var(--cellSize));
+    min-height: calc(var(--rows) * var(--cellSize));
+    /* Need to check, max-width might get reset somewhere in the js lmao */
+    max-width: 100%;
+    max-height: 100%;
+    
+    grid-auto-flow: column dense;
+    grid-template-rows: repeat(--rows, --cellSize);
+    grid-template-columns: repeat(--columns, --cellSize);
+    grid-auto-rows:    var(--cellSize);
+    grid-auto-columns: var(--cellSize);
     align-items: start;
     justify-items: start;
     /* 12500px */

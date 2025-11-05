@@ -13,19 +13,30 @@ function App() {
 
   return (
     <>
-    <div className='UI bg-amber-400 overflow-scroll'>
-      <div className='gridContainer'>
+    <div className='main flex max-w-screen max-h-screen overflow-hidden '>
+      <div className='UIContainer'>
 
-        {/* <div className={`gridChild ${'min-h-[300px] min-w-[400px]'}`}> */}
-        <div className="gridChild min-h-[300px] min-w-[400px] sm:min-h-[300px]">
+        {/* <div className='UIBar col-span-2 h-20 bg-gradient-to-r from-green-300 to-emerald-500 flex 
+                        items-center justify-center text-5xl font-bold'>
+          <span>F1 Dashboard</span>
+        </div> */}
 
-          <NextSession/>
+        <div className='UICol h-screen w-20 bg-gradient-to-b from-green-300 to-emerald-500 flex 
+                        items-center justify-center text-5xl font-bold'>
         </div>
-        
-        <TableDriverInfoController/>
 
-        {/* <div className='gridChild bg-amber-500 h-10 w-10'></div> */}
       </div>
+
+        <div className='gridContainer overflow-scroll border-2 border-pink-400'>
+
+          <div className="gridChild min-h-[300px] min-w-[400px] sm:min-h-[300px]">
+            <NextSession/>
+          </div>
+
+          <TableDriverInfoController/>
+
+          {/* <div className='gridChild bg-amber-500 h-10 w-10'></div> */}
+        </div>
     </div>
     </>
   );
