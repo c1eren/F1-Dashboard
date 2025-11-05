@@ -28,6 +28,7 @@ body.resizing {
      grid-template-columns: repeat(25, 50px);
     /* grid-template-columns: repeat(auto-fill, 50px); */
     grid-auto-rows: 50px;
+    grid-auto-columns: 50px;
     align-items: start;
     justify-items: start;
     /* 12500px */
@@ -55,7 +56,7 @@ body.resizing {
 
 .gridChild-grabbed {
     position: absolute;
-    transform-origin: top right;
+    /* transform-origin: top right; */
     transform: scale(0.4);
 }
 
@@ -104,12 +105,12 @@ body.resizing {
 }
 
 /* z-index' */
-.gridContainer {z-index: 0;}
+/* .gridContainer {z-index: 0;}
 .gridChild { z-index: 1; }
 .gridChild-active { z-index: 2; }
 .shallowClone { z-index: 3; }
 .gridChild-grabbed { z-index: 4; }
-.gridChild-resizing { z-index: 4; }
+.gridChild-resizing { z-index: 4; } */
 
 /* Animations */
 .gridChild {

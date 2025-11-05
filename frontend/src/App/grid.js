@@ -1,3 +1,5 @@
+const debug = true;
+
 // These properties could be attached to some sort 
 // of grid dict per grid container if more than 1 exists
 let gridContainer;
@@ -15,10 +17,6 @@ let action = null;
 let currentWin = null;
 let currentWinInitWidth = 0;
 let currentWinInitHeight = 0;
-let currentWinCol = 0;
-let currentWinRow = 0;
-let currentWinColSpan = 0;
-let currentWinRowSpan = 0;
 
 // Position based
 // let currentGrabber = null;
@@ -72,16 +70,15 @@ function updateZStackingArray(win) {
     zStackingArray.forEach((winZ, index) => {
       winZ.style.zIndex = index;
     });
-
-    // console.log("zStackingArray:", zStackingArray);
 }
 
 
 function setDocumentListeners() {
     document.addEventListener('mousedown', (e) => {
-        
+
         if (currentWin = e.target.closest('.gridChild')) {
             updateZStackingArray(currentWin);
+            const rect = currentWin.getBoundingClientRect();
         }
 
         // Grabbing
@@ -90,12 +87,7 @@ function setDocumentListeners() {
 
             currentWin = e.target.closest('.gridChild');
             document.body.classList.add('grabbing');
-            // document.body.append(currentWin);
-            // updateZStackingArray(currentWin); keep around in case first updateZ starts breaking
-            // gridContainer.append(currentWin);
-            // currentGrabber = e.target;
-
-            getGridKidBounding(e);
+            
             // Shallow clone
             shallowClone = currentWin.cloneNode(false);
             shallowClone.classList.add('shallowClone');
@@ -103,22 +95,28 @@ function setDocumentListeners() {
                 shallowClone.style.zIndex = zStackingArray.length - 2;
             }
             gridContainer.append(shallowClone);
-        }
 
+            // Now that shallow clone takes form of full size gridChild, scale down and get offsets
+            currentWin.classList.add('gridChild-grabbed');
+            currentWin.style.position = 'absolute';
+            getGridKidBounding(e);
+        }
+        
+        
         // Resizing
         if (e.target.classList.contains('grid-resizer')) {
             action = "resizing";
-
+            
             currentWin = e.target.closest('.gridChild');
             updateZStackingArray(currentWin);
             currentWinInitWidth  = currentWin.offsetWidth;
             currentWinInitHeight = currentWin.offsetHeight;
 
-            console.log("winCol: ", currentWin.style.gridColumn);
             document.body.classList.add('resizing');
             getMouseInit(e);
         }
-
+        
+        logData();
     });
 
     document.addEventListener('mousemove', (e) => {
@@ -129,12 +127,11 @@ function setDocumentListeners() {
             handleResizing(e);
         }        
     });
-
+    
     document.addEventListener('mouseup', () => {
         document.body.classList.remove('grabbing');
         document.body.classList.remove('resizing');
 
-        // Give top z-index to last window used
         if (currentWin) {
 
             if (action === "resizing") {
@@ -148,15 +145,14 @@ function setDocumentListeners() {
                 const row = parseInt(shallowClone.style.gridRowStart) || 1;
 
                 // Snap to the grid
-                currentWinCol = col;
-                currentWinRow = row;
+                currentWin.dataset.colPos = col;
+                currentWin.dataset.rowPos = row;
 
                 genNewGridPos();
-                // currentWin.style.gridColumn = `${col} / span ${currentWinColSpan || 1}`;
-                // currentWin.style.gridRow    = `${row} / span ${currentWinRowSpan || 1}`;
 
                 // Reset positioning so the element participates in the grid again
                 currentWin.classList.remove('gridChild-grabbed');
+                currentWin.style.position = ''; // classList styles not applying properly, have to inline for some reason
                 currentWin.style.left = '';
                 currentWin.style.top = '';
 
@@ -175,25 +171,24 @@ function setDocumentListeners() {
         mouseInitY = 0;
         currentWinInitWidth = 0;
         currentWinInitHeight = 0;
-        currentWinCol = 0;
-        currentWinRow = 0;
-        currentWinColSpan = 0;
-        currentWinRowSpan = 0;
     });
+
 }
 
 function handleDragging(e) {
     // Keep aligned with cursor pos
-    gridRect  = gridContainer.getBoundingClientRect();
-    const newLeft = e.clientX - gridRect.left - grabOffsetX;
-    const newTop  = e.clientY - gridRect.top  - grabOffsetY;
+    const winRect    = currentWin.getBoundingClientRect();
+
+        // Sets absolute to the body, fight me nerds
+    currentWin.style.left  = (e.clientX - gridRect.left - grabOffsetX) + "px";
+    currentWin.style.top   = (e.clientY - gridRect.top  - grabOffsetY) + "px";
+
+    // const newLeft = e.clientX - containerRect.left - grabOffsetX;
+    // const newTop  = e.clientY - containerRect.top  - grabOffsetY;
+    
     const shadowLeft = e.clientX - gridRect.left - shadowGrabOffsetX;
     const shadowTop  = e.clientY - gridRect.top  - shadowGrabOffsetY;
 
-    // Sets absolute to the body, fight me nerds
-    currentWin.classList.add('gridChild-grabbed');
-    currentWin.style.left  = newLeft + "px";
-    currentWin.style.top   = newTop + "px"
     
     const closestCells = getClosestGridCell(shadowLeft, shadowTop);
     shallowClone.style.position = '';
@@ -207,30 +202,34 @@ function handleResizing(e) {
     const changeY = e.clientY - mouseInitY;
 
     // Think about setting a Math.min() here too 
+    // Okay so wid is the currentwidth + how far the mouse has moved from it's initial position, and won't go smaller than 1 cell width
+    // So basically the width delta
     const wid = Math.max(currentWinInitWidth + changeX, cellWidth);
-    const hei = Math.max(currentWinInitHeight + changeY, cellHeight)
+    const hei = Math.max(currentWinInitHeight + changeY, cellHeight);
+    // Then col is that change in width divided by the cell width and rounded to nearest integer
     const col = Math.round(wid / cellWidth);
     const row = Math.round(hei / cellHeight);
-
+    
+    // After that we set the new width to the rounded column spanning number * cell width 
     const newWidth  = col * cellWidth;
     const newHeight = row * cellHeight;
 
-    currentWin.classList.add('gridChild-resizing');
+    // currentWin.classList.add('gridChild-resizing'); // Currently redundant, could add effects later or something
 
     currentWin.style.width  = newWidth + "px";
     currentWin.style.height = newHeight + "px";
-
-    // console.log("changeX: ", changeX, "\nchangeY: ", changeY);
-    currentWinColSpan = col;
-    currentWinRowSpan = row;
+    
+    currentWin.dataset.columns = col;
+    currentWin.dataset.rows = row;
     genNewGridPos();
 }
 
 function initSizeGridKid(win) {
-    const winHeight = Math.max(win.offsetHeight, cellHeight);
     const winWidth  = Math.max(win.offsetWidth, cellWidth);
-    win.style.height = winHeight + "px";
+    const winHeight = Math.max(win.offsetHeight, cellHeight);
+
     win.style.width  = winWidth + "px";
+    win.style.height = winHeight + "px";
 
     const rect = win.getBoundingClientRect();
     gridRect   = gridContainer.getBoundingClientRect();
@@ -240,12 +239,22 @@ function initSizeGridKid(win) {
 
     const columns = Math.round(winWidth / cellWidth);
     const rows    = Math.round(winHeight / cellHeight);
-    const closestCells = getClosestGridCell(relativeLeft, relativeTop);
-    console.log(win + "\nclosestCells: ", closestCells);
-
-    win.style.gridColumn = closestCells.col + "/ span " + columns;
-    win.style.gridRow    = closestCells.row + "/ span " + rows;
     
+    // Set the spans
+    win.dataset.columns = columns;
+    win.dataset.rows= rows;
+
+    const closestCells = getClosestGridCell(relativeLeft, relativeTop);
+    // console.log(win + "\nclosestCells: ", closestCells);
+
+    // Set the pos'
+    win.dataset.colPos = closestCells.col;
+    win.dataset.rowPos = closestCells.row;
+
+    // This is gonna bite me in the ass eventually
+    currentWin = win;
+
+    genNewGridPos();
     // console.log("item " + win.innerText + ":\n    offsetWidth: " + winWidth + "\n   offsetHeight: " + winHeight + "\n        columns: " + columns + "\n           rows: " + rows);
 }
 
@@ -259,17 +268,16 @@ function initGridCompanions(win) {
 }
 
 function getGridKidBounding(e) {
-    // Happens on click
-    const rect = currentWin.getBoundingClientRect();
-    const gridRect = gridContainer.getBoundingClientRect();
+    const winRect = currentWin.getBoundingClientRect();
+    gridRect      = gridContainer.getBoundingClientRect();
 
-    // Offset of mouse inside the element (relative to the grid)
-    shadowGrabOffsetX = e.clientX - rect.left;
-    shadowGrabOffsetY = e.clientY - rect.top;
-    grabOffsetX = e.clientX - rect.left + (rect.left - gridRect.left);
-    grabOffsetY = e.clientY - rect.top  + (rect.top  - gridRect.top);
-    // grabOffsetX = e.clientX - rect.left;  // Cursor X inside the element
-    // grabOffsetY = e.clientY - rect.top;   // Cursor Y inside the element
+    // Cursor offset **inside the window**
+    grabOffsetX = e.clientX - gridRect.left;
+    grabOffsetY = e.clientY - gridRect.top;
+
+    // Shadow clone offset (optional)
+    shadowGrabOffsetX = grabOffsetX - winRect.left;
+    shadowGrabOffsetY = grabOffsetY - winRect.top;
 }
 
 function getMouseInit(e) {
@@ -288,10 +296,43 @@ function getClosestGridCell(left, top) {
 }
 
 function genNewGridPos() {
-    const colSpan = currentWinColSpan || 1;
-    const rowSpan = currentWinRowSpan || 1;
-    currentWin.style.gridColumn = `${currentWinCol} / span ${colSpan}`;
-    currentWin.style.gridRow    = `${currentWinRow} / span ${rowSpan}`;            
+    const colSpan = currentWin.dataset.columns || 1;
+    const rowSpan = currentWin.dataset.rows || 1;
+    currentWin.style.gridColumn = `${currentWin.dataset.colPos} / span ${colSpan}`;
+    currentWin.style.gridRow    = `${currentWin.dataset.rowPos} / span ${rowSpan}`;            
+}
+
+function logData() {
+    if (debug) {
+        console.log("Z_INDEX: \nzStackingArray:", zStackingArray);
+        console.log("\n------------------------------\n");
+        
+        if (currentWin) {
+            console.log(
+                "CURRENT WINDOW:\nwinCol:                     ", currentWin.style.gridColumn,
+                "               \ncurrentWin.width:           ", currentWin.style.width,
+                "               \ncurrentWin.dataset.columns: ", currentWin.dataset.columns,
+                "               \ncurrentWin.dataset.rows:    ", currentWin.dataset.rows,
+                "               \ncurrentWin.dataset.colPos:  " , currentWin.dataset.colPos,
+                "               \ncurrentWin.dataset.rowPos:  " , currentWin.dataset.rowPos,
+            );
+            console.log("\n------------------------------\n");
+
+            console.log(
+                "OFFSETS:       \ngridBoundingRect.left: ", gridRect.left,
+                "               \ngridBoundingRect.top:  ", gridRect.top,
+                "               \ncurrentWinRect.left:   ", currentWin.getBoundingClientRect().left,
+                "               \ncurrentWinRect.top:    ", currentWin.getBoundingClientRect().top,
+                "               \ngrabOffsetX:           ", grabOffsetX,
+                "               \ngrabOffsetY:           ", grabOffsetY,
+                "               \nshadowGrabOffsetX:     ", shadowGrabOffsetX,
+                "               \nshadowGrabOffsetY:     ", shadowGrabOffsetY,
+                "               \nmouseInitX:            ", mouseInitX,
+                "               \nmouseInitY:            ", mouseInitY,
+            );
+            console.log("\n------------------------------\n");
+        }
+    }
 }
 
 // function genNewGridPosLoop() {
