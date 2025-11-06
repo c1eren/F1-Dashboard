@@ -20,6 +20,10 @@ let cellHeight;
 let UICol;
 let UIRow;
 let cellSizeOption = document.getElementById('cellSizeOption');
+// Buttons
+const componentToggles = document.querySelectorAll('.componentToggles');
+const elementRects = new Map();
+
 
 // Action based
 let action = null;
@@ -123,6 +127,24 @@ function setDocumentListeners() {
             document.body.classList.add('resizing');
             getMouseInit(e);
         }
+
+        // Closing
+        if (e.target.classList.contains('grid-closer')) {
+            currentWin = e.target.closest('.gridChild');
+            if (currentWin.dataset.toggleButtonId) {
+                const toggle = document.getElementById(currentWin.dataset.toggleButtonId);
+                toggleComponent(currentWin, toggle);
+            }
+            else {
+                // TODO, react logic for temp components (should be adaptable to non-React frameworks)
+                // Also TODO, add scroll logic to grid container 
+                currentWin.style.transition = "transform 0.2s ease, opacity 0.2s ease";
+
+                currentWin.style.transform = `scale(0.1)`;
+                currentWin.style.opacity = "0";
+                // currentWin.remove();
+            }
+        }
         
         logData();
     });
@@ -194,8 +216,33 @@ function setDocumentListeners() {
     });
 
     cellSizeOption.addEventListener('change', function() {
-        console.log(cellSizeOption.value);        
+        console.log("Cell size changed to: ",cellSizeOption.value, "px");  
+        cellSize = cellSizeOption.value;
+
+        setGridContainerSize();
+        document.querySelectorAll('.gridChild').forEach(initSizeGridKid);
     });
+
+    componentToggles.forEach(toggle => {
+        // Assign toggle to its component
+        const w = document.getElementById(toggle.value);
+        w.dataset.toggleButtonId = toggle.id;
+
+        toggle.addEventListener('click', () => {
+            // This is so convoluted and needs fixing
+            const element = document.getElementById(toggle.value);
+            toggleComponent(element, toggle);
+        });
+    });
+
+    /*
+    for (let i = 0; i < componentToggles.length; i++) {
+    let toggle = componentToggles[i];
+    toggle.addEventListener('click', function() {
+        toggleComponent(toggle.value);
+    });
+}
+    */
 
 }
 
@@ -285,12 +332,16 @@ function initSizeGridKid(win) {
 }
 
 function initGridCompanions(win) {
-    const grabber = document.createElement('div');
-    const resizer = document.createElement('div');
+    const grabber     = document.createElement('div');
+    const resizer     = document.createElement('div');
+    const closeButton = document.createElement('div'); 
     grabber.classList.add('grid-grabber');
     resizer.classList.add('grid-resizer');
+    closeButton.classList.add('grid-closer');
+    closeButton.innerText = "x";
     win.appendChild(grabber);
     win.appendChild(resizer);
+    win.appendChild(closeButton);
 }
 
 function getGridKidBounding(e) {
@@ -362,17 +413,6 @@ function logData() {
         }
     }
 }
-
-// function genNewGridPosLoop() {
-//     gridWindows.forEach((win) => {
-//         const colSpan = Math.round(Math.max(win.offsetWidth, cellWidth) / cellwidth) || 1; // I see the redundancy here lol
-//         const rowSpan = Math.round(Math.max(win.offsetHeight, cellHeight) / cellHeight) || 1;
-
-//     win.style.gridColumn = `${currentWinCol} / span ${colSpan}`;
-//     win.style.gridRow    = `${currentWinRow} / span ${rowSpan}`;
-
-//     });            
-// }
 
 function setGridContainerSize() {
     // Low overhead, should only run on init and viewport resize
@@ -469,5 +509,80 @@ function resizeGridChildToContent(win) {
     // win.style.columnCount = 1;
 }
 
+function toggleComponent(element, toggle) {
+    const toggleRect = toggle.getBoundingClientRect();
+
+    if (!element) return;
+
+    if (!element.dataset.out) {
+        element.dataset.out = "true"; // initial state
+    }
+
+    const rect = element.getBoundingClientRect();
+
+    // Apply smooth transitions
+    element.style.transition = "transform 0.2s ease, opacity 0.2s ease";
+
+    if (element.dataset.out === "true") {
+        // Bake em away toys
+        const offsetX = toggleRect.left - rect.left + (toggleRect.width / 2 - rect.width / 2);
+        const offsetY = toggleRect.top  - rect.top  + (toggleRect.height / 2 - rect.height / 2);
+
+        element.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0.1)`;
+        element.style.opacity = "0";
+        element.dataset.out = "false";
+    } 
+    else {
+        // Bring it back
+        element.style.transform = "translate(0, 0) scale(1)";
+        element.style.opacity = "1";
+        element.dataset.out = "true";
+        updateZStackingArray(element);
+    }
+
+    console.log(`Toggled ${componentId}: now ${element.dataset.out}`);
+}
+
+// function toggleComponent(componentId, toggleRect) {
+//     console.log(componentId);
+//     const element = document.getElementById(componentId);
+    
+//     if (!element) return;
+//     if (!element.dataset.out) {
+//         element.dataset.out = "true"; // Default
+//     }
+
+//     if (element) {
+//         if (element.dataset.out === "true") {
+//             const elementRect = element.getBoundingClientRect()
+//             elementRects.set(element, elementRect);
+//             // To remember element position (will probably break on resize or cell change)
+//             const offsetX = toggleRect.left - elementRect.left
+//             const offsetY = toggleRect.top  - elementRect.top
+//             element.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+//             element.dataset.out = "false";
+//         }
+//         else {
+//             const rect = elementRects.get(element);
+//             if (rect) {
+//                 const hiddenElementRect = element.getBoundingClientRect();
+//                 const offsetX = rect.left - hiddenElementRect.left;
+//                 const offsetY = rect.top - hiddenElementRect.top;
+
+//                 element.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+//                 element.dataset.out = "true";
+//             }
+//         }
+//     }
+//     else {
+//         console.log(componentId," not found");
+//     }
+//     console.log("element.dataset.out: ", element.dataset.out);
+//     // console.log("offsetX: ", offsetX); 
+//     // console.log("offsetY: ", offsetY);    
+// }
+
 // Keep an eye on this, might be better to observe something less busy
 gridContainer = document.querySelector('.gridContainer');
+
+

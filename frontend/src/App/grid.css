@@ -1,3 +1,11 @@
+
+/* variables */
+:root {
+  --grid-closer-size: 10px;
+  --grid-grabber-height: var(--grid-closer-size);
+  --grid-grabber-right: var(--grid-closer-size);
+}
+
 *,
 *::before,
 *::after {
@@ -72,22 +80,22 @@ body.resizing {
 }
 
 .gridChild-grabbed {
-    position: absolute;
+    position: absolute !important;
     /* transform-origin: top right; */
-    transform: scale(0.4);
+    transform: scale(0.4) !important;
 }
 
 .grid-grabber {
     position: absolute;
     top: 0px;
-    right: 0px;
+    right: var(--grid-grabber-right);
     opacity: 0%;
     background-color: white;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
 
     height: 1rem;
-    width: 100%;
+    width: calc(100% - var(--grid-grabber-right));
 
     transition: opacity 0.2s ease-out;
 
@@ -117,8 +125,26 @@ body.resizing {
     cursor: se-resize;
 }
 
+.grid-closer {
+    position: absolute;
+    display: flex;
+    background-color: grey;
+    top: 0;
+    right: 0;
+    padding-bottom: 3px;
+    height: var(--grid-closer-size);
+    width:  var(--grid-closer-size);
+    border-radius: 30%;
+    color: lightgrey;
+    font-weight: 500;
+    font-size: 12px;
+    /* text-align: center; */
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
 .shallowClone {
-    opacity: 0.5;
+    opacity: 0.5 !important;
 }
 
 /* z-index' */
