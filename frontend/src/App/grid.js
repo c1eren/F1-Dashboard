@@ -19,6 +19,7 @@ let cellHeight;
 // UI elements
 let UICol;
 let UIRow;
+let cellSizeOption = document.getElementById('cellSizeOption');
 
 // Action based
 let action = null;
@@ -83,7 +84,6 @@ function updateZStackingArray(win) {
 
 function setDocumentListeners() {
     document.addEventListener('mousedown', (e) => {
-
         if (currentWin = e.target.closest('.gridChild')) {
             updateZStackingArray(currentWin);
             const rect = currentWin.getBoundingClientRect();
@@ -191,6 +191,10 @@ function setDocumentListeners() {
         if (colCount !== oldColCount || rowCount !== oldRowCount) {
             document.querySelectorAll('.gridChild').forEach(initSizeGridKid);
         }
+    });
+
+    cellSizeOption.addEventListener('change', function() {
+        console.log(cellSizeOption.value);        
     });
 
 }
