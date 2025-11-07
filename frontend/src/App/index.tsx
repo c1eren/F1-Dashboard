@@ -1,4 +1,7 @@
-import './grid.css';
+// import './grid.css';
+import './index.css'
+import './gridStyle.css'
+import './gridStructure.css'
 import { useEffect } from 'react';
 import { TableDriverInfoController } from './Controller/controller';
 import { NextSession } from './NextSession';
@@ -24,12 +27,14 @@ function App() {
         <div className='UICol flex flex-col gap-10 py-10 px-2 h-screen w-40 bg-gradient-to-l from-gray-900 to-gray-850 items-start justify-start text-5xl font-bold'>
 
           {/* <label htmlFor="cellOptions" className='border w-full text-sm rounded-sm bg-transparent'>beans</label> */}
-          <select id="cellSizeOption" name="cellOptions" className='border w-full text-sm rounded-sm bg-gray-900'>
-            <option value="">Cell size these options tags are awful</option>
-            <option value="10">10px</option>
-            <option value="50">50px</option>
-            <option value="100">100px</option>
-          </select>
+          <div className='border-1 flex flex-col w-full items-start gap-1 p-1 rounded-sm'>  
+            <div className=" text-sm rounded-sm">Cell size</div>
+            <select id="cellSizeOption" name="cellOptions" className='w-full text-sm rounded-sm bg-gray-900'>
+              <option value="10">10px</option>
+              <option value="50" selected>50px</option> {/* Default selection */}
+              <option value="100">100px</option>
+            </select>
+          </div>
           
           <div className='buttons'>
             <button id='driverStandingsButton' value='driverStandingsComponent' className='componentToggles border w-full h-10 text-xs text-nowrap rounded-sm'>Driver Standings</button>

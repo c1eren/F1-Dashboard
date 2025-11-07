@@ -543,6 +543,8 @@ function toggleComponent(element, toggle) {
     console.log(`Toggled ${componentId}: now ${element.dataset.out}`);
 }
 
+gridContainer = document.querySelector('.gridContainer');
+
 // function toggleComponent(componentId, toggleRect) {
 //     console.log(componentId);
 //     const element = document.getElementById(componentId);
@@ -583,6 +585,5 @@ function toggleComponent(element, toggle) {
 // }
 
 // Keep an eye on this, might be better to observe something less busy
-gridContainer = document.querySelector('.gridContainer');
 
 

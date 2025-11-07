@@ -1,9 +1,33 @@
 @import "tailwindcss";
 
-body {
-    /* padding: 1em; */
+.main {
+
 }
 
-body * {
-    /* border: 0px; */
+.UIContainer {
+
 }
+
+.buttons {
+
+}
+
+.buttons .componentToggles {
+
+}
+
+.gridContainer {
+
+}
+
+.gridChild {
+
+}
+
+.gridChildContent {
+    
+}
+
+
+
+
