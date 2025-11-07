@@ -1,7 +1,0 @@
-@import 'tailwindcss';
-
-td, th{
-    padding: 1em;
-    padding-left: 0;
-    text-align: left;
-}

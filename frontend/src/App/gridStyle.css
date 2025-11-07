@@ -1,3 +1,7 @@
+.gridContainer {
+    border: 2px solid pink;
+}
+
 .gridChild {
   background-color: #36454f;
   box-shadow: 4px 4px 0px 0px #000000;

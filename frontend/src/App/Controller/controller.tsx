@@ -8,14 +8,14 @@ export function TableDriverInfoController() {
 
     return (
         <>
-            <div id='driverStandingsComponent' className='gridChild min-w-[500px] min-h-[50px]'>
+            <div id='driverStandingsComponent' className='gridChild driverStandings'>
                 <DriverStandings onDriverClick={setSelectedDriver} />
             </div>
 
             {/* Conditionally render the driver info window */}
             {/* Can be some issues with grab rendering (and probably other stuff too) */}
             {selectedDriver && (
-                <div id='driverInfoComponent' className="gridChild min-w-[350px] min-h-[250px] fade-in-scale">
+                <div id='driverInfoComponent' className="gridChild driverInfo min-w-[350px] min-h-[250px] fade-in-scale">
                     <DriverInfo selectedDriver={selectedDriver} />
                 </div>
             )}

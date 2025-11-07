@@ -90,21 +90,21 @@ function calculateOtherCountdowns(eventSessions: CountdownSession['eventSessions
                 cContainer.id = event;
                 cContainer.className = "pl-4";
 
-                    const sessionTitle = document.createElement('div');
-                    sessionTitle.className = 'font-bold';
+                    const sessionTitle = document.createElement('h3');
+                    // sessionTitle.className = 'font-bold';
                     sessionTitle.textContent = event;
 
                     const timerContainer = document.createElement('div');
                     timerContainer.className = 'justify-start gap-4 flex flex-row truncate';
 
                         const daysContainer    = document.createElement('div');
-                        daysContainer.className = 'flex flex-col justify-center';
+                        daysContainer.className = 'timeSpecifiers flex flex-col justify-center';
                         const hoursContainer   = document.createElement('div');
-                        hoursContainer.className = 'flex flex-col justify-center';  
+                        hoursContainer.className = 'timeSpecifiers flex flex-col justify-center';  
                         const minutesContainer = document.createElement('div');
-                        minutesContainer.className = 'flex flex-col justify-center';
+                        minutesContainer.className = 'timeSpecifiers flex flex-col justify-center';
                         const secondsContainer = document.createElement('div');
-                        secondsContainer.className = 'flex flex-col justify-center';
+                        secondsContainer.className = 'timeSpecifiers flex flex-col justify-center';
 
                             const daysText = document.createElement('div');
                             daysText.textContent = "Days";
@@ -116,13 +116,13 @@ function calculateOtherCountdowns(eventSessions: CountdownSession['eventSessions
                             secondsText.textContent = "Seconds";
 
                             const days    = document.createElement('div');
-                            days.className = 'truncate font-normal';
+                            days.className = '';
                             const hours   = document.createElement('div');
-                            hours.className = 'truncate font-normal';                  
+                            hours.className = '';                  
                             const minutes = document.createElement('div');
-                            minutes.className = 'truncate font-normal';
+                            minutes.className = '';
                             const seconds = document.createElement('div');
-                            seconds.className = 'truncate font-normal';
+                            seconds.className = '';
 
                             if(days)    {days.textContent    = diffDays.toString();   }
                             if(hours)   {hours.textContent   = diffHours.toString();  }

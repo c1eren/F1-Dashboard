@@ -539,8 +539,6 @@ function toggleComponent(element, toggle) {
         element.dataset.out = "true";
         updateZStackingArray(element);
     }
-
-    console.log(`Toggled ${componentId}: now ${element.dataset.out}`);
 }
 
 gridContainer = document.querySelector('.gridContainer');

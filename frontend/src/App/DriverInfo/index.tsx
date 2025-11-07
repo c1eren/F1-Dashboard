@@ -66,7 +66,7 @@ export function DriverInfo({ selectedDriver }: Props) {
 
     return (
         <>
-            <div className="gridChildContent overflow-hidden h-full">
+            <div className="gridChildContent driverInfoContent overflow-hidden h-full">
                 <div className="w-full h-full flex flex-col ">
                     <h1 className="min-h-12 text-2xl font-bold">
                         {driver.forename} {driver.surname}

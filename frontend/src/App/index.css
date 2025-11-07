@@ -1,10 +1,31 @@
 @import "tailwindcss";
 
 .main {
+    font-size: smaller;
+    
+}
 
+div {
+    padding: 1px;
+    /* all: initial; */
+    /* height:fit-content; */
+}
+
+h1 {
+    font-size: large;
+    margin: 0;
+}
+
+h2 {
+    font-size: medium;
+}
+
+h3 {
+    font-size: small;
 }
 
 .UIContainer {
+    border: 1px solid black;
 
 }
 
@@ -13,9 +34,10 @@
 }
 
 .buttons .componentToggles {
-
+    border: 1px solid black;
 }
 
+/* Grid */
 .gridContainer {
 
 }
@@ -25,9 +47,76 @@
 }
 
 .gridChildContent {
+
+}
+
+.primaryContent {
+    outline: 1px solid green;
+}
+
+.secondaryContent {
+    outline: 1px solid red;
+}
+
+/* Next Session */
+.nextSession {
+    width: 300px;
+    height: 250px;
+
+}
+
+.nextSession * {
+    /* border: 1px solid blueviolet; */
+}
+
+.nextSessionContent {
+
+}
+
+.eventAndSessionContainer {
+    height: 2/3;
+}
+
+.timingContainers {
     
 }
 
+.countdownAndLocal {
+    /* justify-content: center; */
 
+}
 
+.countdownContainer {
 
+}
+
+.timeSpecifiers {
+}
+
+.localTimeContainer {
+
+}
+
+.localTimeNum {
+
+}
+
+.otherCountdowns::-webkit-scrollbar {
+  display: none; 
+}
+
+/* Driver Standings */
+.driverStandings {
+    width: 450px;
+    height:250px;
+    
+}
+
+.standingsTable {
+    padding: 0 !important;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.tableHeaderRow {
+    background-color: white;
+}

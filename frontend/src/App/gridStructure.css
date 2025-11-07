@@ -45,37 +45,44 @@ body.resizing {
 
 .gridChild {
   position: relative;
-  border: solid 4px black;
+  border: solid 1px black;
+  background-color: white;
 }
 
 .gridChildContent {
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   height: 100%;
 }
 
 .gridChild-grabbed {
   position: absolute !important;
   transform: scale(0.4) !important;
+  cursor: grabbing;
 }
 
 .grid-grabber {
+  border: 1px solid black;
   position: absolute;
   top: 0px;
   right: var(--grid-grabber-right);
   height: 1rem;
   width: calc(100% - var(--grid-grabber-right));
   transition: opacity 0.2s ease-out;
+  cursor: grab;
 }
 
 .grid-resizer {
+  border: 1px solid black;
   position: absolute;
   bottom: 0px;
   right: 0px;
   height: 8px;
   width: 8px;
+  cursor: se-resize;
 }
 
 .grid-closer {
+    border: 1px solid black;
   position: absolute;
   display: flex;
   top: 0;
@@ -83,7 +90,7 @@ body.resizing {
   padding-bottom: 3px;
   height: var(--grid-closer-size);
   width: var(--grid-closer-size);
-  border-radius: 30%;
+  /* border-radius: 30%; */
   justify-content: center;
   align-items: center;
   cursor: pointer;
