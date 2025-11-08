@@ -21,7 +21,8 @@ let UICol;
 let UIRow;
 let cellSizeOption = document.getElementById('cellSizeOption');
 // Buttons
-const componentToggles = document.querySelectorAll('.componentToggles');
+let buttonsDiv;
+let driverInfoButtonsDiv;
 const elementRects = new Map();
 
 
@@ -55,6 +56,9 @@ if (document.readyState === 'loading') {
 }
 
 function init() {
+    buttonsDiv = document.getElementById('buttons');
+    driverInfoButtonsDiv = document.getElementById('driverInfoButtons');
+    
     initGridContainer();
     setDocumentListeners();
     designateWindows();
@@ -131,6 +135,9 @@ function setDocumentListeners() {
         // Closing
         if (e.target.classList.contains('grid-closer')) {
             currentWin = e.target.closest('.gridChild');
+            // TODO figure out the react way of removing reactDOM elements
+
+            // New react rendering style renders this obsolete, needs update TODO
             if (currentWin.dataset.toggleButtonId) {
                 const toggle = document.getElementById(currentWin.dataset.toggleButtonId);
                 toggleComponent(currentWin, toggle);
@@ -223,17 +230,17 @@ function setDocumentListeners() {
         document.querySelectorAll('.gridChild').forEach(initSizeGridKid);
     });
 
-    componentToggles.forEach(toggle => {
-        // Assign toggle to its component
-        const w = document.getElementById(toggle.value);
-        w.dataset.toggleButtonId = toggle.id;
+    // componentToggles.forEach(toggle => {
+    //     // Assign toggle to its component
+    //     const w = document.getElementById(toggle.value);
+    //     w.dataset.toggleButtonId = toggle.id;
 
-        toggle.addEventListener('click', () => {
-            // This is so convoluted and needs fixing
-            const element = document.getElementById(toggle.value);
-            toggleComponent(element, toggle);
-        });
-    });
+    //      toggle.addEventListener('click', () => {
+    //         // This is so convoluted and needs fixing
+    //         const element = document.getElementById(toggle.value);
+    //         toggleComponent(element, toggle);
+    //     });
+    // });
 
     /*
     for (let i = 0; i < componentToggles.length; i++) {
@@ -485,7 +492,8 @@ function designateWindows() {
         if (!win.dataset.windowProcessed) {
             win.dataset.windowProcessed = 'true';
             // Init
-            initGridCompanions(win);        
+            initGridCompanions(win);
+            initButtonForChild(win);        
             initSizeGridKid(win);
             updateZStackingArray(win);
             console.log("windows re-designated");
@@ -540,6 +548,32 @@ function toggleComponent(element, toggle) {
         updateZStackingArray(element);
     }
 }
+
+function initButtonForChild(win) {
+    console.log(win);
+    
+    const button = document.createElement('button');
+    button.id = win.id + "Button";
+    button.value = win.id;
+    button.classList.add('componentToggles');
+    win.dataset.buttonId = button.id; 
+    
+    // Take component ID and turn into button name
+    const spacedString = win.id.replace(/([a-z])([A-Z])/g, '$1 $2');
+    const buttonName = spacedString.charAt(0).toUpperCase() + spacedString.slice(1);
+    button.innerText = buttonName;
+
+    button.addEventListener('click', () => {
+        toggleComponent(win, button);
+    });
+
+    if (win.dataset.type === 'driverInfo') {
+        driverInfoButtonsDiv.append(button);
+    } else {
+        buttonsDiv.append(button);
+    }
+}
+
 
 gridContainer = document.querySelector('.gridContainer');
 

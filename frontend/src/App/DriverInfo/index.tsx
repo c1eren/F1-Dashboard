@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import BACKEND_URL from '../../backend_url'; 
-import './index.css'
 
 interface Driver {
     id:          number
@@ -62,36 +61,38 @@ export function DriverInfo({ selectedDriver }: Props) {
                 : null,
         },
         { header: "Nationality", value: driver.nationality },
+        { header: "Wiki", value: driver.url}
     ];
 
     return (
         <>
-            <div className="gridChildContent driverInfoContent overflow-hidden h-full">
-                <div className="w-full h-full flex flex-col ">
-                    <h1 className="min-h-12 text-2xl font-bold">
+            <div className="gridChildContent driverInfoContent overflow-hidden ">
+                    <h1 className="">
                         {driver.forename} {driver.surname}
                     </h1>
-                    <div className="w-full h-full">
+                    <div className="primaryContent">
                         <div className="grid grid-cols-2">
                             {driverData.map((item) => (
-                                <div className="cell" key={item.header}>
-                                    <div><strong>{item.header}</strong></div>
-                                    <div>{item.value}</div>
-                                </div>
+                                    item.header === "Wiki" && item.value ? (
+                                        <div className="cells col-span-2" key={item.header}>
+                                            <h3>{item.header}</h3>
+                                            <a href={String(item.value)} rel="noopener noreferrer" target="_blank">{item.value}</a>
+                                        </div>
+                                    ) : (
+                                        <div className="cells" key={item.header}>
+                                            <h3>{item.header}</h3>
+                                            <div>{item.value}</div>
+                                        </div>
+                                    )
                             ))}
-                        </div>
-                        {driver.url && (
+                        {/* {driver.url && (
                             <div>
-                                <div><strong>Wiki</strong></div>
-                                <div>
-                                    <a href={driver.url} target="_blank">
-                                        {driver.url}
-                                    </a>
-                                </div>
+                                <h3>Wiki</h3>
+                                <a href={driver.url} target="_blank">{driver.url}</a>
                             </div>
-                        )}
+                        )} */}
+                        </div>
                     </div>
-                </div>
             </div>
         </>
     );

@@ -4,7 +4,6 @@ import './index.css'
 import './gridStructure.css'
 import { useEffect } from 'react';
 import { TableDriverInfoController } from './Controller/controller';
-import { NextSession } from './NextSession';
 
 function App() {
   useEffect(() => {
@@ -30,9 +29,11 @@ function App() {
               </select>
               </label>
             
-            <div className='buttons'>
-              <button id='driverStandingsButton' value='driverStandingsComponent' className='componentToggles'>Driver Standings</button>
-              <button id='nextSessionButton'     value='nextSessionComponent'     className='componentToggles'>Upcoming Sessions</button>
+            <div id="buttons" className='buttons flex flex-col'>
+              Windows
+            </div>
+            <div id="driverInfoButtons" className='buttons flex flex-col'>
+              Driver Info
             </div>
 
           </div>
@@ -40,10 +41,6 @@ function App() {
         </div>
 
         <div className='gridContainer overflow-scroll'>
-
-          <div id='nextSessionComponent' className="gridChild nextSession">
-            <NextSession/>
-          </div>
 
           <TableDriverInfoController/>
 

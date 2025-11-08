@@ -28,7 +28,7 @@ interface DriverStanding {
 
 interface Standings {
     season:    number
-    lasdivace:  string
+    lastRace:  string
     standings: DriverStanding[]
 }
 
@@ -47,7 +47,7 @@ interface StandingsFormatted {
 
 interface Props {
     //This means: “Parent must give me a function that accepts a number and returns nothing (void).”
-    onDriverClick: (driverId: number | null) => void;
+    onDriverClick: (driverId: number, driverName: string) => void;
 }
 
 
@@ -108,25 +108,25 @@ export function DriverStandings(props: Props){
               <h1>Driver Standings</h1>
               <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
             </div>
-            <div id='standingsTable' className='standingsTable grid overflow-y-scroll'>
+            <div id='standingsTable' className='standingsTable grid grid-cols-[repeat(7,1fr)] overflow-y-scroll'>
                 {/* ["POS.", [1, 2, 3, ...]] */}
-                <div className='tableHeaderRow bg-white sticky top-0'>POS.</div>
-                <div className='tableHeaderRow bg-white sticky top-0'>DRIVER</div>
-                <div className='tableHeaderRow bg-white sticky top-0'>NO.</div>
-                <div className='tableHeaderRow bg-white sticky top-0'>NATIONALITY</div>
-                <div className='tableHeaderRow bg-white sticky top-0'>TEAM</div>
-                <div className='tableHeaderRow bg-white sticky top-0'>WINS</div>
-                <div className='tableHeaderRow bg-white sticky top-0'>PTS.</div>
+                <div className='tableHeaderRow sticky top-0'>POS.       </div>
+                <div className='tableHeaderRow sticky top-0'>DRIVER     </div>
+                <div className='tableHeaderRow sticky top-0'>NO.        </div>
+                <div className='tableHeaderRow sticky top-0'>NATIONALITY</div>
+                <div className='tableHeaderRow sticky top-0'>TEAM       </div>
+                <div className='tableHeaderRow sticky top-0'>WINS       </div>
+                <div className='tableHeaderRow sticky top-0'>PTS.       </div>
                 {/* Fill in with the rest */}
                 {Object.entries(standingsFormatted).map(([colName, colValues]) => (
-                    <div className='w-full' key={colName}>
+                    <div className='columns standingsColumns w-full' key={colName}>
                         {colValues.map((value, i) => {
                             const driverId = standings?.standings[i]?.driver.id ?? null; // Get ID and fallback to null
                             return (
                                 <div 
-                                className={`border ${colName === 'DRIVER' ? 'cursor-pointer' : ''}`} 
+                                className={`cells ${colName === 'DRIVER' ? 'cursor-pointer' : ''}`} 
                                 key={i} 
-                                onClick={colName === 'DRIVER' ? () => {props.onDriverClick(driverId)} : undefined}> {/* Use undefinedfor props apparently */}
+                                onClick={colName === 'DRIVER' ? () => {props.onDriverClick(Number(driverId), String(value) )} : undefined}> {/* Use undefinedfor props apparently */}
                                     {value}
                                 </div>
                             );
@@ -138,6 +138,7 @@ export function DriverStandings(props: Props){
         </>
     );
 }
+
 
 /*<div id="tableDiv" className="bg-inherit flex-1 overflow-y-auto overflow-x-hidden w-full">
               <div className="flex flex-col bg-inherit w-full border-collapse">

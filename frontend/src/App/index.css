@@ -35,6 +35,7 @@ h3 {
 
 .buttons .componentToggles {
     border: 1px solid black;
+    cursor: pointer;
 }
 
 /* Grid */
@@ -51,18 +52,18 @@ h3 {
 }
 
 .primaryContent {
-    outline: 1px solid green;
+    /* outline: 1px solid green; */
 }
 
 .secondaryContent {
-    outline: 1px solid red;
+    /* outline: 1px solid red; */
 }
 
 /* Next Session */
 .nextSession {
     width: 300px;
-    height: 250px;
-
+    height: 300px;
+    /* height: auto; */
 }
 
 .nextSession * {
@@ -70,7 +71,9 @@ h3 {
 }
 
 .nextSessionContent {
-
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .eventAndSessionContainer {
@@ -83,7 +86,7 @@ h3 {
 
 .countdownAndLocal {
     /* justify-content: center; */
-
+    
 }
 
 .countdownContainer {
@@ -108,15 +111,24 @@ h3 {
 /* Driver Standings */
 .driverStandings {
     width: 450px;
-    height:250px;
-    
+    height:300px;
 }
 
 .standingsTable {
     padding: 0 !important;
-  grid-template-columns: repeat(7, 1fr);
 }
 
 .tableHeaderRow {
     background-color: white;
+}
+
+.cells {
+    border: 1px solid black;
+}
+
+/* Driver Info */
+.driverInfo {
+    width: 300px;
+    height:200px;
+    
 }
