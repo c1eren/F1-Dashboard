@@ -1,0 +1,139 @@
+/* ==========================
+   Generic Elements
+   ========================== */
+div {
+}
+
+h1 {
+}
+
+h2 {
+}
+
+h3 {
+}
+
+p {
+}
+
+span {
+}
+
+ul, ol {
+}
+
+li {
+}
+
+/* ==========================
+   Global Styles
+   ========================== */
+* { 
+    scrollbar-width: thin;
+}
+
+.main {
+    font-size: smaller;
+}
+
+/* ==========================
+   UI Containers
+   ========================== */
+.UIContainer {
+}
+
+/* ==========================
+   Buttons
+   ========================== */
+.buttons {
+}
+
+.buttons .componentToggles {
+}
+
+/* ==========================
+   Grid Layout
+   ========================== */
+.gridContainer {
+}
+
+.gridChild {
+}
+
+.gridChildContent {
+}
+
+/* ==========================
+   Content Wrappers
+   ========================== */
+.primaryContent {
+}
+
+.secondaryContent {
+}
+
+/* ==========================
+   NextSession Component
+   ========================== */
+.nextSession {
+}
+
+.nextSessionContent {
+}
+
+.eventAndSessionContainer {
+}
+
+#eventAndSession {
+}
+
+.countdownAndLocal {
+}
+
+.countdownContainer {
+}
+
+.timeSpecifiers {
+}
+
+.localTimeContainer {
+}
+
+.localTimeNum {
+}
+
+.otherCountdowns {
+}
+
+.cContainer:nth-of-type(odd) {
+}
+
+/* ==========================
+   DriverStandings Component
+   ========================== */
+.driverStandings {
+}
+
+.standingsTable {
+}
+
+.tableHeaderRow {
+}
+
+.standingsTable .cells {
+}
+
+/* ==========================
+   ConstructorStandings Component
+   ========================== */
+.constructorStandings {
+}
+
+.constructorStandingsContent {
+}
+
+/* ==========================
+   DriverInfo Component
+   ========================== */
+.driverInfo {
+}

@@ -1,0 +1,41 @@
+.driverStandingsContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap; /* text-nowrap */
+}
+
+.driverStandingsContent .header {
+  display: flex;
+  align-self: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+}
+
+.standingsTable {
+  display: grid;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.tableHeaderRow {
+  position: sticky;
+  top: 0;
+}
+
+.standingsColumns {
+  width: 100%;
+}
+
+.standingsColumns .cells {
+}
+
+.standingsColumns .cells.cursor-pointer {
+  cursor: pointer;
+}
+
+.primaryContent {
+  /* matches your existing structure */
+}

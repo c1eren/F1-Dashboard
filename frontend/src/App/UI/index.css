@@ -1,0 +1,31 @@
+.UIContainer {
+    /* Add any container-wide styling here if needed */
+}
+
+.UICol {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; 
+}
+
+.UIItem {
+    border: 1px solid black;
+}
+
+.cellSizeSelect {
+    width: 100%;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.buttons .componentToggles {
+    padding: 1px;
+    text-align: left;
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 5px;
+}

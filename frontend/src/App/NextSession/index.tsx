@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { sessions } from "./sessionList";
 import { calculateCountdown } from "./calculateCountdown";
+import './index.css'
 
 function findNextSession() {
   const currentTime = Date.now();
@@ -43,53 +44,47 @@ export function NextSession() {
 
   return (
     <div className="gridChildContent nextSessionContent overflow-hidden">
+    
+      <div className="primaryContent">
 
-        <div className="primaryContent">
-
-            <div id="eventAndSessionCTA" className="eventAndSessionContainer ">
-              <h1>Up next</h1>
-              <div id="eventAndSession" className="border flex flex-wrap gap-2 text-start">
-                <h2 id="eventName"></h2>
-                <h3 id="sessionName"></h3>
-              </div>
-            </div>
-
-              <div id="countdownAndLocal" className="countdownAndLocal flex flex-wrap justify-start">
-
-                <div id="countdownContainer" className="countdownContainer gap-4 flex flex-row flex-wrap">
-                  <div className="timeSpecifiers flex flex-col justify-center">
-                    <div>Days</div>
-                    <div id="days">00</div>
-                  </div>
-                  <div className="timeSpecifiers flex flex-col justify-center">
-                    <div>Hours</div>
-                    <div id="hours">00</div>
-                  </div>
-                  <div className="timeSpecifiers flex flex-col justify-center">
-                    <div>Minutes</div>
-                    <div id="minutes">00</div>
-                  </div>
-                  <div className="timeSpecifiers flex flex-col justify-center">
-                    <div>Seconds</div>
-                    <div id="seconds">00</div>
-                  </div>  
-                </div>
-
-                <div id="localTimeContainer" className="localTimeContainer flex flex-col">
-                  <div>Local</div>
-                  <div id="localTimeNum" className="whitespace-pre-line"></div>
-                </div>
-              </div>
-        </div>
-
-        <div className="secondaryContent">
-
-          <div>
-            <div id="otherCountdowns" className="otherCountdowns flex-1 overflow-auto flex"></div>
+          <h1>Up next</h1>
+          <div id="eventAndSession">
+            <h2 id="eventName"></h2>
+            <h3 id="sessionName"></h3>
           </div>
-
+    
+        <div id="countdownAndLocal" className="countdownAndLocal">
+    
+          <div id="countdownContainer" className="countdownContainer">
+            <div className="timeSpecifiers">
+              <div>Days</div>
+              <div id="days">00</div>
+            </div>
+            <div className="timeSpecifiers">
+              <div>Hours</div>
+              <div id="hours">00</div>
+            </div>
+            <div className="timeSpecifiers">
+              <div>Minutes</div>
+              <div id="minutes">00</div>
+            </div>
+            <div className="timeSpecifiers">
+              <div>Seconds</div>
+              <div id="seconds">00</div>
+            </div>  
+          </div>
+    
+          <div id="localTimeContainer" className="localTimeContainer">
+            <div>Local</div>
+            <div id="localTimeNum" className="whitespace-pre-line"></div>
+          </div>
         </div>
-
+      </div>
+    
+      <div className="secondaryContent">
+          <div id="otherCountdowns" className="otherCountdowns"></div>
+      </div>
+    
     </div>
   );
 }

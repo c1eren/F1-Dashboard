@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 
-import { driverStandingsRouter } from "./routes/driverStandings";
 import { coreRouter } from "./routes/core/coreMaster";
+import { standingsRouter } from "./routes/standings/standingsMaster";
 
 import {PORT} from "./dotenv";
 
@@ -20,8 +20,8 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 // Mount routes
-app.use(driverStandingsRouter);
 app.use(coreRouter);
+app.use(standingsRouter);
 
 app.get("/", (req, res) => res.send("GET SUCCESS"));
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));

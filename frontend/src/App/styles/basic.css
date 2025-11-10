@@ -26,19 +26,21 @@ h3 {
     font-size: small;
 }
 
+p {
+
+}
+
+span {
+
+}
+
 .UIContainer {
-    border: 1px solid black;
 
 }
 
 .buttons {
-
 }
 
-.buttons .componentToggles {
-    border: 1px solid black;
-    cursor: pointer;
-}
 
 /* Grid */
 .gridContainer {
@@ -61,53 +63,27 @@ h3 {
     /* outline: 1px solid red; */
 }
 
+.nextSessionContent {
+    gap: 20px;
+}
+
+.otherCountdowns {
+    gap: 5px;
+}
+.cContainer {   
+    /* background-color: lightgrey; */
+    border: solid 1px black;
+}
+
+
+/* Components */
+
 /* Next Session */
 .nextSession {
     width: 300px;
     height: 300px;
-    /* height: auto; */
 }
 
-.nextSession * {
-    /* border: 1px solid blueviolet; */
-}
-
-.nextSessionContent {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.eventAndSessionContainer {
-}
-
-.timingContainers {
-    
-}
-
-.countdownAndLocal {
-    /* justify-content: center; */
-    
-}
-
-.countdownContainer {
-
-}
-
-.timeSpecifiers {
-}
-
-.localTimeContainer {
-
-}
-
-.localTimeNum {
-
-}
-
-.otherCountdowns {
-  /* display: none;  */
-}
 
 /* Driver Standings */
 .driverStandings {
@@ -120,6 +96,13 @@ h3 {
     width: 400px;
     height:325px;
 }
+
+/* Driver Info */
+.driverInfo {
+    width: 300px;
+    height:200px;
+}
+
 
 .standingsTable {
     padding: 0 !important;
@@ -134,9 +117,18 @@ h3 {
     height: 25px;
 }
 
-/* Driver Info */
-.driverInfo {
-    width: 300px;
-    height:200px;
-    
+
+#eventAndSession {
+  border: 1px solid;
 }
+
+.countdownAndLocal {
+  gap: 1rem;
+}
+
+.countdownContainer {
+  gap: 1rem; 
+}
+
+
+

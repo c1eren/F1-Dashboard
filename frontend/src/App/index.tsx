@@ -1,9 +1,12 @@
-// import './grid.css';
-import './index.css'
-// import './gridStyle.css'
+
+import './styles/basic.css'
+import './styles/template.css'
 import './gridStructure.css'
+import './structure.css'
 import { useEffect } from 'react';
+import { UIContainer } from './UI/index.js';
 import { TableDriverInfoController } from './Controller/controller';
+
 
 function App() {
   useEffect(() => {
@@ -17,30 +20,9 @@ function App() {
       <div className='main flex max-w-screen max-h-screen overflow-hidden'>
         
         {/* UI Container */}
-        <div className='UIContainer'>
-
-          <div className='UICol  '>
-
-              <label>Cell size
-              <select id="cellSizeOption" name="cellOptions" defaultValue={"50"} className='w-full'>
-                <option value="10">10px</option>
-                <option value="50">50px</option> {/* Default selection */}
-                <option value="100">100px</option>
-              </select>
-              </label>
-            
-            <div id="buttons" className='buttons flex flex-col'>
-              Windows
-            </div>
-            <div id="driverInfoButtons" className='buttons flex flex-col'>
-              Driver Info
-            </div>
-
-          </div>
-
-        </div>
-
-        <div className='gridContainer overflow-scroll'>
+        <UIContainer/>
+        
+        <div className='gridContainer overflow-scroll' data-cellsize="25">
 
           <TableDriverInfoController/>
 

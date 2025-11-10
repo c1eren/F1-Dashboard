@@ -1,0 +1,57 @@
+.nextSessionContent {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.primaryContent {
+}
+
+.eventAndSessionContainer {
+}
+
+#eventAndSession {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem; 
+  text-align: start;
+  align-items: end;
+}
+
+.countdownAndLocal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 1rem;
+}
+
+.countdownContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem; 
+}
+
+.timeSpecifiers {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.localTimeContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.whitespace-pre-line {
+  white-space: pre-line;
+}
+
+.secondaryContent {
+}
+
+.otherCountdowns {
+  display: flex;
+  overflow: auto;
+  flex: 1 1 auto; 
+}

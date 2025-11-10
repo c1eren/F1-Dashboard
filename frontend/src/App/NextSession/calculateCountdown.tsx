@@ -88,7 +88,7 @@ function calculateOtherCountdowns(eventSessions: CountdownSession['eventSessions
             if (!document.getElementById(event)) {
                 const cContainer = document.createElement('div');
                 cContainer.id = event;
-                cContainer.className = "pl-4";
+                cContainer.className = "cContainer";
 
                     const sessionTitle = document.createElement('h3');
                     // sessionTitle.className = 'font-bold';
