@@ -97,6 +97,21 @@ body.resizing {
   cursor: pointer;
 }
 
+.grid-closer-temp {
+  border: 1px solid black;
+  position: absolute;
+  display: flex;
+  top: 0;
+  right: 0;
+  padding-bottom: 3px;
+  height: var(--grid-closer-size);
+  width: var(--grid-closer-size);
+  /* border-radius: 30%; */
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
 .shallowClone {
   opacity: 0.5 !important;
 }

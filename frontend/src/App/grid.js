@@ -137,20 +137,19 @@ function setDocumentListeners() {
             currentWin = e.target.closest('.gridChild');
             // TODO figure out the react way of removing reactDOM elements
 
-            // New react rendering style renders this obsolete, needs update TODO
-            if (currentWin.dataset.toggleButtonId) {
-                const toggle = document.getElementById(currentWin.dataset.toggleButtonId);
+            if (currentWin.dataset.buttonId) {
+                const toggle = document.getElementById(currentWin.dataset.buttonId);
                 toggleComponent(currentWin, toggle);
             }
-            else {
-                // TODO, react logic for temp components (should be adaptable to non-React frameworks)
-                // Also TODO, add scroll logic to grid container 
-                currentWin.style.transition = "transform 0.2s ease, opacity 0.2s ease";
+            // else {
+            //     // TODO, react logic for temp components (should be adaptable to non-React frameworks)
+            //     // Also TODO, add scroll logic to grid container 
+            //     currentWin.style.transition = "transform 0.2s ease, opacity 0.2s ease";
 
-                currentWin.style.transform = `scale(0.1)`;
-                currentWin.style.opacity = "0";
-                // currentWin.remove();
-            }
+            //     currentWin.style.transform = `scale(0.1)`;
+            //     currentWin.style.opacity = "0";
+            //     // currentWin.remove();
+            // }
         }
         
         logData();
@@ -341,14 +340,16 @@ function initSizeGridKid(win) {
 function initGridCompanions(win) {
     const grabber     = document.createElement('div');
     const resizer     = document.createElement('div');
-    const closeButton = document.createElement('div'); 
     grabber.classList.add('grid-grabber');
     resizer.classList.add('grid-resizer');
-    closeButton.classList.add('grid-closer');
-    closeButton.innerText = "x";
     win.appendChild(grabber);
     win.appendChild(resizer);
-    win.appendChild(closeButton);
+    if (win.dataset.type !== 'driverInfo') {
+        const closeButton = document.createElement('div'); 
+        closeButton.classList.add('grid-closer');
+        closeButton.innerText = "x";
+        win.appendChild(closeButton);
+    }
 }
 
 function getGridKidBounding(e) {
@@ -499,6 +500,7 @@ function designateWindows() {
             console.log("windows re-designated");
         }
     });
+    updateButtons();
 }
 
 // Unused function currently
@@ -550,7 +552,7 @@ function toggleComponent(element, toggle) {
 }
 
 function initButtonForChild(win) {
-    console.log(win);
+    // console.log(win);
     
     const button = document.createElement('button');
     button.id = win.id + "Button";
@@ -572,6 +574,21 @@ function initButtonForChild(win) {
     } else {
         buttonsDiv.append(button);
     }
+}
+
+function updateButtons() {
+    const infoButtons = Array.from(driverInfoButtonsDiv.children); // Selects all div elements on the page
+    
+    if (!infoButtons.empty) {
+        infoButtons.forEach((button) => {
+            const win = document.getElementById(button.innerText);
+            if (!win) {
+                button.remove();
+            }
+            
+        });
+    }
+
 }
 
 

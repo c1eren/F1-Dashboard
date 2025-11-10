@@ -12,21 +12,27 @@ interface DriverInfoProps {
 }
 
 export function TableDriverInfoController() {
-//   const [selectedDriver, setSelectedDriver] = useState<number | null>(null);
 
   // Store a list of driver info objects
   const [driverInfoList, setDriverInfoList] = useState<DriverInfoProps[]>([]);
 
-//   const addDriver = (driverId: number) => {
-//     setDriverInfoList(prev => [...prev, { selectedDriver: driverId }]);
-//   };
 // Handler for clicking a driver in the standings
   const handleDriverClick = (driverId: number, driverName: string) => {
-    // Avoid duplicates if needed
+
+    // Avoid duplicates if needed, do I want to enable duplicates? probably not?? leave it for now
     setDriverInfoList(prev => {
+      // prev here is the previous state of the list
+      // .some() being: if we find driverId in list already, just return the list as it is now
+      // Otherwise return "...prev", everything in the previous list, {selectedDriver: etc.} plus this new addition on the end
       if (prev.some(d => d.selectedDriver === driverId)) return prev;
       return [...prev, { selectedDriver: driverId, driverName }];
     });
+  };
+
+  const handleCloseDriver = (driverId: number) => {
+    // Need to get this to remove item from DOM to trigger button remove
+    // filter keeps only items that pass the conditional
+    setDriverInfoList(prev => prev.filter(d => d.selectedDriver !== driverId));
   };
 
     return (
@@ -42,6 +48,10 @@ export function TableDriverInfoController() {
             {/* Render each driverInfo by passing in and mapping driverInfoList */}
             {driverInfoList.map(driverInfo =>(
                 <div key={driverInfo.selectedDriver} data-type="driverInfo" id={`${driverInfo.driverName}`} className='gridChild driverInfo'>
+                  {/* This is the closing button to remove the driverInfo gridChild from the render list */}
+                  <div className="grid-closer-temp" onClick={() => handleCloseDriver(driverInfo.selectedDriver!)}>{/* Love this '!', tells TS to shutup about "maybe null" */}
+                    ✕
+                  </div>
                     <DriverInfo selectedDriver={driverInfo.selectedDriver}/>
                 </div>
             ))}
