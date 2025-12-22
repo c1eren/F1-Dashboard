@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { AnimatePresence, motion } from "motion/react"
-
 import { DriverInfo } from '../DriverInfo';
 import { DriverStandings } from '../DriverStandings';
 import { NextSession } from '../NextSession';
-import { ConstructorStandings } from '../ConstructorStandings';
+
+import './TableDriverInfoController.css';
 
 
 interface DriverInfoProps {
@@ -17,10 +16,7 @@ export function TableDriverInfoController() {
   // Store a list of driver info objects
   const [driverInfoList, setDriverInfoList] = useState<DriverInfoProps[]>([]);
 
-
-  function handleConstructorClick(){}
-
-  // Handler for clicking a driver in the standings
+// Handler for clicking a driver in the standings
   const handleDriverClick = (driverId: number, driverName: string) => {
 
     // Avoid duplicates if needed, do I want to enable duplicates? probably not?? leave it for now
@@ -33,54 +29,35 @@ export function TableDriverInfoController() {
     });
   };
 
-  const handleCloseDriver = (driverInfo: DriverInfoProps) => {
-    // TODO fix!
-    // const element = document.querySelector(driverInfo.driverName);
-    // if (!element){return;}
-    // element.classList.add("closing");
-    // element.addEventListener("transitionend", () => {
-      setDriverInfoList(prev => prev.filter(d => d.selectedDriver !== driverInfo.selectedDriver));
-    // }, { once: true });
+  const handleCloseDriver = (driverId: number) => {
+    // Need to get this to remove item from DOM to trigger button remove
+    // filter keeps only items that pass the conditional
+    setDriverInfoList(prev => prev.filter(d => d.selectedDriver !== driverId));
   };
 
     return (
         <>
-          <div id='nextSession' className="gridChild nextSession">
+        <div id='nextSession' className="gridChild nextSession">
             <NextSession/>
           </div>
 
-
-            <div id='constructorStandings' className='gridChild constructorStandings'>
-              <ConstructorStandings onConstructorClick={handleConstructorClick} />
-            </div>
             <div id='driverStandings' className='gridChild driverStandings'>
-              <DriverStandings onDriverClick={handleDriverClick} />
+                <DriverStandings onDriverClick={handleDriverClick} />
             </div>
 
             {/* Render each driverInfo by passing in and mapping driverInfoList */}
             {driverInfoList.map(driverInfo =>(
                 <div key={driverInfo.selectedDriver} data-type="driverInfo" id={`${driverInfo.driverName}`} className='gridChild driverInfo'>
                   {/* This is the closing button to remove the driverInfo gridChild from the render list */}
-                  <div className="grid-closer-temp" onClick={() => handleCloseDriver(driverInfo!)}>{/* Love this '!', tells TS to shutup about "maybe null" */}
+                  <div className="grid-closer-temp" onClick={() => handleCloseDriver(driverInfo.selectedDriver!)}>{/* Love this '!', tells TS to shutup about "maybe null" */}
                     ✕
                   </div>
-                  <DriverInfo selectedDriver={driverInfo.selectedDriver}/>
+                    <DriverInfo selectedDriver={driverInfo.selectedDriver}/>
                 </div>
             ))}
 
-{/*                   <AnimatePresence>
-                    <motion.div
-                    key={driverInfo.selectedDriver}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    >
-                      <DriverInfo selectedDriver={driverInfo.selectedDriver}/>
-                    </motion.div>
-                  </AnimatePresence> */}
-{/* <AnimatePresence>
-  {show ? <motion.div key="box" exit={{ opacity: 0 }} /> : null}
-</AnimatePresence> */}
+
+
             {/* Conditionally render the driver info window */}
             {/* Can be some issues with grab rendering (and probably other stuff too) */}
             {/* Maybe add logic to unappend from dom on close or something?? */}

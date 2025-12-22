@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { DatePicker } from '../DatePicker';
-import './index.css';
 
 import BACKEND_URL from '../../backend_url'; 
 
@@ -102,54 +101,41 @@ export function DriverStandings(props: Props){
         "PTS.":        standings?.standings.map(item => item.points ?? '--') ?? [],
     };
 
-    const columnSize = Object.keys(standingsFormatted).length;
-
     return (
-      <>
-        <div className="gridChildContent driverStandingsContent primaryContent">
-          <div className="header">
-            <h1>Driver Standings</h1>
-            <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
-          </div>
-
-          <div
-            id="standingsTable"
-            className="standingsTable"
-            style={{ gridTemplateColumns: `repeat(${columnSize}, auto)` }}
-          >
-            <div className="tableHeaderRow">POS.</div>
-            <div className="tableHeaderRow">DRIVER</div>
-            <div className="tableHeaderRow">NO.</div>
-            <div className="tableHeaderRow">NATIONALITY</div>
-            <div className="tableHeaderRow">TEAM</div>
-            <div className="tableHeaderRow">WINS</div>
-            <div className="tableHeaderRow">PTS.</div>
-
-            {Object.entries(standingsFormatted).map(([colName, colValues]) => (
-              <div className="columns standingsColumns" key={colName}>
-                {colValues.map((value, i) => {
-                  const driverId = standings?.standings[i]?.driver.id ?? null;
-                  return (
-                    <div
-                      className={`cells ${
-                        colName === "DRIVER" ? "cursor-pointer" : ""
-                      }`}
-                      key={i}
-                      onClick={
-                        colName === "DRIVER"
-                          ? () => props.onDriverClick(Number(driverId), String(value))
-                          : undefined
-                      }
-                    >
-                      {value}
+        <>
+        <div className="gridChildContent driverStandingsContent primaryContent flex flex-col justify-start items-center overflow-hidden text-nowrap">
+            <div className="flex self-start items-start flex-row">
+              <h1>Driver Standings</h1>
+              <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
+            </div>
+            <div id='standingsTable' className='standingsTable grid grid-cols-[repeat(7,1fr)] overflow-y-scroll'>
+                {/* ["POS.", [1, 2, 3, ...]] */}
+                <div className='tableHeaderRow sticky top-0'>POS.       </div>
+                <div className='tableHeaderRow sticky top-0'>DRIVER     </div>
+                <div className='tableHeaderRow sticky top-0'>NO.        </div>
+                <div className='tableHeaderRow sticky top-0'>NATIONALITY</div>
+                <div className='tableHeaderRow sticky top-0'>TEAM       </div>
+                <div className='tableHeaderRow sticky top-0'>WINS       </div>
+                <div className='tableHeaderRow sticky top-0'>PTS.       </div>
+                {/* Fill in with the rest */}
+                {Object.entries(standingsFormatted).map(([colName, colValues]) => (
+                    <div className='columns standingsColumns w-full' key={colName}>
+                        {colValues.map((value, i) => {
+                            const driverId = standings?.standings[i]?.driver.id ?? null; // Get ID and fallback to null
+                            return (
+                                <div 
+                                className={`cells ${colName === 'DRIVER' ? 'cursor-pointer' : ''}`} 
+                                key={i} 
+                                onClick={colName === 'DRIVER' ? () => {props.onDriverClick(Number(driverId), String(value) )} : undefined}> {/* Use undefinedfor props apparently */}
+                                    {value}
+                                </div>
+                            );
+                        })}
                     </div>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
+                ))}
+            </div>    
         </div>
-      </>
+        </>
     );
 }
 

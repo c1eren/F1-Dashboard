@@ -1,6 +1,4 @@
-* {
-    scrollbar-width: thin;
-}
+@import "tailwindcss";
 
 .main {
     font-size: smaller;
@@ -79,6 +77,7 @@ h3 {
 }
 
 .eventAndSessionContainer {
+    height: 2/3;
 }
 
 .timingContainers {
@@ -105,20 +104,14 @@ h3 {
 
 }
 
-.otherCountdowns {
-  /* display: none;  */
+.otherCountdowns::-webkit-scrollbar {
+  display: none; 
 }
 
 /* Driver Standings */
 .driverStandings {
     width: 450px;
     height:300px;
-}
-
-/* Constructor Standings */
-.constructorStandings {
-    width: 400px;
-    height:325px;
 }
 
 .standingsTable {
@@ -129,9 +122,8 @@ h3 {
     background-color: white;
 }
 
-.standingsTable .cells {
+.cells {
     border: 1px solid black;
-    height: 25px;
 }
 
 /* Driver Info */

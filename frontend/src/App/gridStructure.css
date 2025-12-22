@@ -1,5 +1,4 @@
 :root {
-  --cellSize: 25px;
   --grid-grabber-height: 15px;
   --grid-closer-size: var(--grid-grabber-height);
   --grid-grabber-right: var(--grid-closer-size);
@@ -26,18 +25,18 @@ body.resizing {
 }
 
 .gridContainer {
-  /* --columns: 25;
-  --rows: 10; */
+  --cellSize: 50px;
+  --columns: 25;
+  --rows: 10;
 
   padding: 10px;
   display: grid;
   position: relative;
-  /* min-height: calc(var(--rows) * var(--cellSize)); */
+  min-height: calc(var(--rows) * var(--cellSize));
   max-width: 100%;
   max-height: 100%;
   align-items: start;
   justify-items: start;
-  grid-auto-flow:column dense;
 }
 
 .gridContainer-grabbing {
@@ -119,10 +118,4 @@ body.resizing {
 
 .gridChild {
   transition: transform 0.2s ease-out;
-}
-
-.closing {
-  transform: scale(0.1);
-  opacity: 0;
-  transition: transform 0.2s ease, opacity 0.2s ease;
 }
