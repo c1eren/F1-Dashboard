@@ -10,11 +10,14 @@ Get http://localhost:3001/api/currentStandingsTest
 ### See what result for last race in a season per year returns
 Get http://localhost:3001/api/driverStandings?year=2024
 
+### Constructor standings
+Get http://localhost:3001/api/constructorStandings?year=2024
+
 
 //################### CORE ################################//
 
 ### driver
-GET http://localhost:3001/api/driver?name=Lewis Hamilton&id=2
+GET http://localhost:3001/api/driver?id=1&name=Lewis Hamilton
 
 ### driver all
 GET http://localhost:3001/api/driver
