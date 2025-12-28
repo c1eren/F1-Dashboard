@@ -1,16 +1,7 @@
-.driverInfoContent {
-  overflow: hidden; 
-}
+@import "tailwindcss";
 
-.grid {
-  display: grid; 
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.cells {
-  
-}
-
-.cells.col-span-2 {
-  grid-column: span 2; 
-}
+/* .cell:hover {
+    color: blueviolet;
+    transform: rotate(360deg);
+    transition: 2s;
+} */

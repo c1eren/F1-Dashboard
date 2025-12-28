@@ -12,7 +12,7 @@ let rowCount;
 let gridSize;
 let gridWidth;
 let gridHeight;
-let cellSize;
+let cellSize = 50;
 let cellWidth;
 let cellHeight;
 
@@ -56,17 +56,12 @@ if (document.readyState === 'loading') {
 }
 
 function init() {
-    buttonsDiv = document.getElementById('buttons') || null;
-    driverInfoButtonsDiv = document.getElementById('driverInfoButtons') || null;
-    
-    setDocumentListeners();
+    buttonsDiv = document.getElementById('buttons');
+    driverInfoButtonsDiv = document.getElementById('driverInfoButtons');
     
     initGridContainer();
-        // Ensure DOM layout is done before sizing
-    requestAnimationFrame(() => {
-        designateWindows();
-        setGridContainerSize();
-    });
+    setDocumentListeners();
+    designateWindows();
 
     const observer = new MutationObserver(() => designateWindows());
     observer.observe(gridContainer, { childList: true });
@@ -140,11 +135,21 @@ function setDocumentListeners() {
         // Closing
         if (e.target.classList.contains('grid-closer')) {
             currentWin = e.target.closest('.gridChild');
+            // TODO figure out the react way of removing reactDOM elements
 
             if (currentWin.dataset.buttonId) {
                 const toggle = document.getElementById(currentWin.dataset.buttonId);
                 toggleComponent(currentWin, toggle);
             }
+            // else {
+            //     // TODO, react logic for temp components (should be adaptable to non-React frameworks)
+            //     // Also TODO, add scroll logic to grid container 
+            //     currentWin.style.transition = "transform 0.2s ease, opacity 0.2s ease";
+
+            //     currentWin.style.transform = `scale(0.1)`;
+            //     currentWin.style.opacity = "0";
+            //     // currentWin.remove();
+            // }
         }
         
         logData();
@@ -215,15 +220,14 @@ function setDocumentListeners() {
             document.querySelectorAll('.gridChild').forEach(initSizeGridKid);
         }
     });
-    if (cellSizeOption) {
-        cellSizeOption.addEventListener('change', function() {
-            console.log("Cell size changed to: ",cellSizeOption.value, "px");  
-            cellSize = cellSizeOption.value;
 
-            setGridContainerSize();
-            document.querySelectorAll('.gridChild').forEach(initSizeGridKid);
-        });
-    }
+    cellSizeOption.addEventListener('change', function() {
+        console.log("Cell size changed to: ",cellSizeOption.value, "px");  
+        cellSize = cellSizeOption.value;
+
+        setGridContainerSize();
+        document.querySelectorAll('.gridChild').forEach(initSizeGridKid);
+    });
 
     // componentToggles.forEach(toggle => {
     //     // Assign toggle to its component
@@ -460,9 +464,8 @@ function setGridContainerSize() {
 
 function initGridContainer() {
     gridContainer = document.querySelector('.gridContainer');
-    cellSize = gridContainer.dataset.cellsize || 25;
     setGridContainerSize();
-    gridRect = gridContainer.getBoundingClientRect();
+    gridRect      = gridContainer.getBoundingClientRect();
 
     // gridContainer.style.gridAutoFlow = "column dense";
 
@@ -517,7 +520,6 @@ function resizeGridChildToContent(win) {
 }
 
 function toggleComponent(element, toggle) {
-    if(!toggle || !element) return;
     const toggleRect = toggle.getBoundingClientRect();
 
     if (!element) return;
@@ -550,9 +552,8 @@ function toggleComponent(element, toggle) {
 }
 
 function initButtonForChild(win) {
-    // Nothing to do if neither exists
-    if (!buttonsDiv && !driverInfoButtonsDiv) return; 
-
+    // console.log(win);
+    
     const button = document.createElement('button');
     button.id = win.id + "Button";
     button.value = win.id;
@@ -576,7 +577,6 @@ function initButtonForChild(win) {
 }
 
 function updateButtons() {
-    if (!driverInfoButtonsDiv) return;
     const infoButtons = Array.from(driverInfoButtonsDiv.children); // Selects all div elements on the page
     
     if (!infoButtons.empty) {
