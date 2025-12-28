@@ -17,7 +17,7 @@ Get http://localhost:3001/api/constructorStandings?year=2024
 //################### CORE ################################//
 
 ### driver
-GET http://localhost:3001/api/driver?id=1
+GET http://localhost:3001/api/driver?name=Lewis Hamilton&id=2
 
 ### driver all
 GET http://localhost:3001/api/driver
@@ -46,3 +46,6 @@ GET http://localhost:3001/api/race?year=2001
 GET http://localhost:3001/api/race?name=australia
 
 //#########################################################//
+
+### test
+GET https://en.wikipedia.org/api/rest_v1/page/summary/Max_Verstappen

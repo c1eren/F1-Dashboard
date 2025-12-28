@@ -1,0 +1,142 @@
+* {
+    scrollbar-width: thin;
+}
+
+.main {
+    font-size: smaller;
+    
+}
+
+div {
+    padding: 1px;
+    /* all: initial; */
+    /* height:fit-content; */
+}
+
+h1 {
+    font-size: large;
+    margin: 0;
+}
+
+h2 {
+    font-size: medium;
+}
+
+h3 {
+    font-size: small;
+}
+
+.UIContainer {
+    border: 1px solid black;
+
+}
+
+.buttons {
+
+}
+
+.buttons .componentToggles {
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+/* Grid */
+.gridContainer {
+
+}
+
+.gridChild {
+
+}
+
+.gridChildContent {
+
+}
+
+.primaryContent {
+    /* outline: 1px solid green; */
+}
+
+.secondaryContent {
+    /* outline: 1px solid red; */
+}
+
+/* Next Session */
+.nextSession {
+    width: 300px;
+    height: 300px;
+    /* height: auto; */
+}
+
+.nextSession * {
+    /* border: 1px solid blueviolet; */
+}
+
+.nextSessionContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.eventAndSessionContainer {
+}
+
+.timingContainers {
+    
+}
+
+.countdownAndLocal {
+    /* justify-content: center; */
+    
+}
+
+.countdownContainer {
+
+}
+
+.timeSpecifiers {
+}
+
+.localTimeContainer {
+
+}
+
+.localTimeNum {
+
+}
+
+.otherCountdowns {
+  /* display: none;  */
+}
+
+/* Driver Standings */
+.driverStandings {
+    width: 450px;
+    height:300px;
+}
+
+/* Constructor Standings */
+.constructorStandings {
+    width: 400px;
+    height:325px;
+}
+
+.standingsTable {
+    padding: 0 !important;
+}
+
+.tableHeaderRow {
+    background-color: white;
+}
+
+.standingsTable .cells {
+    border: 1px solid black;
+    height: 25px;
+}
+
+/* Driver Info */
+.driverInfo {
+    width: 300px;
+    height:200px;
+    
+}

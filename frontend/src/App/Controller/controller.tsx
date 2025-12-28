@@ -64,7 +64,7 @@ export function TableDriverInfoController() {
                   <div className="grid-closer-temp" onClick={() => handleCloseDriver(driverInfo!)}>{/* Love this '!', tells TS to shutup about "maybe null" */}
                     ✕
                   </div>
-                  <DriverInfo selectedDriver={driverInfo.selectedDriver}/>
+                  <DriverInfo selectedDriver={driverInfo.selectedDriver} selectedDriverName={driverInfo.driverName}/>
                 </div>
             ))}
 

@@ -16,11 +16,12 @@ interface Driver {
 
 interface Props {
     selectedDriver: number | null
+    selectedDriverName: string | null
 }
 
-async function fetchDriver(id: number | null): Promise<Driver | null> {
+async function fetchDriver(id: number | null, dName: string | null) : Promise<Driver | null> {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/driver?id=${Number(id)}`);
+        const res = await fetch(`${BACKEND_URL}/api/driver?id=${Number(id)}&name=${String(dName)}`);
         if (!res.ok) throw new Error("Failed to fetch driver");
         const data: Driver = await res.json();
         return data;
@@ -30,7 +31,7 @@ async function fetchDriver(id: number | null): Promise<Driver | null> {
     }
 }
 
-export function DriverInfo({ selectedDriver }: Props) {
+export function DriverInfo({ selectedDriver, selectedDriverName }: Props) {
     const [driver, setDriver] = useState<Driver | null>(null);
 
     useEffect(() => {
@@ -39,11 +40,11 @@ export function DriverInfo({ selectedDriver }: Props) {
                 setDriver(null);
                 return;
             }
-            const fetchedDriver = await fetchDriver(selectedDriver);
+            const fetchedDriver = await fetchDriver(selectedDriver, selectedDriverName);
             setDriver(fetchedDriver);
         };
         loadDriver();
-    }, [selectedDriver]);
+    }, [selectedDriver, selectedDriverName]);
 
     if (selectedDriver === null) return <p>Select a driver</p>;
     if (!driver) return <p>Loading...</p>;

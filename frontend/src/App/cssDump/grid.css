@@ -1,0 +1,161 @@
+
+/* variables */
+:root {
+  --grid-closer-size: 10px;
+  --grid-grabber-height: var(--grid-closer-size);
+  --grid-grabber-right: var(--grid-closer-size);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    /* padding: 0; */
+}
+
+body.grabbing {
+    user-select: none;
+    cursor: grabbing;
+}
+
+body.resizing {
+    user-select: none;
+    cursor: se-resize;
+}
+
+.gridContainer {
+    /* Could look at grabbing user device width and calculating from that */
+    /* --cellSize: 25px; */
+    /* --columns:  45; */
+    /* --rows:     20; */
+
+    --cellSize: 50px;
+    --columns:  25;
+    --rows:     10;
+    
+    padding: 10px;
+    display: grid;
+    position: relative;
+
+    /* min-width: calc(var(--columns) * var(--cellSize)); */
+    min-height: calc(var(--rows) * var(--cellSize));
+    /* Need to check, max-width might get reset somewhere in the js lmao */
+    max-width: 100%;
+    max-height: 100%;
+
+    align-items   : start;
+    justify-items : start;
+    
+    /* grid-template-rows: repeat(--rows, --cellSize); */
+    /* grid-template-columns: repeat(--columns, --cellSize); */
+    /* grid-auto-rows:    var(--cellSize); */
+    /* grid-auto-columns: var(--cellSize); */
+    
+    
+    /* 12500px */
+}
+
+.gridContainer-grabbing {
+    position: relative;
+}
+
+.gridChild {
+    position: relative;
+    background-color: #36454f;
+    /* #BE2727 Just like this color */
+
+    border: solid 4px rgb(0, 0, 0);
+    /* font-weight: bolder; */
+    box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.gridChildContent {
+    padding: 0.5rem;
+    height: 100%;
+    background-color: inherit;
+}
+
+.gridChild-grabbed {
+    position: absolute !important;
+    /* transform-origin: top right; */
+    transform: scale(0.4) !important;
+}
+
+.grid-grabber {
+    position: absolute;
+    top: 0px;
+    right: var(--grid-grabber-right);
+    opacity: 0%;
+    background-color: white;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+
+    height: 1rem;
+    width: calc(100% - var(--grid-grabber-right));
+
+    transition: opacity 0.2s ease-out;
+
+}
+
+.grid-grabber:hover {
+    cursor: grab;
+    opacity: 25%;
+}
+
+.grid-grabber:active {
+    cursor: grabbing;
+}
+
+.grid-resizer {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    border-bottom: 3px red solid;
+    border-right: 3px red solid;
+
+    height: 8px;
+    width: 8px;
+}
+
+.grid-resizer:hover {
+    cursor: se-resize;
+}
+
+.grid-closer {
+    position: absolute;
+    display: flex;
+    background-color: grey;
+    top: 0;
+    right: 0;
+    padding-bottom: 3px;
+    height: var(--grid-closer-size);
+    width:  var(--grid-closer-size);
+    border-radius: 30%;
+    color: lightgrey;
+    font-weight: 500;
+    font-size: 12px;
+    /* text-align: center; */
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.shallowClone {
+    opacity: 0.5 !important;
+}
+
+/* z-index' */
+/* .gridContainer {z-index: 0;}
+.gridChild { z-index: 1; }
+.gridChild-active { z-index: 2; }
+.shallowClone { z-index: 3; }
+.gridChild-grabbed { z-index: 4; }
+.gridChild-resizing { z-index: 4; } */
+
+/* Animations */
+.gridChild {
+    transition: transform 0.2s ease-out;
+}

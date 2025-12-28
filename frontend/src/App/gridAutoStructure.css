@@ -1,0 +1,127 @@
+:root {
+  --cellSize: 25px;
+  --grid-grabber-height: 15px;
+  --grid-closer-size: var(--grid-grabber-height);
+  --grid-grabber-right: var(--grid-closer-size);
+  --grid-resizer-size: var(--grid-closer-size);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body.grabbing {
+  user-select: none;
+  cursor: grabbing;
+}
+
+body.resizing {
+  user-select: none;
+  cursor: se-resize;
+}
+
+.gridContainer {
+  /* --columns: 25;
+  --rows: 10; */
+
+  padding: 10px;
+  /* display: grid; */
+  position: relative;
+  /* min-height: calc(var(--rows) * var(--cellSize)); */
+  max-width: 100%;
+  max-height: 100%;
+  align-items: start;
+  justify-items: start;
+  grid-auto-flow: dense;
+}
+
+.gridContainer-grabbing {
+  position: relative;
+}
+
+.gridChild {
+  position: relative;
+  padding-top: var(--grid-grabber-height);
+}
+
+.gridChildContent {
+  /* padding: 0.5rem; */
+  height: 100%;
+}
+
+.gridChild-grabbed {
+  position: absolute !important;
+  transform: scale(0.4) !important;
+  cursor: grabbing;
+}
+
+.grid-grabber {
+  /* border: 1px solid black; */
+  position: absolute;
+  top: 0px;
+  right: var(--grid-grabber-right);
+  height: var(--grid-grabber-height);
+  width: calc(100% - var(--grid-grabber-right));
+  transition: opacity 0.2s ease-out;
+  cursor: grab;
+}
+
+.grid-resizer {
+  /* border: 1px solid black; */
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  height: var(--grid-resizer-size);
+  width:  var(--grid-resizer-size);
+  cursor: se-resize;
+}
+
+.grid-closer {
+  border: 1px solid black;
+  position: absolute;
+  display: flex;
+  top: 0;
+  right: 0;
+  padding-bottom: 3px;
+  height: var(--grid-closer-size);
+  width: var(--grid-closer-size);
+  /* border-radius: 30%; */
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.grid-closer-temp {
+  border: 1px solid black;
+  position: absolute;
+  display: flex;
+  top: 0;
+  right: 0;
+  padding-bottom: 3px;
+  height: var(--grid-closer-size);
+  width: var(--grid-closer-size);
+  /* border-radius: 30%; */
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.shallowClone {
+  opacity: 0.5 !important;
+}
+
+.gridChild {
+  transition: transform 0.2s ease-out;
+}
+
+.closing {
+  transform: scale(0.1);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}

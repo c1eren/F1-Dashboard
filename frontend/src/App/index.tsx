@@ -2,7 +2,7 @@
 import './styles/basic.css'
 import './styles/template.css'
 import './gridStructure.css'
-import './structure.css'
+// import './structure.css'
 import { useEffect } from 'react';
 import { UIContainer } from './UI/index.js';
 import { TableDriverInfoController } from './Controller/controller';
