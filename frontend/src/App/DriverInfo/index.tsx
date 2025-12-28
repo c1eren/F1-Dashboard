@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import BACKEND_URL from '../../backend_url'; 
-import './index.css';
 
 interface Driver {
     id:          number
@@ -67,25 +66,35 @@ export function DriverInfo({ selectedDriver, selectedDriverName }: Props) {
     ];
 
     return (
-        <div id={driver.forename + " " + driver.surname} className="gridChildContent driverInfoContent">
-            <h1>{driver.forename} {driver.surname}</h1>
-            <div className="primaryContent">
-                <div className="grid">
-                    {driverData.map((item) => (
-                        item.header === "Wiki" && item.value ? (
-                            <div className="cells col-span-2" key={item.header}>
-                                <h3>{item.header}</h3>
-                                <a href={String(item.value)} rel="noopener noreferrer" target="_blank">{item.value}</a>
+        <>
+            <div id={driver.forename + " " + driver.surname} className="gridChildContent driverInfoContent overflow-hidden ">
+                    <h1 className="">
+                        {driver.forename} {driver.surname}
+                    </h1>
+                    <div className="primaryContent">
+                        <div className="grid grid-cols-2">
+                            {driverData.map((item) => (
+                                    item.header === "Wiki" && item.value ? (
+                                        <div className="cells col-span-2" key={item.header}>
+                                            <h3>{item.header}</h3>
+                                            <a href={String(item.value)} rel="noopener noreferrer" target="_blank">{item.value}</a>
+                                        </div>
+                                    ) : (
+                                        <div className="cells" key={item.header}>
+                                            <h3>{item.header}</h3>
+                                            <div>{item.value}</div>
+                                        </div>
+                                    )
+                            ))}
+                        {/* {driver.url && (
+                            <div>
+                                <h3>Wiki</h3>
+                                <a href={driver.url} target="_blank">{driver.url}</a>
                             </div>
-                        ) : (
-                            <div className="cells" key={item.header}>
-                                <h3>{item.header}</h3>
-                                <div>{item.value}</div>
-                            </div>
-                        )
-                    ))}
-                </div>
+                        )} */}
+                        </div>
+                    </div>
             </div>
-        </div>
+        </>
     );
 }

@@ -60,7 +60,10 @@ driverRouter.get("/api/driver", async (req, res) => {
         {
             driverInfo = await prisma.driver.findMany({}); // maybe take:50 or something to limit payload
         }
-        res.json(driverInfo);
+        res.json({
+            source: "DB",
+            driverInfo,
+        });
 
     } catch(err) {
         console.error(err);
@@ -69,3 +72,32 @@ driverRouter.get("/api/driver", async (req, res) => {
 });
 
 export {driverRouter};
+
+/*
+DB response:
+{
+  "source": "DB",
+  "driverInfo": {
+    "id": 1,
+    "driverRef": "hamilton",
+    "number": 44,
+    "code": "HAM",
+    "forename": "Lewis",
+    "surname": "Hamilton",
+    "dob": "1985-01-07T00:00:00.000Z",
+    "nationality": "British",
+    "url": "http://en.wikipedia.org/wiki/Lewis_Hamilton"
+  }
+}
+
+WikiAPI response:
+{
+  "source": "wikipedia",
+  "title": "Lewis Hamilton",
+  "description": "British racing driver (born 1985)",
+  "extract": "Sir Lewis Carl Davidson Hamilton is a British racing driver who competes in Formula One for Ferrari. Hamilton has won a joint-record seven Formula One World Drivers' Championship titles—tied with Michael Schumacher—and holds the records for most wins (105), pole positions (104), and podium finishes (202), among others.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Prime_Minister_Keir_Starmer_meets_Sir_Lewis_Hamilton_%2854566928382%29_%28cropped%29.jpg/330px-Prime_Minister_Keir_Starmer_meets_Sir_Lewis_Hamilton_%2854566928382%29_%28cropped%29.jpg",
+  "url": "https://en.wikipedia.org/wiki/Lewis_Hamilton"
+}
+
+*/
