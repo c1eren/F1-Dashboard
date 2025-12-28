@@ -17,7 +17,7 @@ Get http://localhost:3001/api/constructorStandings?year=2024
 //################### CORE ################################//
 
 ### driver
-GET http://localhost:3001/api/driver?id=1&name=Lewis Hamilton
+GET http://localhost:3001/api/driver?id=1&name=Lewis_Hamilton
 
 ### driver all
 GET http://localhost:3001/api/driver

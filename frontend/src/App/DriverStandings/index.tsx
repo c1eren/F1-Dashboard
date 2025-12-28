@@ -126,7 +126,7 @@ export function DriverStandings(props: Props){
                                 <div 
                                 className={`cells ${colName === 'DRIVER' ? 'cursor-pointer' : ''}`} 
                                 key={i} 
-                                onClick={colName === 'DRIVER' ? () => {props.onDriverClick(Number(driverId), String(value) )} : undefined}> {/* Use undefinedfor props apparently */}
+                                onClick={colName === 'DRIVER' ? () => {props.onDriverClick(Number(driverId), String(standings?.standings[i]?.driver.forename + '_' + standings?.standings[i]?.driver.surname) )} : undefined}> {/* Use undefinedfor props apparently */}
                                     {value}
                                 </div>
                             );
