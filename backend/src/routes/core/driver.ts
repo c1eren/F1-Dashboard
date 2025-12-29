@@ -16,25 +16,53 @@ driverRouter.get("/api/driver", async (req, res) => {
             return res.status(400).json({ error: "Missing name and id" });
         }
         
+        //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+        // DB fallback
+        let driverInfo;
+        // Ask prisma (politely) to go get my data
+        if (driverId !== null && !isNaN(driverId)) 
+        {
+            driverInfo = await prisma.driver.findUnique({
+                where: {id: driverId}
+                });
+                if (!driverInfo) {
+                    return res.status(404).json({error: `No driver found for driver id: ${driverId} `});
+                }
+        }
+        else
+        {
+            driverInfo = await prisma.driver.findFirst({}); // maybe take:50 or something to limit payload
+        }
+        // res.json({
+        //     source: "DB",
+        //     driverInfo,
+        // });
+                //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         if (name !== null) {
             try {
+                
                 const wikiUrl =
-                  "https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(String(name));
+                "https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(String(name));
             
                 const response = await fetch(wikiUrl);
                 if (!response.ok) {
                     throw new Error("Wikipedia page not found or fetch failed");
                 }
                 const data = await response.json();
-            
-                if (data.type !== "https://mediawiki.org/wiki/HyperSwitch/errors/not_found") {
+
+
+                if (data && !Array.isArray(driverInfo)) {
+                    const merged = {
+                      ...driverInfo,
+                      title: data.title,
+                      description: data.description,
+                      extract: data.extract,
+                      image: data.thumbnail?.source || null,
+                      wikiUrl: data.content_urls?.desktop?.page || null,
+                    };
+
                     return res.json({
-                        source: "wikipedia",
-                        title:       data.title,
-                        description: data.description,
-                        extract:     data.extract,
-                        image:       data.thumbnail?.source || null,
-                        url:         data.content_urls?.desktop?.page || null,
+                        ...merged,                        
                     });
                 }
 
@@ -45,7 +73,7 @@ driverRouter.get("/api/driver", async (req, res) => {
         }
 
         // DB fallback
-        let driverInfo;
+        // let driverInfo;
         // Ask prisma (politely) to go get my data
         if (driverId !== null && !isNaN(driverId)) 
         {
