@@ -343,7 +343,7 @@ function initGridCompanions(win) {
     if (win.dataset.type !== 'driverInfo') {
         const closeButton = document.createElement('div'); 
         closeButton.classList.add('grid-closer');
-        closeButton.innerText = "x";
+        closeButton.innerText = "✕";
         win.appendChild(closeButton);
     }
 }
