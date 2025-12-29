@@ -32,6 +32,7 @@ driverRouter.get("/api/driver", async (req, res) => {
         else
         {
             driverInfo = await prisma.driver.findFirst({}); // maybe take:50 or something to limit payload
+            // Changed from findMany to findFirst
         }
         // res.json({
         //     source: "DB",
@@ -40,9 +41,14 @@ driverRouter.get("/api/driver", async (req, res) => {
                 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         if (name !== null) {
             try {
+                const driverName = driverInfo?.url ? 
+                decodeURIComponent(
+                    new URL(driverInfo.url).pathname.replace("/wiki/", "")
+                )
+                : null;
                 
                 const wikiUrl =
-                "https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(String(name));
+                "https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(driverName ?? "");
             
                 const response = await fetch(wikiUrl);
                 if (!response.ok) {

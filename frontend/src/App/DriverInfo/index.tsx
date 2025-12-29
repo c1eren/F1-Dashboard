@@ -47,7 +47,7 @@ export function DriverInfo({ selectedDriver, selectedDriverName }: Props) {
                 return;
             }
             const fetchedDriver = await fetchDriver(selectedDriver, selectedDriverName);
-            console.log(fetchedDriver);
+            // console.log(fetchedDriver);
             setDriver(fetchedDriver);
         };
         loadDriver();
@@ -102,7 +102,7 @@ export function DriverInfo({ selectedDriver, selectedDriverName }: Props) {
 
                                 <div className="cells">
                                     <h3>Wiki</h3>
-                                    <a href={String(driver.url)} rel="noopener noreferrer" target="_blank">{driver.url}</a>
+                                    <a href={String(driver.url)} rel="noopener noreferrer" target="_blank">{decodeURIComponent(String(driver.url))}</a>
                                 </div>
 
                             </div>
