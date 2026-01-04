@@ -12,7 +12,7 @@
 
   --color-accent-300: #ffd8d0;
   --color-accent-400: #ffa087;
-  --color-accent-base: #F56600; /* Site accent */
+  --color-accent-base: #FF1801; /* Site accent */
   --color-accent-600: #ba4c00;
   --color-accent-700: #833300;
   --color-accent-800: #4f1c00;
@@ -55,7 +55,8 @@
 
 @layer base {
 * {
-    scrollbar-color: var(--color-background-dark) rgba(0, 0, 0, 0); /* Grey thumb, light grey track */
+    scrollbar-color: var(--color-background-semi_light) rgba(0, 0, 0, 0); 
+    /* Grey thumb, light grey track */
 
 }
 
@@ -98,13 +99,13 @@ p {
     @apply bg-background-dark;
 }
 .gridChild {
-    @apply p-4 rounded-md overflow-hidden bg-background-dark shadow-[1px_1px_2px_rgba(255,255,255,0.5)];
+    @apply p-[1px] rounded-md overflow-hidden bg-background-dark shadow-[1px_1px_2px_rgba(255,255,255,0.5)];
 }
 .grid-grabber {
-    /* @apply */
+    @apply bg-background-dark;
 }
 .grid-closer {
-    /* @apply  */
+    @apply bg-background-dark;
 }
 .grid-resizer {
     /* @apply  */
@@ -113,7 +114,7 @@ p {
     @apply bg-linear-to-l from-text-base to-background-dark;
 }
 .gridChildContent {
-    @apply bg-linear-to-l from-text-base to-background-dark;
+    @apply bg-linear-to-l from-text-base to-background-dark p-2;
 }
 .driverStandings {
     @apply w-lg h-80 ;
@@ -143,4 +144,9 @@ p {
     scrollbar-width: thin;
     /* font-size: smaller; */
 
+}
+
+.gridContainer {
+    /* background-image: linear-gradient(black, white); */
+    background-image: url("./bg-images/1040.jpg");
 }

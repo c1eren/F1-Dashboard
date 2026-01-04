@@ -1,5 +1,6 @@
 
-import './styles/basic.css'
+// import './styles/basic.css'
+import './styles/modern-dark.css'
 import './styles/template.css'
 import './gridStructure.css'
 import { useEffect } from 'react';
