@@ -103,7 +103,7 @@ export function DriverStandings(props: Props){
               <h1>Driver Standings</h1>
               <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
             </div>
-            <div id='standingsTable' className='standingsTable grid grid-cols-[repeat(7,1fr)] overflow-y-scroll'>
+            <div id='standingsTable' className='standingsTable grid grid-cols-[repeat(7,1fr)] overflow-y-auto'>
                 {/* ["POS.", [1, 2, 3, ...]] */}
                 <div className='tableHeaderRow sticky top-0'>POS.       </div>
                 <div className='tableHeaderRow sticky top-0'>DRIVER     </div>

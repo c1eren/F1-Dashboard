@@ -137,3 +137,13 @@ li {
    ========================== */
 .driverInfo {
 }
+
+/* ==========================
+   Custom Classes
+   ========================== */
+.non-responsive-image {
+   pointer-events: none; 
+   user-select: none;   
+   -webkit-user-drag: none;
+    /* draggable: false; */
+}

@@ -1,14 +1,16 @@
 
 // import './styles/basic.css'
-import './styles/modern-dark.css'
-import './styles/template.css'
+// import './styles/modern-dark.css'
+// import './styles/template.css'
 import './gridStructure.css'
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { UIContainer } from './UI/index.js';
 import { TableDriverInfoController } from './Controller/controller';
 
 
 function App() {
+  const portalRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     //@ts-expect-error yippee
     import('./grid.js');
@@ -22,11 +24,34 @@ function App() {
         {/* UI Container */}
         <UIContainer/>
         
-        <div className='gridContainer overflow-scroll' data-cellsize="25">
-
+        <div className='gridContainer overflow-auto' data-cellsize="25">
           <TableDriverInfoController/>
-
         </div>
+
+
+        
+          
+        <div 
+            onMouseOver={() => {portalRef.current?.classList.add('shadow-[1px_2px_20px_1px_rgba(25,255,255,0.5)]');}}
+        onMouseLeave={() => {portalRef.current?.classList.remove('shadow-[1px_2px_20px_1px_rgba(25,255,255,0.5)]');}}
+        className='
+        absolute z-20 w-7 h-12 bottom-10 left-10 transform -translate-x-1/2 -translate-y-1/2
+        bg-[url(/natural-wood.webp)] bg-size-[300%]
+        hover:rotate-z-5 origin-top-left duration-150 ease-out
+        '>
+        </div>
+          
+        <div 
+        id='portal' 
+        ref={portalRef} 
+        className='
+        absolute z-19 w-6 h-11 bottom-11 left-10 transform -translate-x-1/2 -translate-y-1/2
+        bg-[rgba(25,255,255,0.5)]
+        duration-150 ease-out
+        '></div>
+        {/* shadow-xl shadow-cyan-500 inset-shadow-sm inset-shadow-cyan-500 */}
+        {/* shadow-[rgba(0,0,15,0.5)_10px_5px_4px_0px] doesn't work*/}
+
       </div>
     </>
   );

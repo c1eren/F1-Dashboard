@@ -62,7 +62,7 @@ driverRouter.get("/api/driver", async (req, res) => {
                       ...driverInfo,
                       title: data.title,
                       description: data.description,
-                      extract: data.extract,
+                      extract: data.extract_html,
                       image: data.thumbnail?.source || null,
                       wikiUrl: data.content_urls?.desktop?.page || null,
                     };

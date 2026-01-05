@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import BACKEND_URL from '../../backend_url'; 
 
+function RenderHTML(htmlString : string) {
+  return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
+}
+
 interface Driver {
 
     // From DB
@@ -97,7 +101,7 @@ export function DriverInfo({ selectedDriver, selectedDriverName }: Props) {
                                 
                                 <div className="cells excerpt">
                                     {/* <h3>{item.header}</h3> */}
-                                    <div>{driver.extract}</div>
+                                    <div>{RenderHTML(String(driver.extract))}</div>
                                 </div>
 
                                 <div className="cells">
@@ -106,7 +110,7 @@ export function DriverInfo({ selectedDriver, selectedDriverName }: Props) {
                                 </div>
 
                             </div>
-                            <img className='h-full w-auto object-contain' src={driver.image} alt={fullname}></img>
+                            <img className='non-responsive-image h-full w-auto object-contain' src={driver.image} alt={fullname}></img>
                         </div>
                 </div>
             </>
