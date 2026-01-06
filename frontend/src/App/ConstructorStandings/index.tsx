@@ -96,7 +96,9 @@ export function ConstructorStandings(props: Props){
     const columnSize = Object.keys(standingsFormatted).length;
 
     return (
-    <div className="gridChildContent constructorStandingsContent primaryContent">
+    <div className="gridChildContent constructorStandingsContent primaryContent
+    p-4
+    ">
       <div className="header">
         <h1>Constructor Standings</h1>
         <DatePicker onDateChange={setSelectedYear} startDate={startDate} />

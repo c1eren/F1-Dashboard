@@ -1,14 +1,20 @@
 
 // import './styles/basic.css'
-// import './styles/modern-dark.css'
+import './styles/modern-dark.css'
 // import './styles/template.css'
 import './gridStructure.css'
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UIContainer } from './UI/index.js';
 import { TableDriverInfoController } from './Controller/controller';
 
+interface DriverInfoProps {
+  selectedDriver: number | null;
+  driverName: string;
+}
 
 function App() {
+    // Store a list of driver info objects
+  const [driverInfoList, setDriverInfoList] = useState<DriverInfoProps[]>([]);
   const portalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,10 +28,17 @@ function App() {
       <div className='main flex max-w-screen max-h-screen overflow-hidden'>
         
         {/* UI Container */}
-        <UIContainer/>
+        {/* TODO: Enable UI to take driverInfoRenderList props so we can put the close button on the UI button */}
+        <UIContainer
+        driverInfoList={driverInfoList}
+        setDriverInfoList={setDriverInfoList}
+        />
         
         <div className='gridContainer overflow-auto' data-cellsize="25">
-          <TableDriverInfoController/>
+          <TableDriverInfoController 
+          driverInfoList={driverInfoList}
+          setDriverInfoList={setDriverInfoList}
+          />
         </div>
 
 

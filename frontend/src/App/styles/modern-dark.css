@@ -5,7 +5,7 @@
   --color-primary-200: #b3ffc6;
   --color-primary-300: #1ce272;
   --color-primary-400: #14b65a;
-  --color-primary-base: #0D8C44; /* Site primary */
+  --color-primary-base: #27AE60; /* Site primary */
   --color-primary-600: #06642f;
   --color-primary-700: #033f1b;
   --color-primary-800: #011d09;
@@ -99,7 +99,7 @@ p {
     @apply bg-background-dark;
 }
 .gridChild {
-    @apply p-[1px] rounded-md overflow-hidden bg-background-dark shadow-[1px_1px_2px_rgba(255,255,255,0.5)];
+    @apply p-[1px];
 }
 .grid-grabber {
     @apply bg-background-dark;
@@ -114,7 +114,7 @@ p {
     @apply bg-linear-to-l from-text-base to-background-dark;
 }
 .gridChildContent {
-    @apply bg-linear-to-l from-text-base to-background-dark p-2;
+    @apply 
 }
 .driverStandings {
     @apply w-lg h-80 ;

@@ -1,7 +1,7 @@
 :root {
   --cellSize: 25px;
-  --grid-grabber-height: 15px;
-  --grid-closer-size: var(--grid-grabber-height);
+  --toolbar-height: 15px;
+  --grid-closer-size: var(--toolbar-height);
   --grid-grabber-right: var(--grid-closer-size);
 }
 
@@ -46,14 +46,16 @@ body.resizing {
 
 .gridChild {
   position: relative;
+  overflow: hidden;
   border: solid 1px black;
   background-color: white;
-  padding-top: var(--grid-grabber-height);
+  /* padding-top: var(--toolbar-height); */
 }
 
 .gridChildContent {
   /* padding: 0.5rem; */
   height: 100%;
+  /* width: 100%; */
 }
 
 .gridChild-grabbed {
@@ -62,13 +64,19 @@ body.resizing {
   cursor: grabbing;
 }
 
+.toolbar {
+  display: flex;
+  height: var(--toolbar-height);
+}
+
 .grid-grabber {
-  border: 1px solid black;
-  position: absolute;
+  /* border: 1px solid black; */
+  /* position: absolute; */
   top: 0px;
   right: var(--grid-grabber-right);
-  height: var(--grid-grabber-height);
-  width: calc(100% - var(--grid-grabber-right));
+  height: var(--toolbar-height);
+  /* width: calc(100% - var(--grid-grabber-right)); */
+  width: 100%;
   transition: opacity 0.2s ease-out;
   cursor: grab;
 }
@@ -83,15 +91,16 @@ body.resizing {
   cursor: se-resize;
 }
 
-.grid-closer, .grid-closer-temp {
+.grid-closer {
   border: 1px solid black;
-  position: absolute;
+  /* position: absolute; */
   display: flex;
   top: 0;
   right: 0;
   padding-bottom: 3px;
-  height: var(--grid-closer-size);
-  width: var(--grid-closer-size);
+  /* height: var(--grid-closer-size);
+  width: var(--grid-closer-size); */
+  height: 100%;
   /* border-radius: 30%; */
   justify-content: center;
   align-items: center;

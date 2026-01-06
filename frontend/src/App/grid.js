@@ -336,16 +336,20 @@ function initSizeGridKid(win) {
 function initGridCompanions(win) {
     const grabber     = document.createElement('div');
     const resizer     = document.createElement('div');
+    const toolbar     = document.createElement('div');
     grabber.classList.add('grid-grabber');
     resizer.classList.add('grid-resizer');
-    win.appendChild(grabber);
-    win.appendChild(resizer);
-    if (win.dataset.type !== 'driverInfo') {
+    toolbar.classList.add('toolbar');
+    win.append(resizer);
+    toolbar.append(grabber);
+    // if (win.dataset.type !== 'driverInfo') {
         const closeButton = document.createElement('div'); 
         closeButton.classList.add('grid-closer');
         closeButton.innerText = "✕";
-        win.appendChild(closeButton);
-    }
+        toolbar.append(closeButton);
+    // }
+
+    win.prepend(toolbar);
 }
 
 function getGridKidBounding(e) {
@@ -497,7 +501,7 @@ function designateWindows() {
             console.log("windows re-designated");
         }
     });
-    updateButtons();
+    // updateButtons();
 }
 
 // Unused function currently
@@ -516,7 +520,7 @@ function resizeGridChildToContent(win) {
     // win.style.columnCount = 1;
 }
 
-function toggleComponent(element, toggle) {
+export function toggleComponent(element, toggle) {
     if(!toggle || !element) return;
     const toggleRect = toggle.getBoundingClientRect();
 
@@ -553,46 +557,51 @@ function initButtonForChild(win) {
     // Nothing to do if neither exists
     if (!buttonsDiv && !driverInfoButtonsDiv) return; 
 
-    const button = document.createElement('button');
-    button.id = win.id + "Button";
-    button.value = win.id;
-    button.classList.add('componentToggles');
-    win.dataset.buttonId = button.id; 
+    let button;
     
-    // Take component ID and turn into button name
-    const spacedString = win.id.replace(/([a-z])([A-Z])/g, '$1 $2');
-    const buttonName = spacedString.charAt(0).toUpperCase() + spacedString.slice(1);
-    button.innerText = buttonName;
+    if (win.dataset.type === 'driverInfo') {
+        button = document.getElementById(win.id + 'Button');
+        win.dataset.buttonId = button.id;
+        // driverInfoButtonsDiv.append(button);
+    } else {
+        button = document.createElement('button');
+        button.id = win.id + "Button";
+        button.value = win.id;
+        button.classList.add('componentToggles');
+        win.dataset.buttonId = button.id; 
+        
+        // Take component ID and turn into button name
+        const spacedString = win.id.replace(/([a-z])([A-Z])/g, '$1 $2');
+        const buttonName = spacedString.charAt(0).toUpperCase() + spacedString.slice(1);
+        button.innerText = buttonName;
+        
+        buttonsDiv.append(button);
+    }
 
     button.addEventListener('click', () => {
         toggleComponent(win, button);
     });
-
-    if (win.dataset.type === 'driverInfo') {
-        driverInfoButtonsDiv.append(button);
-    } else {
-        buttonsDiv.append(button);
-    }
 }
-
-function updateButtons() {
-    if (!driverInfoButtonsDiv) return;
-    const infoButtons = Array.from(driverInfoButtonsDiv.children); // Selects all div elements on the page
-    
-    if (!infoButtons.empty) {
-        infoButtons.forEach((button) => {
-            const win = document.getElementById(button.innerText);
-            if (!win) {
-                button.remove();
-            }
-            
-        });
-    }
-
-}
-
 
 gridContainer = document.querySelector('.gridContainer');
+
+
+// function updateButtons() {
+//     if (!driverInfoButtonsDiv) return;
+//     const infoButtons = Array.from(driverInfoButtonsDiv.children); // Selects all div elements on the page
+    
+//     if (!infoButtons.empty) {
+//         infoButtons.forEach((button) => {
+//             const win = document.getElementById(button.innerText);
+//             if (!win) {
+//                 button.remove();
+//             }
+            
+//         });
+//     }
+
+// }
+
 
 // function toggleComponent(componentId, toggleRect) {
 //     console.log(componentId);
