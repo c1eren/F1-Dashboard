@@ -558,25 +558,9 @@ function initButtonForChild(win) {
     if (!buttonsDiv && !driverInfoButtonsDiv) return; 
 
     let button;
-    
-    if (win.dataset.type === 'driverInfo') {
-        button = document.getElementById(win.id + 'Button');
-        win.dataset.buttonId = button.id;
-        // driverInfoButtonsDiv.append(button);
-    } else {
-        button = document.createElement('button');
-        button.id = win.id + "Button";
-        button.value = win.id;
-        button.classList.add('componentToggles');
-        win.dataset.buttonId = button.id; 
-        
-        // Take component ID and turn into button name
-        const spacedString = win.id.replace(/([a-z])([A-Z])/g, '$1 $2');
-        const buttonName = spacedString.charAt(0).toUpperCase() + spacedString.slice(1);
-        button.innerText = buttonName;
-        
-        buttonsDiv.append(button);
-    }
+    button = document.getElementById(win.id + 'Button');
+    console.log(button);
+    win.dataset.buttonId = button.id; 
 
     button.addEventListener('click', () => {
         toggleComponent(win, button);

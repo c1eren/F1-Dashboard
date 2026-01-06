@@ -1,29 +1,26 @@
 import './index.css';
-import {toggleComponent} from '../grid.js'
 
 interface DriverInfoProps {
   selectedDriver: number | null;
   driverName: string;
 }
-
-interface TableDriverInfoControllerProps {
+interface UIContainerProps {
   driverInfoList: DriverInfoProps[];
   setDriverInfoList: React.Dispatch<React.SetStateAction<DriverInfoProps[]>>; // StateSetter longform type T
 }
 
-export function UIContainer({
-  driverInfoList,
-  setDriverInfoList,
-}: TableDriverInfoControllerProps) {
+const componentNames:string[] = [
+  "Next Session",
+  "Driver Standings",
+  "Constructor Standings",
+];
+
+export function UIContainer(
+  {driverInfoList,setDriverInfoList}: UIContainerProps,
+) {
 
   const handleCloseDriver = (driverInfo: DriverInfoProps) => {
-      // TODO fix!
-      // const element = document.querySelector(driverInfo.driverName);
-      // if (!element){return;}
-      // element.classList.add("closing");
-      // element.addEventListener("transitionend", () => {
         setDriverInfoList(prev => prev.filter(d => d.selectedDriver !== driverInfo.selectedDriver));
-      // }, { once: true });
     };
 
     return (
@@ -43,25 +40,27 @@ export function UIContainer({
             
             <div id="buttons" className='buttons UIItem'>
               Windows
+              {componentNames.map(name =>(
+                <div key={name} data-type="gridChildButton" id={`${name}Button`} 
+                className='flex p-2'>
+                  <div className='flex-1'> {name} </div>
+                </div>
+              ))}
             </div>
 
             <div id="driverInfoButtons" className='buttons UIItem'>
               Driver Info
-              </div>
               {driverInfoList.map(driverInfo =>(
-                              <div key={driverInfo.selectedDriver} data-type="driverInfo" id={`${driverInfo.driverName}Button`} 
-                              className='componentToggles
-                              flex
-                              justify-around
-                              border border-white
-                              '>
-                                {/* This is the closing button to remove the driverInfo gridChild from the render list */}
-                                <div> {driverInfo.driverName} </div>
-                                <div className="h-full" onClick={() => handleCloseDriver(driverInfo)}>
-                                  ✕
-                                </div>
-                              </div>
-                          ))}
+                <div key={driverInfo.selectedDriver} data-type="driverInfoButton" id={`${driverInfo.driverName}Button`} 
+                className='flex p-2'>
+                  {/* This is the closing button to remove the driverInfo gridChild from the render list */}
+                  <div className='flex-1'> {driverInfo.driverName} </div>
+                  <div className="h-full" onClick={() => handleCloseDriver(driverInfo)}>
+                    ✕
+                  </div>
+                </div>
+              ))}
+            </div>
 
           </div>
 

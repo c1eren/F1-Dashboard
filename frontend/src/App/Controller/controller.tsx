@@ -13,15 +13,13 @@ interface TableDriverInfoControllerProps {
   setDriverInfoList: React.Dispatch<React.SetStateAction<DriverInfoProps[]>>; // StateSetter longform type T
 }
 
-export function TableDriverInfoController({driverInfoList,setDriverInfoList,}: TableDriverInfoControllerProps) { 
-
+export function TableDriverInfoController({driverInfoList,setDriverInfoList,}: TableDriverInfoControllerProps) 
+{ 
   // TODO
   function handleConstructorClick(){}
-  
+
   // Handler for clicking a driver in the standings
   const handleDriverClick = (driverId: number, driverName: string) => {
-    // Avoid duplicates if needed, do I want to enable duplicates? probably not?? leave it for now
-  
     // This lambda resolves to a driverInfoList item, filling the setDriverInfoList brackets with the "new" value for driverInfoList
     setDriverInfoList(prev => {
       if (prev.some(d => d.selectedDriver === driverId)) return prev;
@@ -31,17 +29,19 @@ export function TableDriverInfoController({driverInfoList,setDriverInfoList,}: T
 
   return (
       <>
-        <div id='nextSession' className="gridChild nextSession">
+        <div id='Next Session' className="gridChild nextSession
+        w-[975px] h-[200px]
+        ">
           <NextSession/>
         </div>
         
-        <div id='constructorStandings' className='gridChild constructorStandings 
+        <div id='Constructor Standings' className='gridChild constructorStandings 
         w-[500px] h-[350px]
         '>
           <ConstructorStandings onConstructorClick={handleConstructorClick} />
         </div>
 
-        <div id='driverStandings' className='gridChild driverStandings'>
+        <div id='Driver Standings' className='gridChild driverStandings'>
           <DriverStandings onDriverClick={handleDriverClick} />
         </div>
 

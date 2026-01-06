@@ -12,7 +12,17 @@ interface DriverInfoProps {
   driverName: string;
 }
 
+/* TODO: 
+
+1. When gridChild is dragging, retain current gridContainer 
+size until mouseUp event, to prevent random scrolling and window jumps
+
+2. Understand why @apply (and raw css for that matter) for the modern-dark stylesheet doesn't work
+
+*/
+
 function App() {
+
     // Store a list of driver info objects
   const [driverInfoList, setDriverInfoList] = useState<DriverInfoProps[]>([]);
   const portalRef = useRef<HTMLDivElement>(null);

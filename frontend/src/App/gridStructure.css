@@ -25,6 +25,8 @@ body.resizing {
   cursor: se-resize;
 }
 
+.componentToggles {}
+
 .gridContainer {
   /* --columns: 25;
   --rows: 10; */
@@ -33,11 +35,11 @@ body.resizing {
   display: grid;
   position: relative;
   /* min-height: calc(var(--rows) * var(--cellSize)); */
-  max-width: 100%;
-  max-height: 100%;
-  align-items: start;
-  justify-items: start;
-  grid-auto-flow:column dense;
+  /* max-width: 100%; */
+  /* max-height: 100%; */
+  /* align-items: start; */
+  /* justify-items: start; */
+  /* grid-auto-flow:column dense; */
 }
 
 .gridContainer-grabbing {

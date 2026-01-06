@@ -110,23 +110,36 @@ p {
 .grid-resizer {
     /* @apply  */
 }
+
+/* UI COMPONENTS */
 .UIContainer {
     @apply bg-linear-to-l from-text-base to-background-dark;
 }
-.gridChildContent {
-    @apply 
+
+.componentToggles {
 }
-.driverStandings {
-    @apply w-lg h-80 ;
+
+/*  */
+.gridChildContent {
+    @apply bg-black;
 }
 .standingsTable {
     @apply overflow-y-auto overflow-x-hidden w-full;
 }
 
 .tableHeaderRow {
-    @apply bg-text-base;
+    /* @apply bg-text-base; */
 }
 
+.nextSession {
+    width: 975px;
+    height: 200x;
+}
+
+/* Driver Standings */
+.driverStandings {
+    @apply w-lg h-80 ;
+}
 
 /* Constructor Standings */
 .constructorStandings {
