@@ -53,8 +53,9 @@ function App() {
 
 
         
-          
-        <div 
+      {/* TEST ZONE (I don't feel like setting up another react app) */}
+        <a
+        href='test.html'
             onMouseOver={() => {portalRef.current?.classList.add('shadow-[1px_2px_20px_1px_rgba(25,255,255,0.5)]');}}
         onMouseLeave={() => {portalRef.current?.classList.remove('shadow-[1px_2px_20px_1px_rgba(25,255,255,0.5)]');}}
         className='
@@ -62,7 +63,7 @@ function App() {
         bg-[url(/natural-wood.webp)] bg-size-[300%]
         hover:rotate-z-5 origin-top-left duration-150 ease-out
         '>
-        </div>
+        </a>
           
         <div 
         id='portal' 
