@@ -334,6 +334,8 @@ function initSizeGridKid(win) {
 }
 
 function initGridCompanions(win) {
+    const ASS = getComputedStyle(win).height;
+    // console.log(win.id, ": ",ASS);
     const grabber     = document.createElement('div');
     const resizer     = document.createElement('div');
     const toolbar     = document.createElement('div');
@@ -350,6 +352,11 @@ function initGridCompanions(win) {
     // }
 
     win.prepend(toolbar);
+    const FUCK = win.offsetHeight;
+    // console.log(win.id, ": ",FUCK);
+
+    // win.style.height = 'auto';
+
 }
 
 function getGridKidBounding(e) {
@@ -559,7 +566,7 @@ function initButtonForChild(win) {
 
     let button;
     button = document.getElementById(win.id + 'Button');
-    console.log(button);
+    // console.log(button);
     win.dataset.buttonId = button.id; 
 
     button.addEventListener('click', () => {

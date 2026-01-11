@@ -5,7 +5,7 @@
   --color-primary-200: #b3ffc6;
   --color-primary-300: #1ce272;
   --color-primary-400: #14b65a;
-  --color-primary-base: #27AE60; /* Site primary */
+  --color-primary-normal: #27AE60; /* Site primary */
   --color-primary-600: #06642f;
   --color-primary-700: #033f1b;
   --color-primary-800: #011d09;
@@ -42,6 +42,11 @@
   --color-text-500: #4d4d4d;
   --color-text-600: #2d2d2d;
   --color-text-base: #0F0F0F;
+
+  /* Let's try this again lmao */
+  --color-primary-base:    hsl(333deg 50% 50%);
+  --color-primary-darker:  hsl(333deg 75% 25%);
+  --color-primary-lighter: hsl(333deg 25% 75%);
 
   /* Fonts */
   /* --font-sans: 'Inter', sans-serif;
@@ -96,10 +101,10 @@ p {
 @layer components {
 
 .gridContainer {
-    @apply bg-background-dark;
+    /* @apply bg-background-dark; */
 }
 .gridChild {
-    @apply p-[1px];
+    @apply border bg-primary-base border-primary-darker text-primary-lighter;
 }
 .grid-grabber {
     @apply bg-background-dark;
@@ -113,7 +118,7 @@ p {
 
 /* UI COMPONENTS */
 .UIContainer {
-    @apply bg-linear-to-l from-text-base to-background-dark;
+    @apply bg-background-dark;
 }
 
 .componentToggles {
@@ -121,23 +126,25 @@ p {
 
 /*  */
 .gridChildContent {
-    @apply bg-black;
+    @apply bg-inherit;
 }
 .standingsTable {
-    @apply overflow-y-auto overflow-x-hidden w-full;
+    @apply bg-primary-darker overflow-y-auto overflow-x-hidden w-full;
 }
 
 .tableHeaderRow {
-    /* @apply bg-text-base; */
+    @apply bg-primary-base;
 }
 
 .nextSession {
-    width: 975px;
-    height: 200x;
+    width:  975px !important;
+    height: 200px !important;
 }
 
 /* Driver Standings */
 .driverStandings {
+    width:  525px !important;
+    height: 325px !important;
     @apply w-lg h-80 ;
 }
 
@@ -162,4 +169,18 @@ p {
 .gridContainer {
     /* background-image: linear-gradient(black, white); */
     background-image: url("./bg-images/1040.jpg");
+}
+
+.baseTest {
+    @apply bg-primary-base;
+
+}
+
+.lightTest {
+    @apply bg-primary-lighter;
+}
+
+.darkTest {
+    @apply bg-primary-darker;
+
 }

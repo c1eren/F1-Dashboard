@@ -55,6 +55,7 @@ function App() {
         
       {/* TEST ZONE (I don't feel like setting up another react app) */}
         <a
+        target='none'
         href='test.html'
             onMouseOver={() => {portalRef.current?.classList.add('shadow-[1px_2px_20px_1px_rgba(25,255,255,0.5)]');}}
         onMouseLeave={() => {portalRef.current?.classList.remove('shadow-[1px_2px_20px_1px_rgba(25,255,255,0.5)]');}}

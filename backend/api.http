@@ -57,5 +57,5 @@ GET https://en.wikipedia.org/api/rest_v1/page/summary/earth
 GET https://en.wikipedia.org/api/rest_v1/page/summary/2025_Formula_One_World_Championship#Results_and_standings
 
 ### trying that again
-GET https://en.wikipedia.org/w/api.php?action=parse&format=json&page=2025_Formula_One_World_Championship&prop=text&disabletoc=1
+GET https://en.wikipedia.org/w/api.php?action=parse&format=json&page=2025_Formula_One_World_Championship&section=10&prop=text&disabletoc=1
 

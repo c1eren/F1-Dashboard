@@ -49,13 +49,12 @@ body.resizing {
 .gridChild {
   position: relative;
   overflow: hidden;
-  border: solid 1px black;
-  background-color: white;
+  
   /* padding-top: var(--toolbar-height); */
 }
 
 .gridChildContent {
-  /* padding: 0.5rem; */
+  padding: 0.5rem;
   height: 100%;
   /* width: 100%; */
 }
@@ -97,15 +96,11 @@ body.resizing {
   border: 1px solid black;
   /* position: absolute; */
   display: flex;
-  top: 0;
-  right: 0;
-  padding-bottom: 3px;
-  /* height: var(--grid-closer-size);
-  width: var(--grid-closer-size); */
   height: 100%;
+  /* background-color:aqua ; */
   /* border-radius: 30%; */
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  align-items: center; 
   cursor: pointer;
 }
 

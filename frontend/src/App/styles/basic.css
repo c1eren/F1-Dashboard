@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 * {
     scrollbar-width: thin;
 }
@@ -45,6 +47,11 @@ span {
 .buttons {
 }
 
+@layer components {
+    .driverInfoCloseButton {
+        @apply bg-white hover:invert;
+    }
+}
 
 /* Grid */
 .gridContainer {
@@ -52,6 +59,8 @@ span {
 }
 
 .gridChild {
+    border: solid 1px black;
+    background-color: white;
 
 }
 
@@ -85,7 +94,7 @@ span {
 /* Next Session */
 .nextSession {
     width: 300px;
-    height: 300px;
+    height: 325px;
 }
 
 
@@ -126,7 +135,7 @@ span {
 
 .standingsTable .cells {
     border: 1px solid black;
-    height: 25px;
+    /* height: 25px; */
 }
 
 
@@ -141,6 +150,7 @@ span {
 .countdownContainer {
   gap: 1rem; 
 }
+
 
 
 

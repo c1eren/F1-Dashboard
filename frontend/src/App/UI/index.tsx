@@ -42,7 +42,7 @@ export function UIContainer(
               Windows
               {componentNames.map(name =>(
                 <div key={name} data-type="gridChildButton" id={`${name}Button`} 
-                className='flex p-2'>
+                className='flex p-2 cursor-pointer'>
                   <div className='flex-1'> {name} </div>
                 </div>
               ))}
@@ -52,10 +52,10 @@ export function UIContainer(
               Driver Info
               {driverInfoList.map(driverInfo =>(
                 <div key={driverInfo.selectedDriver} data-type="driverInfoButton" id={`${driverInfo.driverName}Button`} 
-                className='flex p-2'>
+                className='flex p-2 cursor-pointer'>
                   {/* This is the closing button to remove the driverInfo gridChild from the render list */}
                   <div className='flex-1'> {driverInfo.driverName} </div>
-                  <div className="h-full" onClick={() => handleCloseDriver(driverInfo)}>
+                  <div className="driverInfoCloseButton h-fit" onClick={() => handleCloseDriver(driverInfo)}>
                     ✕
                   </div>
                 </div>
