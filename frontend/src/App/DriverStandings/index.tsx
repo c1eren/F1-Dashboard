@@ -96,40 +96,94 @@ export function DriverStandings(props: Props){
         "PTS.":        standings?.standings.map(item => item.points ?? '--') ?? [],
     };
 
-    return (
+    const rows = standings?.standings.map(s => ([
+        s.position ?? '--',
+        s.constructor.name ?? '--',
+        s.constructor.nationality ?? '--',
+        s.wins ?? '--',
+        s.points ?? '--'
+      ])) ?? [];
+    
+      const standingsFormatted:string[] = [
+          "POS.", "CONSTRUCTOR", "NATIONALITY", "WINS", "PTS."
+      ];
+      const columnSize = standingsFormatted.length;
+    
+      return (
         <>
-        <div className="gridChildContent driverStandingsContent primaryContent flex flex-col justify-start items-center overflow-hidden text-nowrap">
-            <div className="flex self-start items-start flex-row">
-              <h1>Driver Standings</h1>
+          <div className='constructorStandingsContent'>
+    
+            <div className="header">
+              <h1>Constructor Standings</h1>
               <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
             </div>
-            <div id='standingsTable' className='standingsTable grid grid-cols-[repeat(7,1fr)] overflow-y-auto'>
-                {/* ["POS.", [1, 2, 3, ...]] */}
-                <div className='tableHeaderRow sticky top-0'>POS.       </div>
-                <div className='tableHeaderRow sticky top-0'>DRIVER     </div>
-                <div className='tableHeaderRow sticky top-0'>NO.        </div>
-                <div className='tableHeaderRow sticky top-0'>NATIONALITY</div>
-                <div className='tableHeaderRow sticky top-0'>TEAM       </div>
-                <div className='tableHeaderRow sticky top-0'>WINS       </div>
-                <div className='tableHeaderRow sticky top-0'>PTS.       </div>
-                {/* Fill in with the rest */}
-                {Object.entries(standingsFormatted).map(([colName, colValues]) => (
-                    <div className='columns standingsColumns w-full' key={colName}>
-                        {colValues.map((value, i) => {
-                            const driverId = standings?.standings[i]?.driver.id ?? null; // Get ID and fallback to null
-                            return (
-                                <div 
-                                className={`cells ${colName === 'DRIVER' ? 'cursor-pointer' : ''}`} 
-                                key={i} 
-                                onClick={colName === 'DRIVER' ? () => {props.onDriverClick(Number(driverId), String(standings?.standings[i]?.driver.forename + '_' + standings?.standings[i]?.driver.surname) )} : undefined}> {/* Use undefinedfor props apparently */}
-                                    {value}
-                                </div>
-                            );
-                        })}
-                    </div>
+    
+            <div className="standingsTable"
+              style={{ gridTemplateColumns: `repeat(${columnSize}, auto)` }}
+            >
+              <div className='headerRow'>
+              {standingsFormatted.map((colName) => (
+                  <div className="cell" key={colName}>
+                    {colName}
+                  </div>
                 ))}
-            </div>    
-        </div>
+              </div>
+              {
+                rows && rows.length > 0 ? 
+                  <div className='content'>
+                    {
+                      rows.map((row, rowIndex) => (
+                        <div className='row' key={rowIndex}>
+                          {
+                            row.map((cell, colIndex) => (
+                            <div className='cell' key={`${rowIndex}-${colIndex}`}>{cell}</div>
+                            ))
+                          }
+                        </div>
+                      ))
+                    }
+                  </div>
+                : <div className='col-span-full'>Data not found...</div>
+              }
+            </div>
+          </div>
         </>
-    );
+      );
 }
+
+    // return (
+    //     <>
+    //     <div className="gridChildContent driverStandingsContent primaryContent flex flex-col justify-start items-center overflow-hidden text-nowrap">
+    //         <div className="flex self-start items-start flex-row">
+    //           <h1>Driver Standings</h1>
+    //           <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
+    //         </div>
+    //         <div id='standingsTable' className='standingsTable grid grid-cols-[repeat(7,1fr)] overflow-y-auto'>
+    //             {/* ["POS.", [1, 2, 3, ...]] */}
+    //             <div className='tableHeaderRow sticky top-0'>POS.       </div>
+    //             <div className='tableHeaderRow sticky top-0'>DRIVER     </div>
+    //             <div className='tableHeaderRow sticky top-0'>NO.        </div>
+    //             <div className='tableHeaderRow sticky top-0'>NATIONALITY</div>
+    //             <div className='tableHeaderRow sticky top-0'>TEAM       </div>
+    //             <div className='tableHeaderRow sticky top-0'>WINS       </div>
+    //             <div className='tableHeaderRow sticky top-0'>PTS.       </div>
+    //             {/* Fill in with the rest */}
+    //             {Object.entries(standingsFormatted).map(([colName, colValues]) => (
+    //                 <div className='columns standingsColumns w-full' key={colName}>
+    //                     {colValues.map((value, i) => {
+    //                         const driverId = standings?.standings[i]?.driver.id ?? null; // Get ID and fallback to null
+    //                         return (
+    //                             <div 
+    //                             className={`cells ${colName === 'DRIVER' ? 'cursor-pointer' : ''}`} 
+    //                             key={i} 
+    //                             onClick={colName === 'DRIVER' ? () => {props.onDriverClick(Number(driverId), String(standings?.standings[i]?.driver.forename + '_' + standings?.standings[i]?.driver.surname) )} : undefined}> {/* Use undefinedfor props apparently */}
+    //                                 {value}
+    //                             </div>
+    //                         );
+    //                     })}
+    //                 </div>
+    //             ))}
+    //         </div>    
+    //     </div>
+    //     </>
+    // );

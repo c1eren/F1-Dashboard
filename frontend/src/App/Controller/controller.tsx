@@ -36,7 +36,7 @@ export function TableDriverInfoController({driverInfoList,setDriverInfoList,}: T
         </div>
         
         <div id='Constructor Standings' className='gridChild constructorStandings 
-        w-[500px] h-[350px]
+        
         '>
           <ConstructorStandings onConstructorClick={handleConstructorClick} />
         </div>

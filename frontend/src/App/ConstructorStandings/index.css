@@ -1,24 +1,19 @@
 .constructorStandingsContent {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: hidden;
-  white-space: nowrap; /* text-nowrap */
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  min-height: calc(var(--spacing) * 0);
 }
 
 .constructorStandingsContent .header {
   display: flex;
-  align-self: flex-start;
-  align-items: flex-start;
-  flex-direction: row;
 }
 
-.standingsTable {
+/* .standingsTable {
   display: grid;
   overflow-y: auto;
   width: 100%;
-}
+} */
 
 .tableHeaderRow {
   position: sticky;

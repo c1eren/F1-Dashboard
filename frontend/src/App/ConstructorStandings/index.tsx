@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { DatePicker } from '../DatePicker';
-// import './index.css';
+import './index.css';
 
 import BACKEND_URL from '../../backend_url'; 
 
@@ -62,107 +62,73 @@ async function fetchStandings(season: number): Promise<Standings | null> {
 }
 
 export function ConstructorStandings(props: Props){
-    const [standings, setStandings] = useState<Standings| null>(null);
-    const [selectedYear, setSelectedYear] = useState<Date | null>(startDate);
-
-//     useEffect(() => {
-//   console.log("DriverStandings mounted");
-//   return () => console.log("DriverStandings unmounted");
-// }, []);
-    
-    useEffect(() => {
-        const loadStandings = async () => {
-            if (selectedYear === null) {
-                setStandings(null);
-                return;
-            }
-            const fetchedStandings = await fetchStandings(Number(selectedYear?.getFullYear()));
-            setStandings(fetchedStandings);
-        };
-        loadStandings();
-    }, [selectedYear]);
-
-    // console.log(standings);
-
-    const rows = standings?.standings.map(s => ([
-      s.points ?? '--',
-      s.constructor.name ?? '--',
-      s.constructor.nationality ?? '--',
-      s.wins ?? '--',
-      s.points ?? '--'
-    ])) ?? [];
-
-    const standingsFormatted: StandingsFormatted = {
-        // Convert to cols
-        "POS.":        standings?.standings.map(item => item.position                ?? '--')   ?? [],
-        "CONSTRUCTOR": standings?.standings.map(item => `${item.constructor.name     ?? '--'}`) ?? [],
-        "NATIONALITY": standings?.standings.map(item => item.constructor.nationality ?? '--')   ?? [],
-        "WINS":        standings?.standings.map(item => item.wins                    ?? '--')   ?? [],
-        "PTS.":        standings?.standings.map(item => item.points                  ?? '--')   ?? [],
-
-    };
-    const columnSize = Object.keys(standingsFormatted).length;
-
-    return (
-    <>
-    
-    <div className='h-full'>
-      <div className="header">
-        <h1>Constructor Standings</h1>
-        <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
-      </div>
-
-      <div
-        className="grid w-full h-full darkTest border-2 border-black"
-        style={{ 
-          gridTemplateColumns: `repeat(${columnSize}, auto)`,
-          gridTemplateRows: 'auto 1fr'
-       }}
-      >
-        <div className='grid baseTest py-2 col-span-full grid-cols-subgrid w-full'>
-        {Object.entries(standingsFormatted).map(([colName]) => (
-            <div className="" key={colName}>
-              {colName}
-            </div>
-          ))}
-        </div>
-        
-        <div
-        className='self-start grid col-span-full grid-cols-subgrid w-full overflow-y-scroll h-full'
-        >
-          {
-            rows.map((row, rowIndex) => {
-              return (
-                row.map((cell, colIndex) => {
-                  return (
-                    <div key={`${rowIndex}-${colIndex}`}>{cell}</div>
-                  )
-                })
-              );
-            })
+  const [standings, setStandings] = useState<Standings| null>(null);
+  const [selectedYear, setSelectedYear] = useState<Date | null>(startDate);
+  
+  useEffect(() => {
+      const loadStandings = async () => {
+          if (selectedYear === null) {
+              setStandings(null);
+              return;
           }
-          {/* {Object.entries(standingsFormatted).map(([colName, colValues]) => (
-            <div className="" key={colName}>
-              {colValues.map((value, i) => {
-                const constructorId = standings?.standings[i]?.constructor.id ?? null;
-                return (
-                  <div
-                    className={`cells ${colName === 'CONSTRUCTOR' ? 'cursor-pointer' : ''}`}
-                    key={i}
-                    onClick={
-                      colName === 'CONSTRUCTOR'
-                        ? () => props.onConstructorClick(Number(constructorId), String(value))
-                        : undefined
-                    }
-                  >
-                    {value}
-                  </div>
-                );
-              })}
-            </div>
-          ))} */}
+          const fetchedStandings = await fetchStandings(Number(selectedYear?.getFullYear()));
+          setStandings(fetchedStandings);
+      };
+      loadStandings();
+  }, [selectedYear]);
+
+  // console.log(standings);
+
+  const rows = standings?.standings.map(s => ([
+    s.position ?? '--',
+    s.constructor.name ?? '--',
+    s.constructor.nationality ?? '--',
+    s.wins ?? '--',
+    s.points ?? '--'
+  ])) ?? [];
+
+  const standingsFormatted:string[] = [
+      "POS.", "CONSTRUCTOR", "NATIONALITY", "WINS", "PTS."
+  ];
+  const columnSize = standingsFormatted.length;
+
+  return (
+    <>
+      <div className='constructorStandingsContent'>
+
+        <div className="header">
+          <h1>Constructor Standings</h1>
+          <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
         </div>
-      </div>
+
+        <div className="standingsTable"
+          style={{ gridTemplateColumns: `repeat(${columnSize}, auto)` }}
+        >
+          <div className='headerRow'>
+          {standingsFormatted.map((colName) => (
+              <div className="cell" key={colName}>
+                {colName}
+              </div>
+            ))}
+          </div>
+          {
+            rows && rows.length > 0 ? 
+              <div className='content'>
+                {
+                  rows.map((row, rowIndex) => (
+                    <div className='row' key={rowIndex}>
+                      {
+                        row.map((cell, colIndex) => (
+                        <div className='cell' key={`${rowIndex}-${colIndex}`}>{cell}</div>
+                        ))
+                      }
+                    </div>
+                  ))
+                }
+              </div>
+            : <div className='col-span-full'>Data not found...</div>
+          }
+        </div>
       </div>
     </>
   );
