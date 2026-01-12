@@ -83,36 +83,34 @@ export function DriverInfo({ selectedDriver, selectedDriverName }: Props) {
     ].filter(item => item.value != null && item.value !== '');
 
 
-        return (
-            <>
-                <div id={String(fullname)} className="gridChildContent flex flex-col h-full min-h-0">
-                    <h1 className="">{ fullname }</h1>
+    return (
+        <>
+            <div id={String(fullname)} className="gridChildContent flex flex-col h-full min-h-0">
+                <h1 className="">{ fullname }</h1>
 
-                    <div className="flex gap-1 flex-1 min-h-0">
-                        {/*  */}
-                        <div className='flex flex-col'>
-                            <div className="grid grid-cols-2">
-                                {driverData.map((item) => (
-                                    <div className="cells" key={item.header}>
-                                        <h3>{item.header}</h3>
-                                        <div>{item.value}</div>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="excerpt border flex-1 min-h-0 overflow-y-auto">
-                                {RenderHTML(String(driver.extract))}
-                            </div>
+                <div className="flex gap-1 flex-1 min-h-0">
+                    {/*  */}
+                    <div className='flex flex-col'>
+                        <div className="grid grid-cols-2">
+                            {driverData.map((item) => (
+                                <div className="cells" key={item.header}>
+                                    <h3>{item.header}</h3>
+                                    <div>{item.value}</div>
+                                </div>
+                            ))}
                         </div>
-                        <img className='non-responsive-image h-full w-auto object-contain' src={driver.image} alt={fullname}></img>
-
+                        <div className="excerpt border flex-1 min-h-0 overflow-y-auto">
+                            {RenderHTML(String(driver.extract))}
+                        </div>
                     </div>
-                            <div className="">
-                                <h3>Wiki</h3>
-                                <a href={String(driver.url)} rel="noopener noreferrer" target="_blank"><p>{decodeURIComponent(String(driver.url))}</p></a>
-                            </div>
-                        
+                    <img className='non-responsive-image h-full w-auto object-contain' src={driver.image} alt={fullname}></img>
 
                 </div>
-            </>
-        );
-    }
+                        <div className="">
+                            <h3>Wiki</h3>
+                            <a href={String(driver.url)} rel="noopener noreferrer" target="_blank"><p>{decodeURIComponent(String(driver.url))}</p></a>
+                        </div>
+            </div>
+        </>
+    );
+}

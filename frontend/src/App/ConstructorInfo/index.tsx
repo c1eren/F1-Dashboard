@@ -65,37 +65,35 @@ export function ConstructorInfo({ selectedConstructor, selectedConstructorName }
     ].filter(item => item.value != null && item.value !== '');
 
 
-        return (
-            <>
-                <div id={String(selectedConstructorName)} className="gridChildContent constructorInfoContent overflow-hidden flex flex-col">
-                        <h1 className="">
-                            { selectedConstructorName }
-                        </h1>
-                        <div className='flex gap-1 min-h-0 flex-1 items-stretch'>
-                            <div className="primaryContent border overflow-y-auto">
-                                <div className="grid grid-cols-2">
-                                    {constructorData.map((item) => (
-                                        <div className="cells" key={item.header}>
-                                            <h3>{item.header}</h3>
-                                            <div>{item.value}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                                
-                                <div className="cells excerpt">
-                                    {/* <h3>{item.header}</h3> */}
-                                    <div>{RenderHTML(String(constructor.extract))}</div>
-                                </div>
+    return (
+    <>
+        <div id={String()} className="gridChildContent flex flex-col h-full min-h-0">
+            <h1 className="">{ selectedConstructorName }</h1>
+    <div>{constructor.code}</div>
 
-                                <div className="cells">
-                                    <h3>Wiki</h3>
-                                    <a href={String(constructor.url)} rel="noopener noreferrer" target="_blank">{decodeURIComponent(String(constructor.url))}</a>
-                                </div>
-
+            <div className="flex gap-1 flex-1 min-h-0">
+                {/*  */}
+                <div className='flex flex-col'>
+                    <div className="grid grid-cols-2">
+                        {constructorData.map((item) => (
+                            <div className="cells" key={item.header}>
+                                <h3>{item.header}</h3>
+                                <div>{item.value}</div>
                             </div>
-                            <img className='non-responsive-image h-full w-auto object-contain' src={constructor.image} alt={String(selectedConstructorName)}></img>
-                        </div>
+                        ))}
+                    </div>
+                    <div className="excerpt border flex-1 min-h-0 overflow-y-auto">
+                        {RenderHTML(String(constructor.extract))}
+                    </div>
                 </div>
-            </>
-        );
-    }
+                <img className='non-responsive-image h-full w-auto object-contain max-w-1/2' src={constructor.image} alt={String(selectedConstructorName)}></img>
+
+            </div>
+                    <div className="">
+                        <h3>Wiki</h3>
+                        <a href={String(constructor.url)} rel="noopener noreferrer" target="_blank"><p>{decodeURIComponent(String(constructor.url))}</p></a>
+                    </div>
+        </div>
+    </>
+    );
+}

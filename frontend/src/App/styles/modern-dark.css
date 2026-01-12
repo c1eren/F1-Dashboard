@@ -44,9 +44,10 @@
   --color-text-base: #0F0F0F;
 
   /* Let's try this again lmao */
-  --color-primary-base:    hsl(333deg 50% 50%);
-  --color-primary-darker:  hsl(333deg 75% 25%);
-  --color-primary-lighter: hsl(333deg 25% 75%);
+  --color-base-hue: 0deg;
+  --color-primary-base:    hsl(var(--color-base-hue) 50% 50%);
+  --color-primary-darker:  hsl(var(--color-base-hue) 75% 25%);
+  --color-primary-lighter: hsl(var(--color-base-hue) 25% 75%);
 
   /* Fonts */
   /* --font-sans: 'Inter', sans-serif;
