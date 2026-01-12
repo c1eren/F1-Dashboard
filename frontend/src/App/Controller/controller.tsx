@@ -1,54 +1,65 @@
 import { DriverInfo } from '../DriverInfo';
+import { ConstructorInfo } from '../ConstructorInfo';
 import { DriverStandings } from '../DriverStandings';
 import { NextSession } from '../NextSession';
 import { ConstructorStandings } from '../ConstructorStandings';
 
 
-interface DriverInfoProps {
-  selectedDriver: number | null;
-  driverName: string;
-}
-interface TableDriverInfoControllerProps {
-  driverInfoList: DriverInfoProps[];
-  setDriverInfoList: React.Dispatch<React.SetStateAction<DriverInfoProps[]>>; // StateSetter longform type T
+interface InfoProps {
+  selected: number | null;
+  name: string;
 }
 
-export function TableDriverInfoController({driverInfoList,setDriverInfoList,}: TableDriverInfoControllerProps) 
+interface Props {
+  driverInfoList:         InfoProps[];
+  constructorInfoList:    InfoProps[];
+  setDriverInfoList:      React.Dispatch<React.SetStateAction<InfoProps[]>>;
+  setConstructorInfoList: React.Dispatch<React.SetStateAction<InfoProps[]>>;
+}
+
+export function TableDriverInfoController({driverInfoList,constructorInfoList,setDriverInfoList,setConstructorInfoList}: Props) 
 { 
-  // TODO
-  function handleConstructorClick(){}
-
-  // Handler for clicking a driver in the standings
-  const handleDriverClick = (driverId: number, driverName: string) => {
-    // This lambda resolves to a driverInfoList item, filling the setDriverInfoList brackets with the "new" value for driverInfoList
-    setDriverInfoList(prev => {
-      if (prev.some(d => d.selectedDriver === driverId)) return prev;
-      return [...prev, { selectedDriver: driverId, driverName }];
+  const handleInfoClick = (
+  id: number,
+  name: string,
+  type: 'driver' | 'constructor'
+  ) => {
+    if (type === 'driver') {
+      setDriverInfoList(prev => {
+        if (prev.some(d => d.selected === id)) return prev;
+        return [...prev, { selected: id, name }];
     });
+    } else {
+      setConstructorInfoList(prev => {
+        if (prev.some(c => c.selected === id)) return prev;
+        return [...prev, { selected: id, name }];
+      });
+    }
   };
 
   return (
       <>
-        <div id='Next Session' className="gridChild nextSession
-        w-[975px] h-[200px]
-        ">
+        <div id='Next Session' className="gridChild nextSession">
           <NextSession/>
         </div>
         
-        <div id='Constructor Standings' className='gridChild constructorStandings 
-        
-        '>
-          <ConstructorStandings onConstructorClick={handleConstructorClick} />
+        <div id='Constructor Standings' className='gridChild constructorStandings'>
+          <ConstructorStandings onConstructorClick={handleInfoClick} />
         </div>
 
         <div id='Driver Standings' className='gridChild driverStandings'>
-          <DriverStandings onDriverClick={handleDriverClick} />
+          <DriverStandings onDriverClick={handleInfoClick} />
         </div>
 
         {/* Render each driverInfo by passing in and mapping driverInfoList */}
         {driverInfoList.map(driverInfo =>(
-            <div key={driverInfo.selectedDriver} data-type="driverInfo" id={`${driverInfo.driverName}`} className='gridChild driverInfo'>
-              <DriverInfo selectedDriver={driverInfo.selectedDriver} selectedDriverName={driverInfo.driverName}/>
+            <div key={driverInfo.selected} data-type="standardInfo" id={`${driverInfo.name}`} className='gridChild standardInfo'>
+              <DriverInfo selectedDriver={driverInfo.selected} selectedDriverName={driverInfo.name}/>
+            </div>
+        ))}
+        {constructorInfoList.map(constructorInfo =>(
+            <div key={constructorInfo.selected} data-type="standardInfo" id={`${constructorInfo.name}`} className='gridChild standardInfo'>
+              <ConstructorInfo selectedConstructor={constructorInfo.selected} selectedConstructorName={constructorInfo.name}/>
             </div>
         ))}
       </>

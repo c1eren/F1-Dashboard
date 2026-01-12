@@ -1,0 +1,16 @@
+.constructorInfoContent {
+  overflow: hidden; 
+}
+
+.grid {
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cells {
+  
+}
+
+.cells.col-span-2 {
+  grid-column: span 2; 
+}

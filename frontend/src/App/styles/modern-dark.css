@@ -100,6 +100,7 @@ p {
 
 @layer components {
 
+/* Grid components */
 .gridContainer {
     /* @apply bg-background-dark; */
 }
@@ -107,10 +108,10 @@ p {
     @apply border bg-primary-base border-primary-darker text-primary-lighter;
 }
 .grid-grabber {
-    @apply bg-background-dark;
+    @apply bg-primary-darker;
 }
 .grid-closer {
-    @apply bg-background-dark;
+    @apply bg-primary-darker;
 }
 .grid-resizer {
     /* @apply  */
@@ -122,6 +123,10 @@ p {
 }
 
 .componentToggles {
+}
+
+.componentClickableElement {
+    cursor: pointer;
 }
 
 /*  */
@@ -157,7 +162,7 @@ p {
     grid-template-columns: subgrid;
     overflow-y: auto;
     overflow-x: hidden;
-    overscroll-behavior: contain;
+    overscroll-behavior-y: contain;
 }
 
 .content > .row {
@@ -191,8 +196,13 @@ p {
 }
 
 /* Driver Info */
-.driverInfo {
+.standardInfo {
     @apply w-80 h-52;
+}
+
+/* Next Session */
+.nextSession {
+    @apply w-[1075px] h-[200px];
 }
 
 }

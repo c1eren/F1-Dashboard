@@ -41,7 +41,7 @@ interface StandingsFormatted {
 
 interface Props {
     //This means: “Parent must give me a function that accepts a number and returns nothing (void).”
-    onConstructorClick: (constructorId: number, constructorName: string) => void;
+    onConstructorClick: (constructorId: number, constructorName: string, type: 'driver' | 'constructor') => void;
 }
 
 
@@ -79,18 +79,27 @@ export function ConstructorStandings(props: Props){
 
   // console.log(standings);
 
-  const rows = standings?.standings.map(s => ([
-    s.position ?? '--',
-    s.constructor.name ?? '--',
-    s.constructor.nationality ?? '--',
-    s.wins ?? '--',
-    s.points ?? '--'
-  ])) ?? [];
+  const rows = standings?.standings.map(s => ({
+    id: s.constructor.id,
+    url: s.constructor.url ?? '--',
+    position: s.position ?? '--',
+    constructor: s.constructor.name ?? '--',
+    nationality: s.constructor.nationality ?? '--',
+    wins: s.wins ?? '--',
+    points: s.points ?? '--',
+  })) ?? [];
 
-  const standingsFormatted:string[] = [
-      "POS.", "CONSTRUCTOR", "NATIONALITY", "WINS", "PTS."
+  // console.log(rows);
+  
+  const columnNames = [
+    { key: "position", value: "POS." },
+    { key: "constructor", value: "CONSTRUCTOR" },
+    { key: "nationality", value: "NATIONALITY" },
+    { key: "wins", value: "WINS" },
+    { key: "points", value: "PTS." },
   ];
-  const columnSize = standingsFormatted.length;
+  // "POS.", "CONSTRUCTOR", "NATIONALITY", "WINS", "PTS."
+  const columnSize = columnNames.length;
 
   return (
     <>
@@ -105,29 +114,37 @@ export function ConstructorStandings(props: Props){
           style={{ gridTemplateColumns: `repeat(${columnSize}, auto)` }}
         >
           <div className='headerRow'>
-          {standingsFormatted.map((colName) => (
-              <div className="cell" key={colName}>
-                {colName}
-              </div>
-            ))}
+            {
+                columnNames.map((column) => (
+                    <div className='cell' key={column.key}>{column.value}</div>
+                ))
+            }
           </div>
           {
             rows && rows.length > 0 ? 
-              <div className='content'>
+            <div className='content'>
                 {
-                  rows.map((row, rowIndex) => (
-                    <div className='row' key={rowIndex}>
-                      {
-                        row.map((cell, colIndex) => (
-                        <div className='cell' key={`${rowIndex}-${colIndex}`}>{cell}</div>
-                        ))
-                      }
-                    </div>
-                  ))
+                    rows.map((row) => (
+                      <div className='row' key={row.id}>
+                          {
+                            // Map row to column keys for rendering
+                            columnNames.map((col) => (
+                                col.key === "constructor" ? 
+                                <div className='cell componentClickableElement' key={`${row.id}-${col.key}`}
+                                onClick={() => {props.onConstructorClick(Number(row.id), String(row.constructor), "constructor")}}>
+                                    {row[col.key as keyof typeof row]}
+                                </div>
+
+                                :<div className='cell' key={`${row.id}-${col.key}`} >{row[col.key as keyof typeof row]}</div>
+                            ))
+                          }
+                      </div>
+                    ))
                 }
-              </div>
+            </div>
             : <div className='col-span-full'>Data not found...</div>
-          }
+            }
+          
         </div>
       </div>
     </>

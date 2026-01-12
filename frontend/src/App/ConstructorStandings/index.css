@@ -8,29 +8,3 @@
 .constructorStandingsContent .header {
   display: flex;
 }
-
-/* .standingsTable {
-  display: grid;
-  overflow-y: auto;
-  width: 100%;
-} */
-
-.tableHeaderRow {
-  position: sticky;
-  top: 0;
-}
-
-.standingsColumns {
-  width: 100%;
-}
-
-.standingsColumns .cells {
-}
-
-.standingsColumns .cells.cursor-pointer {
-  cursor: pointer;
-}
-
-.primaryContent {
-  /* matches your existing structure */
-}

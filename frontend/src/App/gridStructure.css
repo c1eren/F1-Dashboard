@@ -85,7 +85,6 @@ body.resizing {
 }
 
 .grid-resizer {
-  border: 1px solid black;
   position: absolute;
   bottom: 0px;
   right: 0px;
@@ -95,14 +94,13 @@ body.resizing {
 }
 
 .grid-closer {
-  border: 1px solid black;
   /* position: absolute; */
   display: flex;
   height: 100%;
   /* background-color:aqua ; */
   /* border-radius: 30%; */
   justify-content: space-around;
-  align-items: center; 
+  align-items: center;
   cursor: pointer;
 }
 

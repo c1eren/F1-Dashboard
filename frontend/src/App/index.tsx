@@ -7,9 +7,9 @@ import { useEffect, useRef, useState } from 'react';
 import { UIContainer } from './UI/index.js';
 import { TableDriverInfoController } from './Controller/controller';
 
-interface DriverInfoProps {
-  selectedDriver: number | null;
-  driverName: string;
+interface InfoProps {
+  selected: number | null;
+  name: string;
 }
 
 /* TODO: 
@@ -24,7 +24,8 @@ size until mouseUp event, to prevent random scrolling and window jumps
 function App() {
 
     // Store a list of driver info objects
-  const [driverInfoList, setDriverInfoList] = useState<DriverInfoProps[]>([]);
+  const [driverInfoList, setDriverInfoList] = useState<InfoProps[]>([]);
+  const [constructorInfoList, setConstructorInfoList] = useState<InfoProps[]>([]);
   const portalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,13 +42,17 @@ function App() {
         {/* TODO: Enable UI to take driverInfoRenderList props so we can put the close button on the UI button */}
         <UIContainer
         driverInfoList={driverInfoList}
+        constructorInfoList={constructorInfoList}
         setDriverInfoList={setDriverInfoList}
+        setConstructorInfoList={setConstructorInfoList}
         />
         
         <div className='gridContainer overflow-auto' data-cellsize="25">
           <TableDriverInfoController 
           driverInfoList={driverInfoList}
+          constructorInfoList={constructorInfoList}
           setDriverInfoList={setDriverInfoList}
+          setConstructorInfoList={setConstructorInfoList}
           />
         </div>
 

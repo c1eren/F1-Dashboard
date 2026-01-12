@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { DatePicker } from '../DatePicker';
+import './index.css';
 
 import BACKEND_URL from '../../backend_url'; 
 
@@ -47,7 +48,7 @@ interface StandingsFormatted {
 
 interface Props {
     //This means: “Parent must give me a function that accepts a number and returns nothing (void).”
-    onDriverClick: (driverId: number, driverName: string) => void;
+    onDriverClick: (driverId: number, driverName: string, type: 'driver' | 'constructor') => void;
 }
 
 
@@ -83,38 +84,37 @@ export function DriverStandings(props: Props){
         loadStandings();
     }, [selectedYear]);
 
+    const rows = standings?.standings.map(s => ({
+      id: s.driver.id,
+      url: s.driver.url ?? '--',
+      position: s.position ?? '--',
+      driver: `${s.driver.forename ?? '--'} ${s.driver.surname ?? '--'}`,
+      number: s.driver.number ?? '--',
+      nationality: s.driver.nationality ?? '--',
+      team: s.constructor ?? '--',
+      wins: s.wins ?? '--',
+      points: s.points ?? '--',
+    })) ?? [];
 
-
-    const standingsFormatted: StandingsFormatted = {
-        // Convert to cols
-        "POS.":        standings?.standings.map(item => item.position ?? '--') ?? [],
-        "DRIVER":      standings?.standings.map(item => `${item.driver.forename ?? '--'} ${item.driver.surname ?? '--'}`) ?? [],
-        "NO.":         standings?.standings.map(item => item.driver.number ?? '--') ?? [],
-        "NATIONALITY": standings?.standings.map(item => item.driver.nationality ?? '--') ?? [],
-        "TEAM":        standings?.standings.map(item => item.constructor ?? '--') ?? [],
-        "WINS":        standings?.standings.map(item => item.wins ?? '--') ?? [],
-        "PTS.":        standings?.standings.map(item => item.points ?? '--') ?? [],
-    };
-
-    const rows = standings?.standings.map(s => ([
-        s.position ?? '--',
-        s.constructor.name ?? '--',
-        s.constructor.nationality ?? '--',
-        s.wins ?? '--',
-        s.points ?? '--'
-      ])) ?? [];
+    // console.log(rows);
     
-      const standingsFormatted:string[] = [
-          "POS.", "CONSTRUCTOR", "NATIONALITY", "WINS", "PTS."
-      ];
-      const columnSize = standingsFormatted.length;
+    const columnNames = [
+      { key: "position", value: "POS." },
+      { key: "driver", value: "DRIVER" },
+      { key: "number", value: "NO." },
+      { key: "nationality", value: "NATIONALITY" },
+      { key: "team", value: "TEAM" },
+      { key: "wins", value: "WINS" },
+      { key: "points", value: "PTS." },
+    ];
+      const columnSize = columnNames.length;
     
       return (
         <>
-          <div className='constructorStandingsContent'>
+          <div className='driverStandingsContent'>
     
             <div className="header">
-              <h1>Constructor Standings</h1>
+              <h1>Driver Standings</h1>
               <DatePicker onDateChange={setSelectedYear} startDate={startDate} />
             </div>
     
@@ -122,29 +122,37 @@ export function DriverStandings(props: Props){
               style={{ gridTemplateColumns: `repeat(${columnSize}, auto)` }}
             >
               <div className='headerRow'>
-              {standingsFormatted.map((colName) => (
-                  <div className="cell" key={colName}>
-                    {colName}
-                  </div>
-                ))}
+                {
+                    columnNames.map((column) => (
+                        <div className='cell' key={column.key}>{column.value}</div>
+                    ))
+                }
               </div>
               {
                 rows && rows.length > 0 ? 
-                  <div className='content'>
+                <div className='content'>
                     {
-                      rows.map((row, rowIndex) => (
-                        <div className='row' key={rowIndex}>
-                          {
-                            row.map((cell, colIndex) => (
-                            <div className='cell' key={`${rowIndex}-${colIndex}`}>{cell}</div>
-                            ))
-                          }
-                        </div>
-                      ))
+                        rows.map((row) => (
+                            <div className='row' key={row.id}>
+                                {
+                                    // Map row to column keys for rendering
+                                    columnNames.map((col) => (
+                                        col.key === "driver" ? 
+                                        <div className='cell componentClickableElement' key={`${row.id}-${col.key}`}
+                                        onClick={() => {props.onDriverClick(Number(row.id), String(row.driver),"driver")}}>
+                                            {row[col.key as keyof typeof row]}
+                                        </div>
+
+                                        :<div className='cell' key={`${row.id}-${col.key}`} >{row[col.key as keyof typeof row]}</div>
+                                    ))
+                                }
+                            </div>
+                        ))
                     }
-                  </div>
+                </div>
                 : <div className='col-span-full'>Data not found...</div>
-              }
+                }
+              
             </div>
           </div>
         </>
