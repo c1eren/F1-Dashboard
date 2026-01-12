@@ -1,16 +1,11 @@
+
 .driverInfoContent {
-  overflow: hidden; 
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  min-height: calc(var(--spacing) * 0);
 }
 
-.grid {
-  display: grid; 
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.cells {
-  
-}
-
-.cells.col-span-2 {
-  grid-column: span 2; 
+.driverInfoContent .header {
+  display: flex;
 }

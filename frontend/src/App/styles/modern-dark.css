@@ -195,9 +195,13 @@ p {
     @apply p-2;
 }
 
-/* Driver Info */
+/* Driver/Constructor Info */
 .standardInfo {
-    @apply w-80 h-52;
+    @apply w-[435px] h-[300px];
+}
+
+.standardInfo .excerpt {
+    @apply bg-primary-darker;
 }
 
 /* Next Session */
