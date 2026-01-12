@@ -18,12 +18,17 @@ interface Driver {
     url:         string | undefined
 }
 
+interface Constructor {
+    id: number
+    name: string | null
+}
+
 interface DriverStanding {
     raceId:       number
     position:     number | null
     points:       number | null
     wins:         number | null
-    constructor:  string | null
+    constructor:  Constructor | null
     driver:       Driver
 } 
 
@@ -43,12 +48,13 @@ interface StandingsFormatted {
     "WINS":        (number | string | null)[];
     "PTS.":        (number | string | null)[];
 
-    [key: string]: (number | string | null)[]; // Index signature
+    // [key: string]: (number | string | null)[]; // Index signature
 }
 
 interface Props {
     //This means: “Parent must give me a function that accepts a number and returns nothing (void).”
     onDriverClick: (driverId: number, driverName: string, type: 'driver' | 'constructor') => void;
+    onConstructorClick: (constructorId: number, constructorName: string, type: 'driver' | 'constructor') => void;
 }
 
 
@@ -84,6 +90,8 @@ export function DriverStandings(props: Props){
         loadStandings();
     }, [selectedYear]);
 
+    // console.log(standings);
+
     const rows = standings?.standings.map(s => ({
       id: s.driver.id,
       url: s.driver.url ?? '--',
@@ -91,7 +99,7 @@ export function DriverStandings(props: Props){
       driver: `${s.driver.forename ?? '--'} ${s.driver.surname ?? '--'}`,
       number: s.driver.number ?? '--',
       nationality: s.driver.nationality ?? '--',
-      team: s.constructor ?? '--',
+      team: s.constructor ? { id: s.constructor.id, name: s.constructor.name } : null,
       wins: s.wins ?? '--',
       points: s.points ?? '--',
     })) ?? [];
@@ -108,6 +116,8 @@ export function DriverStandings(props: Props){
       { key: "points", value: "PTS." },
     ];
       const columnSize = columnNames.length;
+
+    //   console.log(rows);
     
       return (
         <>
@@ -136,15 +146,27 @@ export function DriverStandings(props: Props){
                             <div className='row' key={row.id}>
                                 {
                                     // Map row to column keys for rendering
-                                    columnNames.map((col) => (
-                                        col.key === "driver" ? 
-                                        <div className='cell componentClickableElement' key={`${row.id}-${col.key}`}
-                                        onClick={() => {props.onDriverClick(Number(row.id), String(row.driver),"driver")}}>
-                                            {row[col.key as keyof typeof row]}
-                                        </div>
-
-                                        :<div className='cell' key={`${row.id}-${col.key}`} >{row[col.key as keyof typeof row]}</div>
-                                    ))
+                                    columnNames.map((col) => {
+                                        if (col.key === "driver") {
+                                            return (
+                                                <div className='cell componentClickableElement' key={`${row.id}-${col.key}`}
+                                                onClick={() => {props.onDriverClick(row.id, row.driver, "driver")}}>
+                                                    {row[col.key]}
+                                                </div>
+                                            )
+                                        }
+                                        if (col.key === "team") {
+                                            return (
+                                                <div className='cell componentClickableElement' key={`${row.id}-${col.key}`}
+                                                onClick={() => row.team && props.onConstructorClick(row.team.id, row.team?.name ?? "--", "constructor")}>
+                                                    {row.team?.name}
+                                                </div>
+                                            );
+                                        }
+                                        return (
+                                            <div className='cell' key={`${row.id}-${col.key}`} >{String(row[col.key as keyof typeof row] ?? "--")}</div>
+                                        );
+                                    })
                                 }
                             </div>
                         ))

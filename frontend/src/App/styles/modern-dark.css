@@ -201,7 +201,7 @@ p {
 }
 
 .standardInfo .excerpt {
-    @apply bg-primary-darker;
+    @apply bg-primary-darker p-2;
 }
 
 /* Next Session */

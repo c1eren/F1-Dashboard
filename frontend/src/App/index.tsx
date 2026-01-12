@@ -39,7 +39,6 @@ function App() {
       <div className='main flex max-w-screen max-h-screen overflow-hidden'>
         
         {/* UI Container */}
-        {/* TODO: Enable UI to take driverInfoRenderList props so we can put the close button on the UI button */}
         <UIContainer
         driverInfoList={driverInfoList}
         constructorInfoList={constructorInfoList}
@@ -67,7 +66,7 @@ function App() {
         className='
         absolute z-20 w-7 h-12 bottom-10 left-10 transform -translate-x-1/2 -translate-y-1/2
         bg-[url(/natural-wood.webp)] bg-size-[300%]
-        hover:rotate-z-5 origin-top-left duration-150 ease-out
+        hover:-rotate-y-45 origin-top-left duration-150 ease-out
         '>
         </a>
           

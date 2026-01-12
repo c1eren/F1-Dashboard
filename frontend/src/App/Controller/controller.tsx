@@ -48,7 +48,7 @@ export function TableDriverInfoController({driverInfoList,constructorInfoList,se
         </div>
 
         <div id='Driver Standings' className='gridChild driverStandings'>
-          <DriverStandings onDriverClick={handleInfoClick} />
+          <DriverStandings onDriverClick={handleInfoClick} onConstructorClick={handleInfoClick} />
         </div>
 
         {/* Render each driverInfo by passing in and mapping driverInfoList */}

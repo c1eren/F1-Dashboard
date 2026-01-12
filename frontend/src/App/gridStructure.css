@@ -31,7 +31,7 @@ body.resizing {
   /* --columns: 25;
   --rows: 10; */
 
-  padding: 10px;
+  /* padding: 10px; */
   display: grid;
   position: relative;
   /* min-height: calc(var(--rows) * var(--cellSize)); */
